@@ -95,6 +95,18 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="mb-3 row" id="klien" style="display: none;">
+                                        <label class="col-sm-3 col-form-label">Klien</label>
+                                        <div class="col-sm-9">
+                                            <select class="js-example-basic-single col-sm-12" id="klien_id" name="klien_id" required>
+                                                <option value="">-- Pilih Klien --</option>
+                                                <?php foreach ($kliens as $klien): ?>
+                                                    <option value="<?= $klien->id_klien ?>" <?= ($user->klien_id == $klien->id_klien) ? 'selected' : '' ?>>
+                                                        <?= $klien->no_klien . ' - ' . $klien->nama_klien ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="mb-3 row">
                                         <label class="col-sm-3 col-form-label">Divisi</label>
                                         <div class="col-sm-9">
@@ -160,4 +172,24 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>
+<script>
+    $(document).ready(function() {
+        function toggleKlienField() {
+            if ($('#role').val().toLowerCase() === 'klien') {
+                $('#klien').show();
+            } else {
+                $('#klien').hide();
+                $('#klien_id').val('');
+            }
+        }
+
+        // Jalankan saat halaman dimuat (EDIT mode)
+        // Jadi, kalau user punya role = klien, maka field Klien langsung muncul tanpa harus ubah dropdown.
+        toggleKlienField();
+
+        // Jalankan juga saat dropdown diubah (ADD mode)
+        $('#role').on('change', toggleKlienField);
+    });
+</script>
+
 <?= $this->endSection() ?>

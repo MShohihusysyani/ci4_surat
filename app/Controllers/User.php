@@ -2,18 +2,20 @@
 
 namespace App\Controllers;
 
-use App\Controllers\BaseController;
 use App\Models\RoleModel;
 use App\Models\UserModel;
+use App\Models\KlienModel;
+use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class User extends BaseController
 {
-    protected $userModel, $roleModel;
+    protected $userModel, $roleModel, $klienModel;
     public function __construct()
     {
         $this->userModel = new UserModel();
         $this->roleModel = new RoleModel();
+        $this->klienModel = new KlienModel();
     }
 
     public function index()
@@ -32,6 +34,7 @@ class User extends BaseController
         $data = [
             'title' => 'Tambah User',
             'roles' => $this->roleModel->findAll(),
+            'kliens' => $this->klienModel->getAllKlien(),
         ];
 
         return view('kelola/user/tambah', $data);
@@ -111,6 +114,7 @@ class User extends BaseController
                 'tgl_register' => $this->request->getPost('tgl_register'),
                 'status_user'  => 'Aktif',
                 'role'         => $this->request->getPost('role'),
+                'klien_id'     => $this->request->getPost('klien_id'),
                 'divisi'       => $this->request->getPost('divisi')
             ]);
 
@@ -126,9 +130,10 @@ class User extends BaseController
     public function edit($id)
     {
         $data = [
-            'title' => 'Edit User',
-            'users' => $this->userModel->getUser($id),
-            'roles' => $this->roleModel->findAll(),
+            'title'  => 'Edit User',
+            'users'  => $this->userModel->getUser($id),
+            'roles'  => $this->roleModel->findAll(),
+            'kliens' => $this->klienModel->getAllKlien(),
         ];
 
         return view('kelola/user/edit', $data);
@@ -174,6 +179,7 @@ class User extends BaseController
             'no_hp'        => $this->request->getPost('no_hp'),
             'tgl_register' => $this->request->getPost('tgl_register'),
             'role'         => $this->request->getPost('role'),
+            'klien_id'     => $this->request->getPost('klien_id'),
             'divisi'       => $this->request->getPost('divisi')
         ];
 

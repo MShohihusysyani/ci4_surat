@@ -58,4 +58,14 @@ class KlienModel extends Model
             ->get()
             ->getRowArray();
     }
+
+    // Get All Klien asc
+    public function getAllKlien()
+    {
+        return $this->db->table('klien')
+            ->select('klien.*')
+            ->orderBy('no_klien', 'asc')
+            ->get()
+            ->getResult();
+    }
 }
