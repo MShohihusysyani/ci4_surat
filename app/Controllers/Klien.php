@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\DatiModel;
 use App\Models\KlienModel;
 use App\Models\WilayahModel;
 use App\Controllers\BaseController;
@@ -9,11 +10,12 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class Klien extends BaseController
 {
-    protected $klienModel, $wilayahModel;
+    protected $klienModel, $wilayahModel, $datiModel;
     public function __construct()
     {
         $this->klienModel   = new KlienModel();
         $this->wilayahModel = new WilayahModel();
+        $this->datiModel    = new DatiModel();
     }
 
     public function index()
@@ -29,8 +31,9 @@ class Klien extends BaseController
     public function tambah()
     {
         $data = [
-            'title' => 'Tambah Klien',
+            'title'    => 'Tambah Klien',
             'provinsi' => $this->wilayahModel->findAll(),
+            'dati2'    => $this->datiModel->findAll(),
         ];
 
         return view('kelola/klien/tambah', $data);
@@ -73,12 +76,13 @@ class Klien extends BaseController
             'kecamatan'     => $this->request->getPost('kecamatan'),
             'kelurahan'     => $this->request->getPost('kelurahan'),
             'kode_pos'      => $this->request->getPost('kode_pos'),
+            'dati2'         => $this->request->getPost('dati2'),
             'jml_cabang'    => $this->request->getPost('jml_cabang'),
             'nama_dirut'    => $this->request->getPost('nama_dirut'),
             'nama_dirops'   => $this->request->getPost('nama_dirops'),
-            'no_hp_dirut'    => $this->request->getPost('no_hp_dirut'),
+            'no_hp_dirut'   => $this->request->getPost('no_hp_dirut'),
             'no_telp'       => $this->request->getPost('no_telp'),
-            'no_hp_pic'      => $this->request->getPost('no_hp_pic'),
+            'no_hp_pic'     => $this->request->getPost('no_hp_pic'),
             'nama_pic'      => $this->request->getPost('nama_pic'),
             'email'         => $this->request->getPost('email'),
             'website'       => $this->request->getPost('website'),
@@ -100,11 +104,12 @@ class Klien extends BaseController
         $data = [
             'title'     => 'Edit Klien',
             'kliens'    => $kliens,
-            'provinsi' => $this->wilayahModel->getProvinsi(), // ambil daftar provinsi
+            'provinsi'  => $this->wilayahModel->getProvinsi(), // ambil daftar provinsi
             'kabupaten' => $this->wilayahModel->getKabupatenByProvinsi2($kliens['provinsi']), // ambil daftar kabupaten sesuai provinsi klien
             'kecamatan' => $this->wilayahModel->getKecamatanByKabupaten2($kliens['kabupaten']), // ambil daftar kecamatan sesuai kabupaten klien
             'kelurahan' => $this->wilayahModel->getKelurahanByKecamatan2($kliens['kecamatan']), // ambil daftar kelurahan sesuai kecamatan klien
-            'kodepos' => $this->wilayahModel->getKodeposByKelurahan($kliens['kelurahan']),
+            'kodepos'   => $this->wilayahModel->getKodeposByKelurahan($kliens['kelurahan']),
+            'dati2'     => $this->datiModel->getDati(),
         ];
 
         return view('kelola/klien/edit', $data);
@@ -121,13 +126,14 @@ class Klien extends BaseController
             'kabupaten'     => $this->request->getPost('kabupaten'),
             'kecamatan'     => $this->request->getPost('kecamatan'),
             'kelurahan'     => $this->request->getPost('kelurahan'),
+            'dati2'         => $this->request->getPost('dati2'),
             'kode_pos'      => $this->request->getPost('kode_pos'),
             'jml_cabang'    => $this->request->getPost('jml_cabang'),
             'nama_dirut'    => $this->request->getPost('nama_dirut'),
-            'no_hp_dirut'    => $this->request->getPost('no_hp_dirut'),
+            'no_hp_dirut'   => $this->request->getPost('no_hp_dirut'),
             'nama_dirops'   => $this->request->getPost('nama_dirops'),
             'nama_pic'      => $this->request->getPost('nama_pic'),
-            'no_hp_pic'      => $this->request->getPost('no_hp_pic'),
+            'no_hp_pic'     => $this->request->getPost('no_hp_pic'),
             'no_telp'       => $this->request->getPost('no_telp'),
             'email'         => $this->request->getPost('email'),
             'website'       => $this->request->getPost('website'),

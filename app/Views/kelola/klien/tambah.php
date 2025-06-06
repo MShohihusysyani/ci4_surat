@@ -125,6 +125,17 @@
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
+                                    <label class="col-sm-3 col-form-label">Dati</label>
+                                    <div class="col-sm-9">
+                                        <select class="js-example-basic-single col-sm-12" id="dati2" name="dati2" required>
+                                            <option value="">-- Pilih Dati --</option>
+                                            <?php foreach ($dati2 as $dati): ?>
+                                                <option value="<?= $dati->dati2 ?>"><?= $dati->dati2 ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mb-3 row">
                                     <label class="col-sm-3 col-form-label">Jumlah Cabang</label>
                                     <div class="col-sm-9">
                                         <input class="form-control" type="number" id="jml_cabang" name="jml_cabang" placeholder="Jumlah Cabang" required>
