@@ -52,7 +52,7 @@
               <li><a href="<?= base_url("kelola/perusahaan") ?>">Data Perusahaan</a></li>
               <li><a href="<?= base_url("kelola/produk") ?>">Data Produk</a></li>
               <li><a href="<?= base_url("kelola/klien") ?>">Data Klien</a></li>
-              <li><a href="<?= base_url("projects/project-create") ?>">Data Klien Produk</a></li>
+              <li><a href="<?= base_url("kelola/klien-produk") ?>">Data Klien Produk</a></li>
               <li><a href="<?= base_url("projects/project-create") ?>">Data Struktur Organisasi</a></li>
             </ul>
           </li>

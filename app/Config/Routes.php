@@ -46,6 +46,16 @@ $routes->group('kelola', function ($routes) {
     $routes->post('produk/update/(:num)', 'Produk::update/$1');
     $routes->get('produk/hapus/(:num)', 'Produk::hapus/$1');
 
+    // Klien Produk
+    $routes->get('klien-produk', 'KlienProduk::index');
+    $routes->get('klien-produk/tambah', 'KlienProduk::tambah');
+    $routes->post('klien-produk/simpan', 'KlienProduk::simpan');
+    $routes->get('klien-produk/edit/(:segment)', 'KlienProduk::edit/$1');
+    $routes->post('klien-produk/update/(:num)', 'KlienProduk::update/$1');
+    $routes->get('klien-produk/hapus/(:num)', 'KlienProduk::hapus/$1');
+    $routes->get('get-nama-klien/(:any)', 'KlienProduk::getNamaKlien/$1');
+    $routes->get('get-deskripsi-produk/(:any)', 'KlienProduk::getDeskripsiProduk/$1');
+
     // Perusahaan
     $routes->get('perusahaan', 'Perusahaan::index');
     $routes->get('perusahaan/tambah', 'Perusahaan::tambah');
