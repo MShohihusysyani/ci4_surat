@@ -59,7 +59,7 @@
                                 <div class="mb-3 row">
                                     <label class="col-sm-3 col-form-label">Nama Klien</label>
                                     <div class="col-sm-9">
-                                        <input class="form-control" type="nama_klien" id="nama_klien" name="nama_klien" placeholder="Nama Klien" required>
+                                        <input class="form-control" type="text" id="nama_klien" name="nama_klien" placeholder="Nama Klien" required>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
@@ -130,7 +130,7 @@
                                         <select class="js-example-basic-single col-sm-12" id="dati2" name="dati2" required>
                                             <option value="">-- Pilih Dati --</option>
                                             <?php foreach ($dati2 as $dati): ?>
-                                                <option value="<?= $dati->dati2 ?>"><?= $dati->dati2 ?></option>
+                                                <option value="<?= $dati['dati2'] ?>"><?= $dati['dati2'] ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -193,12 +193,6 @@
                                     <label class="col-sm-3 col-form-label">Tanggal Bergabung</label>
                                     <div class="col-sm-9">
                                         <input class="form-control digits" type="date" id="tgl_bergabung" name="tgl_bergabung">
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <label class="col-sm-3 col-form-label">Tanggal Nonaktif</label>
-                                    <div class="col-sm-9">
-                                        <input class="form-control digits" type="date" id="tgl_nonaktif" name="tgl_nonaktif">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">

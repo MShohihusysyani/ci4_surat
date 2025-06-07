@@ -88,7 +88,6 @@ class Klien extends BaseController
             'website'       => $this->request->getPost('website'),
             'tgl_bergabung' => $this->request->getPost('tgl_bergabung'),
             'status_klien'  => $this->request->getPost('status_klien'),
-            'tgl_nonaktif'  => $this->request->getPost('tgl_nonaktif'),
         ];
 
         $this->klienModel->insert($data);
