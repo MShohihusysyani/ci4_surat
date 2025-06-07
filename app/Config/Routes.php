@@ -37,6 +37,22 @@ $routes->group('kelola', function ($routes) {
     $routes->get('klien/edit/(:segment)', 'Klien::edit/$1');
     $routes->post('klien/update/(:num)', 'Klien::update/$1');
     $routes->get('klien/hapus/(:num)', 'Klien::hapus/$1');
+
+    // Produk
+    $routes->get('produk', 'Produk::index');
+    $routes->get('produk/tambah', 'Produk::tambah');
+    $routes->post('produk/simpan', 'Produk::simpan');
+    $routes->get('produk/edit/(:segment)', 'Produk::edit/$1');
+    $routes->post('produk/update/(:num)', 'Produk::update/$1');
+    $routes->get('produk/hapus/(:num)', 'Produk::hapus/$1');
+
+    // Perusahaan
+    $routes->get('perusahaan', 'Perusahaan::index');
+    $routes->get('perusahaan/tambah', 'Perusahaan::tambah');
+    $routes->post('perusahaan/simpan', 'Perusahaan::simpan');
+    $routes->get('perusahaan/edit/(:segment)', 'Perusahaan::edit/$1');
+    $routes->post('perusahaan/update/(:num)', 'Perusahaan::update/$1');
+    $routes->get('perusahaan/hapus/(:num)', 'Perusahaan::hapus/$1');
 });
 
 // Wilayah
