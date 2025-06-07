@@ -22,6 +22,20 @@ $routes->group('kelola', function ($routes) {
     $routes->post('edit-role', 'Role::update');
     $routes->get('hapus-role/(:num)', 'Role::hapus/$1');
 
+    // Jabatan
+    $routes->get('jabatan', 'Jabatan::index');
+    $routes->post('tambah-jabatan', 'Jabatan::tambah');
+    $routes->post('edit-jabatan', 'Jabatan::update');
+    $routes->get('hapus-jabatan/(:num)', 'Jabatan::hapus/$1');
+
+    // Karyawan
+    $routes->get('karyawan', 'Karyawan::index');
+    $routes->get('karyawan/tambah', 'Karyawan::tambah');
+    $routes->post('karyawan/simpan', 'Karyawan::simpan');
+    $routes->get('karyawan/edit/(:segment)', 'Karyawan::edit/$1');
+    $routes->post('karyawan/update/(:num)', 'Karyawan::update/$1');
+    $routes->get('karyawan/hapus/(:num)', 'Karyawan::hapus/$1');
+
     // User
     $routes->get('user', 'User::index');
     $routes->get('user/tambah', 'User::tambah');

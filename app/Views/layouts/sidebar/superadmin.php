@@ -47,8 +47,8 @@
             <ul class="sidebar-submenu">
               <li><a href="<?= base_url("kelola/role") ?>">Data Role</a></li>
               <li><a href="<?= base_url("kelola/user") ?>">Data User</a></li>
-              <li><a href="<?= base_url("projects/project-create") ?>">Data Karyawan</a></li>
-              <li><a href="<?= base_url("projects/project-create") ?>">Data Jabatan</a></li>
+              <li><a href="<?= base_url("kelola/jabatan") ?>">Data Jabatan</a></li>
+              <li><a href="<?= base_url("kelola/karyawan") ?>">Data Karyawan</a></li>
               <li><a href="<?= base_url("kelola/perusahaan") ?>">Data Perusahaan</a></li>
               <li><a href="<?= base_url("kelola/produk") ?>">Data Produk</a></li>
               <li><a href="<?= base_url("kelola/klien") ?>">Data Klien</a></li>
