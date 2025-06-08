@@ -86,3 +86,13 @@ $routes->group('wilayah', function ($routes) {
     $routes->get('getKelurahan/(:num)', 'Wilayah::getKelurahan/$1');
     $routes->get('getKodePos/(:num)', 'Wilayah::getKodePos/$1');
 });
+
+// Route Surat Masuk 
+$routes->group('surat-masuk', function ($routes) {
+
+    // Sekretaris
+    $routes->group('sekretaris', function ($routes) {
+        $routes->get('', 'Sekretaris\SuratMasuk::index');
+        $routes->post('ajax-surat-masuk', 'Sekretaris\SuratMasuk::ajax_surat_masuk');
+    });
+});

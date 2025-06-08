@@ -45,6 +45,16 @@ class UserModel extends Model
 
         return $query->getResult();
     }
+
+    public function getKadiv()
+    {
+
+        // Query untuk mengambil user yang sesuai dengan user_id di surat
+        return $this->select('id_user, nama_user')
+            ->where('role', 'kadiv')
+            ->get()
+            ->getResult();
+    }
     // Validation
     // protected $validationRules      = [];
     // protected $validationMessages   = [];
