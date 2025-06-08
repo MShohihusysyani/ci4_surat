@@ -39,7 +39,7 @@ class Home extends BaseController
             case 'superadmin':
                 return view('home/superadmin', $data);
             case 'klien':
-                return view('home/user');
+                return view('home/klien', $data);
             case 'sekretaris':
                 return view('home/sekretaris', $data);
             case 'kadiv':

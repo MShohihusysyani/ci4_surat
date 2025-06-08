@@ -89,10 +89,21 @@ $routes->group('wilayah', function ($routes) {
 
 // Route Surat Masuk 
 $routes->group('surat-masuk', function ($routes) {
-
     // Sekretaris
     $routes->group('sekretaris', function ($routes) {
         $routes->get('', 'Sekretaris\SuratMasuk::index');
         $routes->post('ajax-surat-masuk', 'Sekretaris\SuratMasuk::ajax_surat_masuk');
     });
+});
+
+// Route Klien
+$routes->group('klien', function ($routes) {
+    $routes->get('surat', 'Klien\SuratMasuk::index');
+    $routes->get('surat/tambah', 'Klien\SuratMasuk::tambah');
+    $routes->post('surat/simpan', 'Klien\SuratMasuk::simpan');
+    $routes->get('surat/edit/(:segment)', 'Klien\SuratMasuk::edit/$1');
+    $routes->post('surat/update/(:num)', 'Klien\SuratMasuk::update/$1');
+    $routes->get('surat/hapus/(:num)', 'Klien\SuratMasuk::hapus/$1');
+    $routes->get('surat/detail/(:num)', 'Klien\SuratMasuk::detail/$1');
+    $routes->post('surat-masuk/balas-surat', 'Klien\SuratMasuk::balas_surat');
 });

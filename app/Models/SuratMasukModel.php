@@ -103,8 +103,6 @@ class SuratMasukModel extends Model
         return $builder->get()->getResult();
     }
 
-
-
     public function countFiltered()
     {
         return $this->getDatatables()->countAllResults(false);
@@ -113,5 +111,30 @@ class SuratMasukModel extends Model
     public function countAllData()
     {
         return $this->join('klien', 'klien.id_klien = surat_masuk.klien_id', 'left')->countAllResults();
+    }
+
+    // KLIEN
+    public function getSurat()
+    {
+        $klien_id  = session()->get('klien_id');
+        $builder = $this->table('surat_masuk');
+        $builder->select('id_surat_masuk, surat_dari, no_surat, tgl_surat, perihal, produk, perusahaan, tujuan_surat, handler_surat, status_surat, progres_surat, tags, input_by, file, butuh_balas, status_balas ');
+        $builder->whereIn('progres_surat', ['Proses', 'Proses Disposisi', 'Handle', 'Finish']);
+        $builder->where('klien_id', $klien_id);
+        $query = $builder->get();
+
+        // Kembalikan hasil query
+        return $query->getResult();
+    }
+
+    public function getSuratById($id)
+    {
+
+        $edit = $this->db->table('surat_masuk');
+        $edit->select('id_surat_masuk, tgl_surat, no_surat, perihal, file');
+        $edit->where('id_surat_masuk', $id);
+        $query = $edit->get();
+
+        return $query->getResult();
     }
 }
