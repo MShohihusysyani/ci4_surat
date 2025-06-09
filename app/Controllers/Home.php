@@ -47,7 +47,7 @@ class Home extends BaseController
             case 'dirops':
                 return view('home/dirops', $data);
             case 'dirut':
-                return view('home/dirut');
+                return view('home/dirut', $data);
             case 'staf':
                 return view('home/staf');
             default:
