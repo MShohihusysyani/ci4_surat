@@ -20,6 +20,9 @@ switch ($role) {
     case 'dirut':
         echo view('layouts/sidebar/dirut');
         break;
+    case 'staf':
+        echo view('layouts/sidebar/staf');
+        break;
     default:
         echo '<p>Role tidak dikenali atau belum login.</p>';
         break;

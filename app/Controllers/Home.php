@@ -49,7 +49,7 @@ class Home extends BaseController
             case 'dirut':
                 return view('home/dirut', $data);
             case 'staf':
-                return view('home/staf');
+                return view('home/staf', $data);
             default:
                 return redirect()->to('/'); // Redirect jika role tidak dikenal
         }

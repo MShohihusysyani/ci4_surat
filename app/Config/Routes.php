@@ -134,3 +134,8 @@ $routes->group('dirut', function ($routes) {
     $routes->get('surat-masuk', 'Dirut\SuratMasuk::index');
     $routes->post('surat-masuk/disposisi-bawah', 'Dirut\SuratMasuk::disposisi_kebawahan');
 });
+
+// Routes Surat Masuk Staf
+$routes->group('staf', function ($routes) {
+    $routes->get('surat-masuk', 'Staf\SuratMasuk::index');
+});
