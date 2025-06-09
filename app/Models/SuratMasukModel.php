@@ -165,6 +165,20 @@ class SuratMasukModel extends Model
         return $this->db->query($query);
     }
 
+    public function updateDisposisiKadivText($id_surat, $disposisi_text)
+    {
+        return $this->update($id_surat, ['disposisi_kadiv' => $disposisi_text]);
+    }
+
+    public function disposisi_kestaf($id_surat, $nama_user)
+    {
+        date_default_timezone_set('Asia/Jakarta'); # add your city to set local time zone
+        $now = date('Y-m-d');
+
+        $query = "UPDATE surat_masuk SET progres_surat='Proses Disposisi', tgl_disposisi_kadiv='$now', handler_surat='$nama_user', status_disposisi_kadiv='sudah disposisi'  where id_surat_masuk=$id_surat";
+        return $this->db->query($query);
+    }
+
     // KLIEN
     public function getSurat()
     {
