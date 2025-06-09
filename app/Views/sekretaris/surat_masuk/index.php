@@ -103,6 +103,66 @@
     </div>
 </div>
 
+<!-- Modal Disposisi -->
+<div class="modal fade bd-example-modal-lg" id="modal-disposisi" tabindex=" -1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <form action="<?= base_url('surat-masuk/disposisi-kadiv') ?>" method="post"> <!-- Form MULAI DI SINI -->
+            <?= csrf_field() ?>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myLargeModalLabel">Disposisi</h4>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id_surat_masuk" id="id_surat_masuk">
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label" for="no_surat">Nomor Surat</label>
+                                <input class="form-control" id="no_surat" name="no_surat" type="text" placeholder="Nomor Surat" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label" for="tgl_surat">Tanggal Surat</label>
+                                <input class="form-control" id="tgl_surat" name="tgl_surat" type="date" placeholder="Tanggal Surat" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label" for="perihal">Perihal</label>
+                                <input class="form-control" id="perihal" name="perihal" type="text" placeholder="Perihal" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label" for="tgl_surat">Pilih Kadiv</label>
+                                <select class="form-control" id="namakadiv" name="namakadiv">
+                                    <option value="">Pilih Kadiv</option>
+                                    <?php foreach ($users as $row) : ?>
+                                        <option value="<?= $row->id_user ?>"><?= $row->nama_user ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- Tombol submit HARUS DI DALAM form -->
+                    <!-- <button class="btn btn-primary" type="button" data-bs-dismiss="modal">Close</button> -->
+                    <button class="btn btn-secondary" type="submit">Disposisi</button> <!-- TYPE = submit -->
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="modal fade" id="modal-tambah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <form action="<?= base_url('kelola/tambah-role') ?>" method="post"> <!-- Form MULAI DI SINI -->
@@ -179,7 +239,7 @@
             "serverSide": true,
             "responsive": true,
             "ajax": {
-                "url": "<?= site_url('surat-masuk/sekretaris/ajax-surat-masuk') ?>",
+                "url": "<?= site_url('surat-masuk/ajax-surat-masuk') ?>",
                 "type": "POST"
             },
             "columns": [{
@@ -277,16 +337,21 @@
         });
     });
 </script>
-<!-- Script untuk modal edit -->
+<!-- Modal Disposis -->
 <script>
-    $('#modal-edit').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget)
-        var id_role = button.data('id_role') // Extract info from data-* attributes
-        var nama_role = button.data('nama_role')
+    $('#modal-disposisi').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget);
+        var id_surat_masuk = button.data('id_surat_masuk');
+        var no_surat = button.data('no_surat');
+        var tgl_surat = button.data('tgl_surat');
+        var perihal = button.data('perihal');
 
-        var modal = $(this)
-        modal.find('.modal-body #id_role').val(id_role)
-        modal.find('.modal-body #nama_role').val(nama_role)
-    })
+        var modal = $(this);
+        modal.find('.modal-body #id_surat_masuk').val(id_surat_masuk);
+        modal.find('.modal-body #no_surat').val(no_surat);
+        modal.find('.modal-body #tgl_surat').val(tgl_surat);
+        modal.find('.modal-body #perihal').val(perihal);
+    });
 </script>
+
 <?= $this->endSection() ?>

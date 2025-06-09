@@ -88,13 +88,13 @@ $routes->group('wilayah', function ($routes) {
 });
 
 // Route Surat Masuk 
-$routes->group('surat-masuk', function ($routes) {
-    // Sekretaris
-    $routes->group('sekretaris', function ($routes) {
-        $routes->get('', 'Sekretaris\SuratMasuk::index');
-        $routes->post('ajax-surat-masuk', 'Sekretaris\SuratMasuk::ajax_surat_masuk');
-    });
-});
+// $routes->group('surat-masuk', function ($routes) {
+//     // Sekretaris
+//     $routes->group('sekretaris', function ($routes) {
+//         $routes->get('', 'Sekretaris\SuratMasuk::index');
+//         $routes->post('ajax-surat-masuk', 'Sekretaris\SuratMasuk::ajax_surat_masuk');
+//     });
+// });
 
 // Route Klien
 $routes->group('klien', function ($routes) {
@@ -106,4 +106,11 @@ $routes->group('klien', function ($routes) {
     $routes->get('surat/hapus/(:num)', 'Klien\SuratMasuk::hapus/$1');
     $routes->get('surat/detail/(:num)', 'Klien\SuratMasuk::detail/$1');
     $routes->post('surat-masuk/balas-surat', 'Klien\SuratMasuk::balas_surat');
+});
+
+// Route Surat Masuk Sekretaris
+$routes->group('surat-masuk', function ($routes) {
+    $routes->get('', 'Sekretaris\SuratMasuk::index');
+    $routes->post('ajax-surat-masuk', 'Sekretaris\SuratMasuk::ajax_surat_masuk');
+    $routes->post('disposisi-kadiv', 'Sekretaris\SuratMasuk::disposisi_kadiv');
 });

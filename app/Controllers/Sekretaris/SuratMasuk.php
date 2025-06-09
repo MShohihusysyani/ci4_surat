@@ -5,14 +5,17 @@ namespace App\Controllers\Sekretaris;
 use App\Models\UserModel;
 use App\Models\SuratMasukModel;
 use App\Controllers\BaseController;
+use App\Models\DisposisiKadivModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class SuratMasuk extends BaseController
 {
-    protected $userModel;
+    protected $suratMasukModel, $userModel, $disposisiModel;
     public function __construct()
     {
-        $this->userModel = new UserModel();
+        $this->suratMasukModel = new SuratMasukModel();
+        $this->userModel       = new UserModel();
+        $this->disposisiModel  = new DisposisiKadivModel();
     }
     public function index()
     {
@@ -57,5 +60,52 @@ class SuratMasuk extends BaseController
             "recordsFiltered" => $model->countFiltered(),
             "data" => $data,
         ]);
+    }
+
+    public function disposisi_kadiv()
+    {
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'id_surat_masuk' => 'required',
+            'namakadiv' => [
+                'label' => 'Kadiv',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Kolom Kadiv wajib diisi.'
+                ]
+            ],
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            session()->setFlashdata('alert', 'Kolom Kadiv wajib diisi.');
+            return redirect()->to(base_url('/surat-masuk'))->withInput();
+        }
+
+        $id_surat = $this->request->getPost('id_surat_masuk');
+        $id_user = $this->request->getPost('namakadiv');
+
+        // Ambil data user dari database
+        $user = $this->userModel->find($id_user);
+
+        if (!$user) {
+            session()->setFlashdata('error', 'User tidak ditemukan.');
+            return redirect()->to(base_url('/surat-masuk'));
+        }
+
+        $nama_user = $user->nama_user;
+
+        // Insert ke tabel disposisi_kadiv;
+        $this->disposisiModel->insert([
+            'surat_masuk_id' => $id_surat,
+            'user_id'        => $id_user,
+        ]);
+
+
+        // Update surat masuk dengan nama Kadiv
+        $this->suratMasukModel->disposisiKeKadiv($id_surat, $nama_user);
+
+
+        session()->setFlashdata('pesan', 'Berhasil disposisi!');
+        return redirect()->to(base_url('/surat-masuk'));
     }
 }

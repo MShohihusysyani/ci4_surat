@@ -9,12 +9,12 @@ if (!function_exists('formatFilePreview')) {
         $file_url = base_url('file/surat_masuk/' . $file);
 
         if (preg_match('/\.pdf$/i', $file)) {
-            return '<a href="#" class="preview-file" data-toggle="modal" data-target="#previewModal" data-file-url="' . $file_url . '" data-id="' . $id . '">
-    <img src="' . base_url('assets/images/pdf.png') . '" width="50" alt="Preview PDF">
+            return '<a href="#" class="preview-file pdf" data-toggle="modal" data-target="#previewModal" data-file-url="' . $file_url . '" data-id="' . $id . '">
+    <i class="icofont icofont-file-pdf"></i>
 </a>';
         } elseif (preg_match('/\.(jpg|jpeg|png|gif)$/i', $file)) {
             return '<a href="#" class="image-preview" data-toggle="modal" data-target="#imageModal" data-file-url="' . $file_url . '" data-id="' . $id . '">
-    <img src="' . base_url('assets/images/image.png') . '" width="50" alt="Preview Gambar" style="max-width: 70px;">
+    <i class="icofont icofont-file-jpg"></i>
 </a>';
         } elseif (preg_match('/\.docx?$/i', $file)) {
             return '<a href="' . $file_url . '" target="_blank">Open Word Document</a>';
@@ -40,7 +40,7 @@ if (!function_exists('formatProgresSurat')) {
     {
         return match ($progres) {
             'Proses' => '<span class="badge badge-primary">Proses</span>',
-            'Proses Disposisi' => '<span class="badge badge-primary">Proses Disposisi</span>',
+            'Proses Disposisi' => '<span class="badge badge-info">Proses Disposisi</span>',
             'Handle' => '<span class="badge badge-info">Handle</span>',
             'Finish' => '<span class="badge badge-success">Finish</span>',
             'Arsip' => '<span class="badge badge-warning">Arsip</span>',
@@ -73,13 +73,14 @@ if (!function_exists('formatAksiSuratMasuk')) {
             $btn_group .= '
                 <li class="edit">
                     <a href="#" data-bs-toggle="modal" data-bs-target="#modal-disposisi"
-                        data-id="' . $row->id_surat_masuk . '"
+                        data-id_surat_masuk="' . $row->id_surat_masuk . '"
                         data-no_surat="' . htmlspecialchars($row->no_surat) . '"
+                        data-tgl_surat="' . htmlspecialchars($row->tgl_surat) . '"
                         data-perihal="' . htmlspecialchars($row->perihal) . '"
                         data-file="' . htmlspecialchars($row->file) . '"
                         data-produk="' . htmlspecialchars($row->produk) . '"
                         data-progres_surat="' . htmlspecialchars($row->progres_surat) . '">
-                        <i class="icon-pencil-alt" title="Disposisi"></i>
+                        <i class="icon-back-right" title="Disposisi"></i>
                     </a>
                 </li>';
         }

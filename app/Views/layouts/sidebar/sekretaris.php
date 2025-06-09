@@ -64,7 +64,7 @@
                 <use href="<?= base_url() ?>/assets/svg/icon-sprite.svg#fill-email"></use>
               </svg><span>Surat</span></a>
             <ul class="sidebar-submenu">
-              <li><a href="<?= base_url("surat-masuk/sekretaris") ?>">Surat Masuk</a></li>
+              <li><a href="<?= base_url("surat-masuk") ?>">Surat Masuk</a></li>
               <li><a href="<?= base_url("email/email-compose") ?>">Surat Keluar</a></li>
             </ul>
           </li>
