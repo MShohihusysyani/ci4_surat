@@ -55,10 +55,42 @@ class UserModel extends Model
             ->get()
             ->getResult();
     }
-    // Validation
-    // protected $validationRules      = [];
-    // protected $validationMessages   = [];
-    // protected $skipValidation       = false;
-    // protected $cleanValidationRules = true;
 
+    public function getDirops()
+    {
+
+        // Query untuk mengambil user yang sesuai dengan user_id di surat
+        return $this->select('id_user, nama_user')
+            ->where('role', 'dirops')
+            ->get()
+            ->getResult();
+    }
+
+    public function getDirutUsers()
+    {
+        // Query untuk mengambil user yang sesuai dengan user_id di surat
+        return $this->select('id_user, nama_user')
+            ->where('role', 'dirut')
+            ->get()
+            ->getResult();
+    }
+
+    public function getStaf($divisi)
+    {
+        // Query untuk mengambil user yang sesuai dengan user_id di surat
+        return $this->select('id_user, nama_user')
+            ->where('divisi', $divisi)
+            ->where('role', 'staf')
+            ->get()
+            ->getResult();
+    }
+
+    public function getKadivNonCbs($divisi_cbs)
+    {
+        return $this->select('id_user, nama_user, divisi')
+            ->where('role', 'kadiv')
+            ->where('divisi !=', $divisi_cbs) // Ambil Kadiv dari CBS
+            ->get()
+            ->getResult();
+    }
 }

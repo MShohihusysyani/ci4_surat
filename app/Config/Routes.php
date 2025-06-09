@@ -114,3 +114,9 @@ $routes->group('surat-masuk', function ($routes) {
     $routes->post('ajax-surat-masuk', 'Sekretaris\SuratMasuk::ajax_surat_masuk');
     $routes->post('disposisi-kadiv', 'Sekretaris\SuratMasuk::disposisi_kadiv');
 });
+
+// Routes Surat Masuk Kadiv
+$routes->group('kadiv', function ($routes) {
+    $routes->get('surat-masuk', 'Kadiv\SuratMasuk::index');
+    $routes->post('surat-masuk/disposisi-atas', 'Kadiv\SuratMasuk::disposisi_keatasan');
+});
