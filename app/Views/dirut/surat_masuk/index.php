@@ -59,8 +59,8 @@
                                     <th>Disposisi Kadiv</th>
                                     <th>Disposisi Dirops</th>
                                     <th>Disposisi Dirut</th>
-                                    <th>Status Disposisi</th>
                                     <th>Progres Surat</th>
+                                    <th>Status Disposisi</th>
                                     <th>Handler Surat</th>
                                     <th>Action</th>
                                 </tr>
@@ -116,14 +116,6 @@
                                         <td><?= $suratmasuk->disposisi_dirops; ?></td>
                                         <td><?= $suratmasuk->disposisi_dirut; ?></td>
                                         <td>
-                                            <?php if ($suratmasuk->status_disposisi_dirut == 'belum diposisi') : ?>
-                                                <span class="badge rounded-pill badge-primary">Belum Diposisi</span>
-                                            <?php elseif ($suratmasuk->status_disposisi_dirut == 'sudah diposisi') : ?>
-                                                <span class="badge rounded-pill badge-success">Sudah Diposisi</span>
-                                            <?php else : ?>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td>
                                             <?php if ($suratmasuk->progres_surat == 'Proses') : ?>
                                                 <span class="badge rounded-pill badge-primary">Proses</span>
 
@@ -136,6 +128,14 @@
                                             <?php elseif ($suratmasuk->progres_surat == 'Finish') : ?>
                                                 <span class="badge rounded-pill badge-success">Finish</span>
 
+                                            <?php else : ?>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <?php if ($suratmasuk->status_disposisi_dirut == 'belum disposisi') : ?>
+                                                <span class="badge rounded-pill badge-primary">Belum Diposisi</span>
+                                            <?php elseif ($suratmasuk->status_disposisi_dirut == 'sudah disposisi') : ?>
+                                                <span class="badge rounded-pill badge-success">Sudah Diposisi</span>
                                             <?php else : ?>
                                             <?php endif; ?>
                                         </td>
@@ -218,7 +218,7 @@
                     <div class="row">
                         <div class="col">
                             <div class="mb-3">
-                                <label class="form-label">Diposiisi Lainya</label>
+                                <label class="form-label">Diposisi Lainya</label>
                                 <textarea class="form-control" name="disposisi_dirut_manual" id="disposisi_dirut_manual"></textarea>
                             </div>
                         </div>

@@ -125,6 +125,7 @@ $routes->group('kadiv', function ($routes) {
 $routes->group('dirops', function ($routes) {
     $routes->get('surat-masuk', 'Dirops\SuratMasuk::index');
     $routes->post('surat-masuk/disposisi-atas', 'Dirops\SuratMasuk::disposisi_keatasan');
+    $routes->post('surat-masuk/disposisi-bawah', 'Dirops\SuratMasuk::disposisi_kebawahan');
 });
 
 // Routes Surat Masuk Dirut
