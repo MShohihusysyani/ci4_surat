@@ -66,7 +66,7 @@ class UserModel extends Model
             ->getResult();
     }
 
-    public function getDirutUsers()
+    public function getDirut()
     {
         // Query untuk mengambil user yang sesuai dengan user_id di surat
         return $this->select('id_user, nama_user')

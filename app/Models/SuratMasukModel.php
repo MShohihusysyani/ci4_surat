@@ -125,6 +125,11 @@ class SuratMasukModel extends Model
         return $this->update($idSurat, ['catatan_kadiv' => $catatan]);
     }
 
+    public function updateCatatanDirops($idSurat, $catatan)
+    {
+        return $this->update($idSurat, ['catatan_dirops' => $catatan]);
+    }
+
     public function disposisiKeatasan($id_surat, $nama_user)
     {
         $query = "UPDATE surat_masuk SET progres_surat='Proses Disposisi', handler_surat='$nama_user' WHERE id_surat_masuk=$id_surat";
