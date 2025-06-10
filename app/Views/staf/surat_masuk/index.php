@@ -41,7 +41,7 @@
 
             <div class="card">
                 <div class="card-header pb-0 card-no-border">
-                    <h3>Disposisi Kebawahan</h3>
+                    <h3>Surat Masuk</h3>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">

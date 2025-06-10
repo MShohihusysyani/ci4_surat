@@ -138,4 +138,5 @@ $routes->group('dirut', function ($routes) {
 // Routes Surat Masuk Staf
 $routes->group('staf', function ($routes) {
     $routes->get('surat-masuk', 'Staf\SuratMasuk::index');
+    $routes->post('surat-masuk/finish', 'Staf\SuratMasuk::finish_surat');
 });
