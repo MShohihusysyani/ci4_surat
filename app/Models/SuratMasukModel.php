@@ -175,7 +175,7 @@ class SuratMasukModel extends Model
         date_default_timezone_set('Asia/Jakarta'); # add your city to set local time zone
         $now = date('Y-m-d');
 
-        $query = "UPDATE surat_masuk SET progres_surat='Proses Disposisi', tgl_disposisi_kadiv='$now', handler_surat='$nama_user', status_disposisi_kadiv='sudah disposisi'  where id_surat_masuk=$id_surat";
+        $query = "UPDATE surat_masuk SET progres_surat='Handle', tgl_disposisi_kadiv='$now', handler_surat='$nama_user', status_disposisi_kadiv='sudah disposisi'  where id_surat_masuk=$id_surat";
         return $this->db->query($query);
     }
 
