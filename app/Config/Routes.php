@@ -15,7 +15,7 @@ $routes->group('/', ['filter' => 'login'], function ($routes) {
 });
 
 // Route Kelola data
-$routes->group('kelola', function ($routes) {
+$routes->group('kelola', ['filter' => 'role:superadmin'], function ($routes) {
     // Role
     $routes->get('role', 'Role::index');
     $routes->post('tambah-role', 'Role::tambah');
@@ -97,7 +97,7 @@ $routes->group('wilayah', function ($routes) {
 // });
 
 // Route Klien
-$routes->group('klien', function ($routes) {
+$routes->group('klien', ['filter' => 'role:klien'], function ($routes) {
     $routes->get('surat', 'Klien\SuratMasuk::index');
     $routes->get('surat/tambah', 'Klien\SuratMasuk::tambah');
     $routes->post('surat/simpan', 'Klien\SuratMasuk::simpan');
@@ -109,34 +109,37 @@ $routes->group('klien', function ($routes) {
 });
 
 // Route Surat Masuk Sekretaris
-$routes->group('surat-masuk', function ($routes) {
+$routes->group('surat-masuk', ['filter' => 'role:sekretaris'], function ($routes) {
     $routes->get('', 'Sekretaris\SuratMasuk::index');
     $routes->post('ajax-surat-masuk', 'Sekretaris\SuratMasuk::ajax_surat_masuk');
     $routes->post('disposisi-kadiv', 'Sekretaris\SuratMasuk::disposisi_kadiv');
 });
 
 // Routes Surat Masuk Kadiv
-$routes->group('kadiv', function ($routes) {
+$routes->group('kadiv', ['filter' => 'role:kadiv'], function ($routes) {
     $routes->get('surat-masuk', 'Kadiv\SuratMasuk::index');
     $routes->post('surat-masuk/disposisi-atas', 'Kadiv\SuratMasuk::disposisi_keatasan');
     $routes->post('surat-masuk/disposisi-bawah', 'Kadiv\SuratMasuk::disposisi_kebawahan');
 });
 
 // Routes Surat Masuk Dirops
-$routes->group('dirops', function ($routes) {
+$routes->group('dirops', ['filter' => 'role:dirops'], function ($routes) {
     $routes->get('surat-masuk', 'Dirops\SuratMasuk::index');
     $routes->post('surat-masuk/disposisi-atas', 'Dirops\SuratMasuk::disposisi_keatasan');
     $routes->post('surat-masuk/disposisi-bawah', 'Dirops\SuratMasuk::disposisi_kebawahan');
 });
 
 // Routes Surat Masuk Dirut
-$routes->group('dirut', function ($routes) {
+$routes->group('dirut', ['filter' => 'role:dirut'], function ($routes) {
     $routes->get('surat-masuk', 'Dirut\SuratMasuk::index');
     $routes->post('surat-masuk/disposisi-bawah', 'Dirut\SuratMasuk::disposisi_kebawahan');
 });
 
 // Routes Surat Masuk Staf
-$routes->group('staf', function ($routes) {
+$routes->group('staf', ['filter' => 'role:staf'], function ($routes) {
     $routes->get('surat-masuk', 'Staf\SuratMasuk::index');
     $routes->post('surat-masuk/finish', 'Staf\SuratMasuk::finish_surat');
 });
+
+// custom 404
+$routes->set404Override('App\Controllers\ErrorPage::show404');
