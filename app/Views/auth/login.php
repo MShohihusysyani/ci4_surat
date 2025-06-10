@@ -15,6 +15,15 @@
                         </a>
                     </div>
                     <div class="login-main">
+                        <!-- Untuk pesan sukses -->
+                        <?php if (session()->getFlashdata('pesan')): ?>
+                            <div class="login" data-login="<?= session()->getFlashdata('pesan') ?>"></div>
+                        <?php endif; ?>
+
+                        <!-- Untuk pesan error -->
+                        <?php if (session()->getFlashdata('alert')): ?>
+                            <div class="error" data-error="<?= session()->getFlashdata('alert') ?>"></div>
+                        <?php endif; ?>
                         <form class="theme-form" method="post" action="/cekUser">
                             <?= csrf_field(); ?>
                             <h4>Sign in to account</h4>
