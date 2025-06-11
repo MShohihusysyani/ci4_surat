@@ -141,5 +141,31 @@ $routes->group('staf', ['filter' => 'role:staf'], function ($routes) {
     $routes->post('surat-masuk/finish', 'Staf\SuratMasuk::finish_surat');
 });
 
+
+// Routes Surat Keluar Sekretaris
+$routes->group('surat-keluar', ['filter' => 'role:sekretaris'], function ($routes) {
+    $routes->get('', 'Sekretaris\SuratKeluar::index');
+    $routes->get('tambah', 'Sekretaris\SuratKeluar::tambah');
+    $routes->post('simpan-draft', 'Sekretaris\SuratKeluar::simpan_draft');
+    $routes->get('pilih-template', 'Sekretaris\SuratKeluar::pilih_template');
+    $routes->post('simpan-draft-final', 'Sekretaris\SuratKeluar::simpan_draft_final');
+    $routes->post('simpan', 'Sekretaris\SuratKeluar::simpan');
+});
+
+
+// Routes untuk preview template
+// $routes->get('pilih-template', 'Sekretaris\SuratKeluar::pilih_template');
+$routes->group('preview-template', function ($routes) {
+    $routes->get('baru/(:segment)', 'Sekretaris\SuratKeluar::preview_template/$1');
+    $routes->post('backdate', 'Sekretaris\SuratKeluar::preview_backdate');
+    $routes->post('pengumuman', 'SuratKeluar::preview_pengumuman');
+    $routes->post('tugas', 'SuratKeluar::preview_surat_tugas');
+});
+
+// Routes untuk export
+$routes->get('export/print-suratkeluar/(:num)', 'Export::export_backdate/$1');
+$routes->get('export/print-surattugas/(:num)', 'Export::exportSuratTugas/$1');
+$routes->get('export/print-pengumuman/(:num)', 'Export::export_pengumuman/$1');
+
 // custom 404
 $routes->set404Override('App\Controllers\ErrorPage::show404');
