@@ -43,6 +43,7 @@ $routes->group('kelola', ['filter' => 'role:superadmin'], function ($routes) {
     $routes->get('user/edit/(:segment)', 'User::edit/$1');
     $routes->post('user/update/(:num)', 'User::update/$1');
     $routes->get('user/hapus/(:num)', 'User::hapus/$1');
+    $routes->post('user/update-status', 'User::update_status');
 
     //Klien
     $routes->get('klien', 'Klien::index');

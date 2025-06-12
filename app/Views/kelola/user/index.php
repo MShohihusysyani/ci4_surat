@@ -70,12 +70,29 @@
                                         <td><?= $user->role ?></td>
                                         <td><?= $user->divisi ?></td>
                                         <td>
+                                            <div class="media mb-2">
+                                                <label class="col-form-label m-r-10 status-label<?= $user->id_user ?>">
+                                                    <?= esc($user->status_user) ?>
+                                                </label>
+                                                <div class="media-body text-end icon-state">
+                                                    <label class="switch">
+                                                        <input type="checkbox"
+                                                            class="toggle-status"
+                                                            data-id_user="<?= $user->id_user ?>"
+                                                            <?= ($user->status_user == 'Aktif') ? 'checked' : '' ?>>
+                                                        <span class="switch-state"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <!-- <td>
                                             <?php if ($user->status_user == 'Aktif') : ?>
                                                 <span class="badge rounded-pill badge-info">Aktif</span>
                                             <?php elseif ($user->status_user == 'N') : ?>
                                                 <span class="badge rounded-pill badge-danger">Non Aktif</span>
                                             <?php endif; ?>
-                                        </td>
+                                        </td> -->
                                         <td>
                                             <ul class="action">
                                                 <li class="edit"> <a href="user/edit/<?= $user->id_user ?>"><i class="icon-pencil-alt"></i></a></li>
@@ -99,4 +116,31 @@
 <?= $this->section('script') ?>
 <script src="<?= base_url() ?>/assets/js/datatable/datatables/jquery.dataTables.min.js"></script>
 <script src="<?= base_url() ?>/assets/js/datatable/datatables/datatable.custom.js"></script>
+
+<script>
+    $('#basic-1').on('change', '.toggle-status', function() {
+        const userId = $(this).data('id_user');
+        const statusBaru = $(this).is(':checked') ? 'Aktif' : 'Non Aktif';
+
+        $.ajax({
+            url: 'user/update-status',
+            type: 'POST',
+            data: {
+                id_user: userId,
+                status_user: statusBaru
+            },
+            success: function(response) {
+                if (response.status === 'success') {
+                    $('.status-label' + userId).text(statusBaru);
+                } else {
+                    alert('Gagal update status!');
+                }
+            },
+            error: function() {
+                alert('Terjadi kesalahan koneksi.');
+            }
+        });
+    });
+</script>
+
 <?= $this->endSection() ?>

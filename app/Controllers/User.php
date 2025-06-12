@@ -232,6 +232,20 @@ class User extends BaseController
         }
         return redirect()->to('kelola/user');
     }
+    public function update_status()
+    {
+        $id = $this->request->getPost('id_user');
+        $status = $this->request->getPost('status_user');
+
+        $update = $this->userModel->update($id, ['status_user' => $status]);
+
+        if ($update) {
+            return $this->response->setJSON(['status' => 'success']);
+        } else {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal update data']);
+        }
+    }
+
 
 
     // public function update($id)
