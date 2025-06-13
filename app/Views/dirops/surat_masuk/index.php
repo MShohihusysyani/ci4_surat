@@ -126,15 +126,33 @@
                                         </td>
                                         <td><?= $disposisiatas->handler_surat; ?></td>
                                         <td>
-                                            <ul class="action">
-                                                <li class="edit"> <a href="" data-bs-toggle="modal" data-original-title="test" data-bs-target="#modal-disposisi" data-id_surat_masuk="<?= $disposisiatas->id_surat_masuk; ?>" data-tgl_surat="<?= $disposisiatas->tgl_surat; ?>" data-no_surat="<?= $disposisiatas->no_surat; ?>" data-perihal="<?= $disposisiatas->perihal; ?>"><i class="icon-pencil-alt"></i></a></li>
-                                                <li class="history">
-                                                    <a href="/riwayat/riwayat_surat_masuk/<?= $disposisiatas->id_surat_masuk; ?>">
-                                                        <i class="icon-arrow-circle-left"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="icon-settings"></i> Aksi
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <a class="dropdown-item"
+                                                            href=""
+                                                            data-bs-toggle="modal"
+                                                            data-original-title="test"
+                                                            data-bs-target="#modal-disposisi"
+                                                            data-id_surat_masuk="<?= $disposisiatas->id_surat_masuk; ?>"
+                                                            data-tgl_surat="<?= $disposisiatas->tgl_surat; ?>"
+                                                            data-no_surat="<?= $disposisiatas->no_surat; ?>"
+                                                            data-perihal="<?= $disposisiatas->perihal; ?>">
+                                                            <i class="icon-pencil-alt"></i> Disposisi
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="/riwayat/riwayat_surat_masuk/<?= $disposisiatas->id_surat_masuk; ?>">
+                                                            <i class="icon-arrow-circle-left"></i> Riwayat
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </td>
+
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -241,15 +259,33 @@
                                         </td>
                                         <td><?= $disposisibawahan->handler_surat; ?></td>
                                         <td>
-                                            <ul class="action">
-                                                <li class="edit"> <a href="" data-bs-toggle="modal" data-original-title="test" data-bs-target="#modal-disposisi-bawah" data-id_surat_masuk="<?= $disposisibawahan->id_surat_masuk; ?>" data-tgl_surat="<?= $disposisibawahan->tgl_surat; ?>" data-no_surat="<?= $disposisibawahan->no_surat; ?>" data-perihal="<?= $disposisibawahan->perihal; ?>"><i class="icon-pencil-alt"></i></a></li>
-                                                <li class="history">
-                                                    <a href="/riwayat/riwayat_surat_masuk/<?= $disposisibawahan->id_surat_masuk; ?>">
-                                                        <i class="icon-arrow-circle-left"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="icon-settings"></i> Aksi
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <a class="dropdown-item"
+                                                            href=""
+                                                            data-bs-toggle="modal"
+                                                            data-original-title="test"
+                                                            data-bs-target="#modal-disposisi-bawah"
+                                                            data-id_surat_masuk="<?= $disposisibawahan->id_surat_masuk; ?>"
+                                                            data-tgl_surat="<?= $disposisibawahan->tgl_surat; ?>"
+                                                            data-no_surat="<?= $disposisibawahan->no_surat; ?>"
+                                                            data-perihal="<?= $disposisibawahan->perihal; ?>">
+                                                            <i class="icon-pencil-alt"></i> Disposisi
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="/riwayat/riwayat_surat_masuk/<?= $disposisibawahan->id_surat_masuk; ?>">
+                                                            <i class="icon-arrow-circle-left"></i> Riwayat
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </td>
+
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -265,7 +301,7 @@
 <!-- Modal Disposisi Keatasan -->
 <div class="modal fade bd-example-modal-lg" id="modal-disposisi" tabindex=" -1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <form action="<?= base_url('dirops/surat-masuk/disposisi-atas') ?>" method="post"> <!-- Form MULAI DI SINI -->
+        <form id="form-disposisi" method="post"> <!-- Form MULAI DI SINI -->
             <?= csrf_field() ?>
             <div class="modal-content">
                 <div class="modal-header">
@@ -302,30 +338,89 @@
                     <div class="row">
                         <div class="col">
                             <div class="mb-3">
-                                <label class="form-label" for="perihal">Catatan</label>
-                                <textarea class="form-control" name="catatan_dirops" id="catatan_dirops"></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col">
-                            <div class="mb-3">
-                                <label class="form-label" for="tgl_surat">Pilih Dirut</label>
-                                <select class="form-control" id="namadirut" name="namadirut">
-                                    <option value="">Pilih Dirut</option>
-                                    <?php foreach ($users as $row) : ?>
-                                        <option value="<?= $row->id_user ?>"><?= $row->nama_user ?></option>
-                                    <?php endforeach; ?>
+                                <label>Piliha Jenis Disposisi</label>
+                                <select class="form-control" id="jenis_disposisi">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="disposisi_atas">Disposisi Keatasan</option>
+                                    <option value="disposisi_bawah">Disposisi Kebawahan</option>
                                 </select>
                             </div>
                         </div>
                     </div>
+
+                    <div id="disposisi-atas" style="display: none;">
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label" for="perihal">Catatan</label>
+                                    <textarea class="form-control" name="catatan_dirops" id="catatan_dirops"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label" for="tgl_surat">Pilih Dirut</label>
+                                    <select class="form-control" id="namadirut" name="namadirut">
+                                        <option value="">Pilih Dirut</option>
+                                        <?php foreach ($users as $row) : ?>
+                                            <option value="<?= $row->id_user ?>"><?= $row->nama_user ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" type="button" onclick="submitFormAction('disposisi-atas')">Disposisi</button>
+                    </div>
+                    <div id="disposisi-bawah" style="display: none;">
+                        <small class="ml-3" style="color:red; font-size:17px;">* Pilih salah satu diposisisi, melalui dropdown atau input manual</small>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label>Disposisi</label>
+                                    <select class="form-control" id="disposisi_dirops_select" name="disposisi_dirops_select">
+                                        <option value="">-- Pilih --</option>
+                                        <option value="Tindaklanjuti">Tindaklanjuti</option>
+                                        <option value="Dokumentasikan">Dokumentasikan</option>
+                                        <option value="Fasilitasi">Fasilitasi</option>
+                                        <option value="Persiapkan tim">Persiapkan tim</option>
+                                        <option value="Kirim penawaran">Kirim penawaran</option>
+                                        <option value="Diarsipkan">Diarsipkan</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label">Diposisi Lainya</label>
+                                    <textarea class="form-control" name="disposisi_dirops_manual" id="disposisi_dirops_manual"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label" for="namakadiv">Pilih Kadiv</label>
+                                    <select class="form-control" id="namakadiv" name="namakadiv">
+                                        <option value="">Pilih Kadiv</option>
+                                        <?php foreach ($users_k as $row) : ?>
+                                            <option value="<?= $row->id_user ?>"><?= $row->nama_user ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" type="button" onclick="submitFormAction('disposisi-bawah')">Disposisi</button>
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <!-- Tombol submit HARUS DI DALAM form -->
                     <!-- <button class="btn btn-primary" type="button" data-bs-dismiss="modal">Close</button> -->
-                    <button class="btn btn-secondary" type="submit">Disposisi</button> <!-- TYPE = submit -->
+                    <!-- TYPE = submit -->
                 </div>
             </div>
         </form>
@@ -519,6 +614,39 @@
             $('.modal-backdrop').remove();
         });
     });
+</script>
+
+<script>
+    // Event listener untuk menangani perubahan pilihan jenis surat
+    document.getElementById('jenis_disposisi').addEventListener('change', function() {
+        let selectedValue = this.value;
+
+        // Sembunyikan semua form terlebih dahulu
+        document.getElementById('disposisi-atas').style.display = 'none';
+        document.getElementById('disposisi-bawah').style.display = 'none';
+
+        // Tampilkan form yang sesuai berdasarkan pilihan
+        if (selectedValue === 'disposisi_atas') {
+            document.getElementById('disposisi-atas').style.display = 'block';
+        } else if (selectedValue === 'disposisi_bawah') {
+            document.getElementById('disposisi-bawah').style.display = 'block';
+        }
+    });
+</script>
+
+
+<script>
+    function submitFormAction(actionType) {
+        let form = document.getElementById('form-disposisi');
+        let id_surat_masuk = document.getElementById('id_surat_masuk').value;
+        console.log("Id surat yang dikirim: ", id_surat_masuk);
+        if (actionType === 'disposisi-atas') {
+            form.action = '/dirops/surat-masuk/disposisi-atas';
+        } else if (actionType === 'disposisi-bawah') {
+            form.action = '/dirops/surat-masuk/disposisi-bawah';
+        }
+        form.submit();
+    }
 </script>
 
 <?= $this->endSection() ?>

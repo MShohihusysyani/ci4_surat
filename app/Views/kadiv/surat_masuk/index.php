@@ -124,15 +124,33 @@
                                         </td>
                                         <td><?= $disposisiatas->handler_surat; ?></td>
                                         <td>
-                                            <ul class="action">
-                                                <li class="edit"> <a href="" data-bs-toggle="modal" data-original-title="test" data-bs-target="#modal-disposisi" data-id_surat_masuk="<?= $disposisiatas->id_surat_masuk; ?>" data-tgl_surat="<?= $disposisiatas->tgl_surat; ?>" data-no_surat="<?= $disposisiatas->no_surat; ?>" data-perihal="<?= $disposisiatas->perihal; ?>"><i class="icon-pencil-alt"></i></a></li>
-                                                <li class="history">
-                                                    <a href="/riwayat/riwayat_surat_masuk/<?= $disposisiatas->id_surat_masuk; ?>">
-                                                        <i class="icon-arrow-circle-left"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="icon-settings"></i> Aksi
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <a class="dropdown-item"
+                                                            href="#"
+                                                            data-bs-toggle="modal"
+                                                            data-original-title="test"
+                                                            data-bs-target="#modal-disposisi"
+                                                            data-id_surat_masuk="<?= $disposisiatas->id_surat_masuk; ?>"
+                                                            data-tgl_surat="<?= $disposisiatas->tgl_surat; ?>"
+                                                            data-no_surat="<?= $disposisiatas->no_surat; ?>"
+                                                            data-perihal="<?= $disposisiatas->perihal; ?>">
+                                                            <i class="icon-pencil-alt"></i> Disposisi
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="/riwayat/riwayat_surat_masuk/<?= $disposisiatas->id_surat_masuk; ?>">
+                                                            <i class="icon-arrow-circle-left"></i> Riwayat
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </td>
+
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -239,15 +257,33 @@
                                         </td>
                                         <td><?= $disposisibawahan->handler_surat; ?></td>
                                         <td>
-                                            <ul class="action">
-                                                <li class="edit"> <a href="" data-bs-toggle="modal" data-original-title="test" data-bs-target="#modal-disposisi-bawah" data-id_surat_masuk="<?= $disposisibawahan->id_surat_masuk; ?>" data-tgl_surat="<?= $disposisibawahan->tgl_surat; ?>" data-no_surat="<?= $disposisibawahan->no_surat; ?>" data-perihal="<?= $disposisibawahan->perihal; ?>"><i class="icon-pencil-alt"></i></a></li>
-                                                <li class="history">
-                                                    <a href="/riwayat/riwayat_surat_masuk/<?= $disposisibawahan->id_surat_masuk; ?>">
-                                                        <i class="icon-arrow-circle-left"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="icon-settings"></i> Aksi
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <a class="dropdown-item"
+                                                            href="#"
+                                                            data-bs-toggle="modal"
+                                                            data-original-title="test"
+                                                            data-bs-target="#modal-disposisi-bawah"
+                                                            data-id_surat_masuk="<?= $disposisibawahan->id_surat_masuk; ?>"
+                                                            data-tgl_surat="<?= $disposisibawahan->tgl_surat; ?>"
+                                                            data-no_surat="<?= $disposisibawahan->no_surat; ?>"
+                                                            data-perihal="<?= $disposisibawahan->perihal; ?>">
+                                                            <i class="icon-pencil-alt"></i> Disposisi
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="/riwayat/riwayat_surat_masuk/<?= $disposisibawahan->id_surat_masuk; ?>">
+                                                            <i class="icon-arrow-circle-left"></i> Riwayat
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </td>
+
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
