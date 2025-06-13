@@ -117,7 +117,7 @@
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li>
-                                                        <a class="dropdown-item" href="surat/edit/<?= $suratkeluar->id_surat_keluar ?>">
+                                                        <a class="dropdown-item" href="surat-keluar/edit/<?= $suratkeluar->id_surat_keluar ?>">
                                                             <i class="icon-pencil-alt"></i> Edit
                                                         </a>
                                                     </li>

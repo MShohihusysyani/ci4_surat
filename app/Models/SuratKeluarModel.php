@@ -61,4 +61,15 @@ class SuratKeluarModel extends Model
 
         return $query->getResult();
     }
+
+    public function getSurat($id)
+    {
+
+        $edit = $this->db->table('surat_keluar');
+        $edit->select('surat_keluar.*');
+        $edit->where('id_surat_keluar', $id);
+        $query = $edit->get();
+
+        return $query->getResult();
+    }
 }

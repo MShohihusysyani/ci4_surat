@@ -151,6 +151,8 @@ $routes->group('surat-keluar', ['filter' => 'role:sekretaris'], function ($route
     $routes->get('pilih-template', 'Sekretaris\SuratKeluar::pilih_template');
     $routes->post('simpan-draft-final', 'Sekretaris\SuratKeluar::simpan_draft_final');
     $routes->post('simpan', 'Sekretaris\SuratKeluar::simpan');
+    $routes->get('edit/(:segment)', 'Sekretaris\SuratKeluar::edit/$1');
+    $routes->post('update/(:num)', 'Sekretaris\SuratKeluar::update/$1');
 });
 
 

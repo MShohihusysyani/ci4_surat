@@ -66,7 +66,7 @@ class SuratKeluar extends BaseController
 
             // Simpan file
             $new_file_lampiran = $file_lampiran->getRandomName();
-            $file_lampiran->move('file/surat_keluar', $new_file_lampiran);
+            $file_lampiran->move('file/surat_keluar/lampiran', $new_file_lampiran);
         }
 
         // Siapkan data (baik dengan atau tanpa file)
@@ -336,5 +336,80 @@ class SuratKeluar extends BaseController
                 ]);
             }
         }
+    }
+
+    public function edit($id)
+    {
+
+        $data = [
+            'title' => 'Edit Surat',
+            'suratkeluars' => $this->suratKeluarModel->getSurat($id),
+            'kliens' => $this->klienModel->getAllKlien(),
+            'pejabats' => $this->karyawanModel->getPejabat(),
+        ];
+
+        return view('sekretaris/surat_keluar/edit', $data);
+    }
+
+    public function update($id)
+    {
+        $lampiran_lama   = $this->suratKeluarModel->find($id);
+        $lampiran        = $this->request->getFile('file_lampiran');
+        $validationRules = [];
+
+        // Validasi hanya jika upload gambar baru
+        if ($lampiran && $lampiran->isValid() && !$lampiran->hasMoved() && $lampiran->getSize() > 0) {
+            $validationRules['file_lampiran'] = [
+                'label' => 'Lampiran',
+                'rules' => 'max_size[foto,25600]|mime_in[foto,image/jpeg,image/jpg,image/png]',
+                'errors' => [
+                    'max_size' => '{field} maksimal 25MB.',
+                    'mime_in'  => '{field} harus berupa gambar jpeg/jpg/png.'
+                ]
+            ];
+        }
+
+        // Jalankan validasi jika ada
+        if (!empty($validationRules) && !$this->validate($validationRules)) {
+            $errors = \Config\Services::validation()->getErrors();
+            session()->setFlashdata('validation_errors', $errors);
+            session()->setFlashdata('swal_error', 'Data gagal diperbarui!');
+            return redirect()->to('/surat-keluar/edit/' . $id)->withInput();
+        }
+
+        $nama_file = $lampiran_lama->lampiran; // Default: pakai logo lama
+
+        // Jika upload gambar baru
+        if ($lampiran && $lampiran->isValid() && !$lampiran->hasMoved() && $lampiran->getSize() > 0) {
+            // Hapus logo lama (jika ada)
+            if (!empty($lampiran_lama->file_lampiran) && file_exists(FCPATH . 'file/surat_keluar/lampiran/' . $lampiran_lama->file_lampiran)) {
+                unlink(FCPATH . 'file/surat_keluar/lampiran/' . $lampiran_lama->file_lampiran);
+            }
+
+            // Simpan logo baru
+            $nama_file = $lampiran->getRandomName();
+            $lampiran->move('file/surat_keluar/lampiran', $nama_file);
+        }
+
+        $data = [
+            'no_surat'      => $this->request->getPost('no_surat'),
+            'tgl_surat'     => $this->request->getPost('tgl_surat'),
+            'perihal'       => $this->request->getPost('perihal'),
+            'lampiran'      => $this->request->getPost('lampiran'),
+            'prioritas'     => $this->request->getPost('prioritas'),
+            'klien_id'      => $this->request->getPost('klien_id'),
+            'tempat'        => $this->request->getPost('tempat'),
+            'penerbit_id'   => $this->request->getPost('penerbit_id'),
+            'konten'        => $this->request->getPost('konten'),
+            'file_lampiran' => $nama_file,
+            'progres'       => 'draft',
+
+        ];
+
+        $this->suratKeluarModel->update($id, $data);
+
+        session()->setFlashdata('pesan', 'Data berhasil diperbarui.');
+
+        return redirect()->to('/surat-keluar');
     }
 }
