@@ -202,6 +202,79 @@ class SuratKeluar extends BaseController
             ->setBody($mpdf->Output('', 'S'));
     }
 
+    public function preview_pengumuman()
+    {
+        $suratKeluarModel = new \App\Models\SuratKeluarModel();
+        $karyawanModel    = new \App\Models\KaryawanModel();
+        $surat = session()->get('draft_id');
+
+        $suratkeluar = $suratKeluarModel->asArray()->find($surat);
+
+        $penerbit = $karyawanModel
+            ->select('karyawan.nama_lengkap, jabatan.nama_jabatan')
+            ->join('jabatan', 'jabatan.id_jabatan = karyawan.jabatan_id', 'left')
+            ->where('karyawan.id_karyawan', $suratkeluar['penerbit_id'])
+            ->first();
+
+        // Inisialisasi mPDF dengan pengaturan margin untuk header dan footer
+        $mpdf = new \Mpdf\Mpdf([
+            'format' => [210, 330], //format F4
+            'margin_top' => 20,    // Margin atas untuk memberi ruang pada header 
+        ]);
+
+        // Mengatur header
+        $mpdf->SetHTMLHeader("
+    <table width='100%' style='font-family: Arial, sans-serif;'>
+        <tr>
+            <th rowspan='3'>
+                <img src='assets/images/mso.png' style='height: 60px;' alt='Logo Perusahaan' />
+            </th>
+            <td>
+                <h2>PT. Mitranet Software Online</h2>
+                <p>IT Consultant & Software Development</p>
+            </td>
+        </tr>
+    </table>
+    <hr>
+    ");
+
+
+        // Mengatur footer
+        $mpdf->SetHTMLFooter(" 
+        <hr> 
+        <table width='100%' style='font-size: 10px;'> 
+            <tr> 
+                <td style='text-align: left;'> 
+                    Jalan Gerilya Tengah, Komplek Perum Griya Karang Indah Blok B4-5 Purwokerto, Jawa Tengah 53142 
+                    <br>Telepon: (0281) 623 789 | Fax: (0281) 657 789 
+                </td> 
+                <td style='text-align: right;'></td> 
+            </tr> 
+        </table> 
+    ");
+
+
+        // Ambil konten surat dari request POST (dari CKEditor)
+        $data = $this->request->getJSON(true);
+        $konten = $data['konten'];
+
+
+        // Konten utama dokumen
+        $html = view('cetak/preview_pengumuman', [
+            'suratkeluar' => $suratkeluar,
+            'konten' => $konten,
+            'penerbit_nama'     => $penerbit->nama_lengkap ?? '',
+            'penerbit_jabatan'  => $penerbit->nama_jabatan ?? '',
+        ]);
+
+        // Menulis konten ke dalam PDF
+        $mpdf->WriteHTML($html);
+
+        // Mengatur respons untuk menampilkan PDF di browser
+        return $this->response->setHeader('Content-Type', 'application/pdf')
+            ->setBody($mpdf->Output('', 'S'));
+    }
+
     public function simpan_draft_final()
     {
         $suratKeluarModel = new SuratKeluarModel();

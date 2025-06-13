@@ -95,7 +95,7 @@
                                 <div class="mb-3 row">
                                     <label class="col-sm-3 col-form-label">Klien</label>
                                     <div class="col-sm-9">
-                                        <select class="js-example-basic-single col-sm-12" id="klien_id" name="klien_id" required>
+                                        <select class="js-example-basic-single col-sm-12" id="klien_id" name="klien_id">
                                             <option value="">-- Pilih Klien --</option>
                                             <?php foreach ($kliens as $klien): ?>
                                                 <option value="<?= $klien->id_klien ?>" data-nama="<?= $klien->nama_klien ?>">
@@ -108,7 +108,7 @@
                                 <div class="mb-3 row">
                                     <label class="col-sm-3 col-form-label">Tempat</label>
                                     <div class="col-sm-9">
-                                        <input class="form-control" type="text" id="tempat" name="tempat" placeholder="Tempat" required>
+                                        <input class="form-control" type="text" id="tempat" name="tempat" placeholder="Tempat">
                                     </div>
                                 </div>
                                 <div class="mb-3 row">

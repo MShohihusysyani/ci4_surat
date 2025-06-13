@@ -85,7 +85,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
-                                <input type="hidden" name="template">
+                                <input type="hidden" name="template" id="template" value="<?= $template; ?>">
                                 <input type="hidden" name="id_surat_keluar" id="id_surat_keluar" value="<?= $suratkeluar->id_surat_keluar; ?>">
                                 <div class="mb-3 row">
                                     <label class="col-sm-3 col-form-label">Nomor Surat</label>
@@ -168,6 +168,7 @@
     </div>
 </div>
 <!-- Container-fluid Ends-->
+
 <!-- animasi lottie -->
 <div id="lottie-loader-overlay" class="hidden">
     <dotlottie-player src="https://lottie.host/76b2e413-aa9e-4831-a747-ebf842fcf8c0/JtDR6u8OzR.lottie" background="transparent" speed="1" style="width: 300px; height: 300px" loop autoplay></dotlottie-player>
@@ -192,7 +193,6 @@
 <?= $this->section('script'); ?>
 <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
 <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
-
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         let editorInstance = null; // Buat variabel global
@@ -235,7 +235,7 @@
             // ✅ Tampilkan animasi loading (Lottie)
             document.getElementById('lottie-loader-overlay').classList.remove('hidden');
 
-            fetch('<?= base_url("preview-template/backdate"); ?>', {
+            fetch('<?= base_url("preview-template/pengumuman"); ?>', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -266,6 +266,7 @@
                 });
         });
 
+
         $("#btn_simpan").click(function() {
             var formData = {
                 id_surat_keluar: $("#id_surat_keluar").val(),
@@ -276,6 +277,7 @@
                 // tags: $("#tags").val(),
                 prioritas: $("#prioritas").val(),
                 konten: editorInstance.getData(), // Ambil data dari CKEditor
+                template: $("#template").val(),
 
             };
 

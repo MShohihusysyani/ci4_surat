@@ -159,7 +159,7 @@ $routes->group('surat-keluar', ['filter' => 'role:sekretaris'], function ($route
 $routes->group('preview-template', function ($routes) {
     $routes->get('baru/(:segment)', 'Sekretaris\SuratKeluar::preview_template/$1');
     $routes->post('backdate', 'Sekretaris\SuratKeluar::preview_backdate');
-    $routes->post('pengumuman', 'SuratKeluar::preview_pengumuman');
+    $routes->post('pengumuman', 'Sekretaris\SuratKeluar::preview_pengumuman');
     $routes->post('tugas', 'SuratKeluar::preview_surat_tugas');
 });
 
