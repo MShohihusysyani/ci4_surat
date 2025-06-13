@@ -67,12 +67,18 @@ if (!function_exists('formatStatusBalas')) {
 if (!function_exists('formatAksiSuratMasuk')) {
     function formatAksiSuratMasuk($row)
     {
-        $btn_group = '<ul class="action">';
+        $dropdown = '<div class="btn-group">';
+        $dropdown .= '<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="icon-settings"></i> Aksi
+                      </button>';
+        $dropdown .= '<ul class="dropdown-menu">';
 
+        // Disposisi (jika progres surat Proses)
         if ($row->progres_surat == 'Proses') {
-            $btn_group .= '
-                <li class="edit">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#modal-disposisi"
+            $dropdown .= '
+                <li>
+                    <a class="dropdown-item"
+                        href="#" data-bs-toggle="modal" data-bs-target="#modal-disposisi"
                         data-id_surat_masuk="' . $row->id_surat_masuk . '"
                         data-no_surat="' . htmlspecialchars($row->no_surat) . '"
                         data-tgl_surat="' . htmlspecialchars($row->tgl_surat) . '"
@@ -80,29 +86,33 @@ if (!function_exists('formatAksiSuratMasuk')) {
                         data-file="' . htmlspecialchars($row->file) . '"
                         data-produk="' . htmlspecialchars($row->produk) . '"
                         data-progres_surat="' . htmlspecialchars($row->progres_surat) . '">
-                        <i class="icon-back-right" title="Disposisi"></i>
+                        <i class="icon-back-right"></i> Disposisi
                     </a>
                 </li>';
         }
 
-        $btn_group .= '
-            <li class="detail">
-                <a href="/surat-masuk/detail/' . $row->id_surat_masuk . '">
-                    <i class="icon-eye" title="Detail"></i>
+        // Detail
+        $dropdown .= '
+            <li>
+                <a class="dropdown-item" href="/surat-masuk/detail/' . $row->id_surat_masuk . '">
+                    <i class="icon-eye"></i> Detail
                 </a>
             </li>';
 
-        $btn_group .= '
-            <li class="history">
-                <a href="/riwayat/riwayat_surat_masuk/' . $row->id_surat_masuk . '">
-                    <i class="icon-clock" title="Riwayat"></i>
+        // Riwayat
+        $dropdown .= '
+            <li>
+                <a class="dropdown-item" href="/riwayat/riwayat_surat_masuk/' . $row->id_surat_masuk . '">
+                    <i class="icon-clock"></i> Riwayat
                 </a>
             </li>';
 
+        // Arsip (jika progres surat Finish)
         if ($row->progres_surat == 'Finish') {
-            $btn_group .= '
-                <li class="arsip">
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#modal-arsip"
+            $dropdown .= '
+                <li>
+                    <a class="dropdown-item"
+                        href="#" data-bs-toggle="modal" data-bs-target="#modal-arsip"
                         data-id="' . $row->id_surat_masuk . '"
                         data-no_surat="' . htmlspecialchars($row->no_surat) . '"
                         data-input_by="' . htmlspecialchars($row->input_by) . '"
@@ -113,21 +123,26 @@ if (!function_exists('formatAksiSuratMasuk')) {
                         data-produk="' . htmlspecialchars($row->produk) . '"
                         data-progres_surat="' . htmlspecialchars($row->progres_surat) . '"
                         data-status_surat="' . htmlspecialchars($row->status_surat) . '">
-                        <i class="icon-folder" title="Arsip"></i>
+                        <i class="icon-folder"></i> Arsip
                     </a>
                 </li>';
         }
 
-        if (($row->progres_surat == 'Finish' || $row->progres_surat == 'Handle') && $row->butuh_balas == 'Ya' && $row->status_balas == 'belum dibalas') {
-            $btn_group .= '
-                <li class="balas">
-                    <a href="/surat-masuk/balas-surat/' . $row->id_surat_masuk . '">
-                        <i class="icon-pencil" title="Balas"></i>
+        // Balas (jika surat Finish/Handle dan butuh balas serta belum dibalas)
+        if (
+            ($row->progres_surat == 'Finish' || $row->progres_surat == 'Handle') &&
+            $row->butuh_balas == 'Ya' &&
+            $row->status_balas == 'belum dibalas'
+        ) {
+            $dropdown .= '
+                <li>
+                    <a class="dropdown-item" href="/surat-masuk/balas-surat/' . $row->id_surat_masuk . '">
+                        <i class="icon-pencil"></i> Balas
                     </a>
                 </li>';
         }
 
-        $btn_group .= '</ul>';
-        return $btn_group;
+        $dropdown .= '</ul></div>';
+        return $dropdown;
     }
 }

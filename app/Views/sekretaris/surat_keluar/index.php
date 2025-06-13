@@ -111,23 +111,33 @@
                                             <?php endif; ?>
                                         </td>
                                         <td>
-                                            <ul class="action">
-                                                <li class="edit"> <a href="surat/edit/<?= $suratkeluar->id_surat_keluar ?>"><i class="icon-pencil-alt"></i></a></li>
-                                                <li class="edit">
-                                                    <?php if ($suratkeluar->jenis_surat != 'manual') : ?>
-                                                        <a class="preview"
-                                                            data-id_surat_keluar="<?= $suratkeluar->id_surat_keluar; ?>"
-                                                            data-template="<?= $suratkeluar->template ?? '' ?>" data-tipe="suratkeluar">
-                                                            <i class="icon-eye"></i>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="icon-settings"></i> Aksi
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <a class="dropdown-item" href="surat/edit/<?= $suratkeluar->id_surat_keluar ?>">
+                                                            <i class="icon-pencil-alt"></i> Edit
                                                         </a>
-                                                    <?php endif ?>
-                                                </li>
-                                                <li class="history">
-                                                    <a href="/riwayat/riwayat_surat_masuk/<?= $suratkeluar->id_surat_keluar; ?>">
-                                                        <i class="icon-arrow-circle-left"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
+                                                    </li>
+                                                    <?php if ($suratkeluar->jenis_surat != 'manual') : ?>
+                                                        <li>
+                                                            <a class="dropdown-item preview"
+                                                                data-id_surat_keluar="<?= $suratkeluar->id_surat_keluar; ?>"
+                                                                data-template="<?= $suratkeluar->template ?? '' ?>"
+                                                                data-tipe="suratkeluar">
+                                                                <i class="icon-eye"></i> Preview
+                                                            </a>
+                                                        </li>
+                                                    <?php endif; ?>
+                                                    <li>
+                                                        <a class="dropdown-item" href="/riwayat/riwayat_surat_keluar/<?= $suratkeluar->id_surat_keluar; ?>">
+                                                            <i class="icon-arrow-circle-left"></i> Riwayat
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
