@@ -62,6 +62,17 @@ class SuratKeluarModel extends Model
         return $query->getResult();
     }
 
+    public function getDataDraft()
+    {
+        $data = $this->db->table('surat_keluar');
+        $data->select('surat_keluar.*');
+        $data->where('progres', 'Draft');
+        $data->join('klien', 'klien.id_klien = surat_keluar.klien_id', 'left');
+        $query = $data->get();
+
+        return $query->getResult();
+    }
+
     public function getSurat($id)
     {
 

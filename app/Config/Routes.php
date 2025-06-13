@@ -116,11 +116,15 @@ $routes->group('surat-masuk', ['filter' => 'role:sekretaris'], function ($routes
     $routes->post('disposisi-kadiv', 'Sekretaris\SuratMasuk::disposisi_kadiv');
 });
 
-// Routes Surat Masuk Kadiv
+// Routes Kadiv
 $routes->group('kadiv', ['filter' => 'role:kadiv'], function ($routes) {
+    // Surat Masuk
     $routes->get('surat-masuk', 'Kadiv\SuratMasuk::index');
     $routes->post('surat-masuk/disposisi-atas', 'Kadiv\SuratMasuk::disposisi_keatasan');
     $routes->post('surat-masuk/disposisi-bawah', 'Kadiv\SuratMasuk::disposisi_kebawahan');
+
+    // Surat Keluar
+    $routes->get('surat-keluar', 'Kadiv\SuratKeluar::index');
 });
 
 // Routes Surat Masuk Dirops
@@ -154,7 +158,6 @@ $routes->group('surat-keluar', ['filter' => 'role:sekretaris'], function ($route
     $routes->get('edit/(:segment)', 'Sekretaris\SuratKeluar::edit/$1');
     $routes->post('update/(:num)', 'Sekretaris\SuratKeluar::update/$1');
 });
-
 
 // Routes untuk preview template
 // $routes->get('pilih-template', 'Sekretaris\SuratKeluar::pilih_template');
