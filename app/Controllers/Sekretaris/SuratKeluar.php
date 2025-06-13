@@ -218,7 +218,7 @@ class SuratKeluar extends BaseController
                 'prioritas'      => $this->request->getPost('prioritas'),
                 'tags'           => $this->request->getPost('tags'),
                 'konten'         => $this->request->getPost('konten'),
-                'progress'       => 'draft',
+                'progres'       => 'draft',
                 'created_at'     => $created_at,
                 'template'       => ($this->request->getPost('template') == 'pengumuman') ? 'pengumuman' : null // Hanya jika pengumuman
             ];;

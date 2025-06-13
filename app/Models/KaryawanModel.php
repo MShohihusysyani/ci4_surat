@@ -68,12 +68,9 @@ class KaryawanModel extends Model
     public function getPenerbit($id_karyawan)
     {
 
-        $penerbit = $this->db->table('karyawan');
-        $penerbit->select('karyawan.id_karyawan, karyawan.nama_lengkap, jabatan.nama_jabatan');
-        $penerbit->join('jabatan', 'jabatan.id_jabatan = karyawan.jabatan_id');
-        $penerbit->where('karyawan.id_karyawan', $id_karyawan);
-        $query = $penerbit->get();
-
-        return $query->getResult();
+        return $this->select('karyawan.nama_lengkap, jabatan.nama_jabatan')
+            ->join('jabatan', 'jabatan.id_jabatan = karyawan.jabatan_id', 'left')
+            ->where('karyawan.id_karyawan', $id_karyawan)
+            ->first();
     }
 }
