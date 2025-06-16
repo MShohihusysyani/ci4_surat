@@ -83,4 +83,10 @@ class SuratKeluarModel extends Model
 
         return $query->getResult();
     }
+
+    public function disposisi($id_surat)
+    {
+        $query = "UPDATE surat_keluar SET progres='Proses Approve'   where id_surat_keluar=$id_surat";
+        return $this->db->query($query);
+    }
 }

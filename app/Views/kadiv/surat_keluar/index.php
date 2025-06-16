@@ -127,6 +127,19 @@
                                                         </li>
                                                     <?php endif; ?>
                                                     <li>
+                                                        <a class="dropdown-item"
+                                                            href="#"
+                                                            data-bs-toggle="modal"
+                                                            data-original-title="test"
+                                                            data-bs-target="#modal-disposisi"
+                                                            data-id_surat_keluar="<?= $suratkeluar->id_surat_keluar; ?>"
+                                                            data-tgl_surat="<?= $suratkeluar->tgl_surat; ?>"
+                                                            data-no_surat="<?= $suratkeluar->no_surat; ?>"
+                                                            data-perihal="<?= $suratkeluar->perihal; ?>">
+                                                            <i class="icon-pencil-alt"></i> Disposisi
+                                                        </a>
+                                                    </li>
+                                                    <li>
                                                         <a class="dropdown-item" href="/riwayat/riwayat_surat_keluar/<?= $suratkeluar->id_surat_keluar; ?>">
                                                             <i class="icon-arrow-circle-left"></i> Riwayat
                                                         </a>
@@ -149,6 +162,97 @@
 <!-- animasi -->
 <div id="lottie-loader-overlay" class="hidden">
     <dotlottie-player src="https://lottie.host/76b2e413-aa9e-4831-a747-ebf842fcf8c0/JtDR6u8OzR.lottie" background="transparent" speed="1" style="width: 300px; height: 300px" loop autoplay></dotlottie-player>
+</div>
+
+<!-- Modal Disposisi Keatasan -->
+<div class="modal fade bd-example-modal-lg" id="modal-disposisi" tabindex=" -1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <form id="form-disposisi" method="post"> <!-- Form MULAI DI SINI -->
+            <?= csrf_field() ?>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myLargeModalLabel">Disposisi</h4>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id_surat_keluar" id="id_surat_keluar">
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label" for="no_surat">Nomor Surat</label>
+                                <input class="form-control" id="no_surat" name="no_surat" type="text" placeholder="Nomor Surat" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label" for="tgl_surat">Tanggal Surat</label>
+                                <input class="form-control" id="tgl_surat" name="tgl_surat" type="date" placeholder="Tanggal Surat" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label" for="perihal">Perihal</label>
+                                <input class="form-control" id="perihal" name="perihal" type="text" placeholder="Perihal" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label>Pilih</label>
+                                <select class="form-control" id="jenis_disposisi">
+                                    <option value="">-- Pilih --</option>
+                                    <option value="disposisi_atas">Disposisi</option>
+                                    <option value="catatan">Catatan</option>
+                                    <option value="approve">Approve</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="disposisi-atas" style="display: none;">
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label" for="tgl_surat">Pilih Dirops</label>
+                                    <select class="form-control" id="namadirops" name="namadirops">
+                                        <option value="">Pilih Dirops</option>
+                                        <?php foreach ($users as $row) : ?>
+                                            <option value="<?= $row->id_user ?>"><?= $row->nama_user ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" type="button" onclick="submitFormAction('disposisi-atas')">Disposisi</button>
+                    </div>
+
+                    <div id="catatan" style="display: none;">
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3">
+                                    <label class="form-label">Catatan</label>
+                                    <textarea class="form-control" name="catatan_dirops" id="catatan_dirops"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" type="button" onclick="submitFormAction('catatan')">Submit</button>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <!-- Tombol submit HARUS DI DALAM form -->
+                    <!-- <button class="btn btn-primary" type="button" data-bs-dismiss="modal">Close</button> -->
+                    <!-- TYPE = submit -->
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 
 <div class="modal fade bd-example-modal-lg" id="previewModal" tabindex=" -1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -175,7 +279,55 @@
 <script src="<?= base_url() ?>/assets/js/datatable/datatables/datatable.custom.js"></script>
 <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
 
+<!-- Modal Disposisi -->
+<script>
+    $('#modal-disposisi').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget);
+        var id_surat_keluar = button.data('id_surat_keluar');
+        var no_surat = button.data('no_surat');
+        var tgl_surat = button.data('tgl_surat');
+        var perihal = button.data('perihal');
 
+        var modal = $(this);
+        modal.find('.modal-body #id_surat_keluar').val(id_surat_keluar);
+        modal.find('.modal-body #no_surat').val(no_surat);
+        modal.find('.modal-body #tgl_surat').val(tgl_surat);
+        modal.find('.modal-body #perihal').val(perihal);
+    });
+</script>
+
+<script>
+    // Event listener untuk menangani perubahan pilihan jenis surat
+    document.getElementById('jenis_disposisi').addEventListener('change', function() {
+        let selectedValue = this.value;
+
+        // Sembunyikan semua form terlebih dahulu
+        document.getElementById('disposisi-atas').style.display = 'none';
+        document.getElementById('catatan').style.display = 'none';
+
+        // Tampilkan form yang sesuai berdasarkan pilihan
+        if (selectedValue === 'disposisi_atas') {
+            document.getElementById('disposisi-atas').style.display = 'block';
+        } else if (selectedValue === 'catatan') {
+            document.getElementById('catatan').style.display = 'block';
+        }
+    });
+</script>
+
+
+<script>
+    function submitFormAction(actionType) {
+        let form = document.getElementById('form-disposisi');
+        let id_surat_keluar = document.getElementById('id_surat_keluar').value;
+        console.log("Id surat yang dikirim: ", id_surat_keluar);
+        if (actionType === 'disposisi-atas') {
+            form.action = '/kadiv/surat-keluar/disposisi';
+        } else if (actionType === 'catatan') {
+            form.action = '/kadiv/surat-kelaur/catatan';
+        }
+        form.submit();
+    }
+</script>
 <script>
     $(document).on('click', '.preview', function(e) {
         e.preventDefault();
