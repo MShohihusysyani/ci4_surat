@@ -99,6 +99,16 @@ class SuratKeluarModel extends Model
         return $query->getResult();
     }
 
+    public function getDetailByKode($kodeVerifikasi)
+    {
+        return $this->select('surat_keluar.*, karyawan.nama_lengkap, jabatan.nama_jabatan')
+            ->join('karyawan', 'karyawan.id_karyawan = surat_keluar.penerbit_id', 'left')
+            ->join('jabatan', 'jabatan.id_jabatan = karyawan.jabatan_id', 'left')
+            ->where('surat_keluar.qrcode', $kodeVerifikasi)
+            ->first();
+    }
+
+
     public function disposisi($id_surat)
     {
         $query = "UPDATE surat_keluar SET progres='Proses Approve'   where id_surat_keluar=$id_surat";

@@ -143,6 +143,10 @@ $routes->group('dirops', ['filter' => 'role:dirops'], function ($routes) {
 $routes->group('dirut', ['filter' => 'role:dirut'], function ($routes) {
     $routes->get('surat-masuk', 'Dirut\SuratMasuk::index');
     $routes->post('surat-masuk/disposisi-bawah', 'Dirut\SuratMasuk::disposisi_kebawahan');
+
+    // Surat Keluar
+    $routes->get('surat-keluar', 'Dirut\SuratKeluar::index');
+    $routes->post('surat-keluar/approve', 'Dirut\SuratKeluar::approve');
 });
 
 // Routes Surat Masuk Staf
@@ -177,6 +181,11 @@ $routes->group('preview-template', function ($routes) {
 $routes->get('export/print-suratkeluar/(:num)', 'Export::export_backdate/$1');
 $routes->get('export/print-surattugas/(:num)', 'Export::exportSuratTugas/$1');
 $routes->get('export/print-pengumuman/(:num)', 'Export::export_pengumuman/$1');
+
+//Verifikasi surat keluar
+$routes->group('pindai', function ($routes) {
+    $routes->get('surat/(:segment)', 'Pindai::detail/$1');
+});
 
 // custom 404
 $routes->set404Override('App\Controllers\ErrorPage::show404');

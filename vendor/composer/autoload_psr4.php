@@ -17,8 +17,11 @@ return array(
     'Mpdf\\' => array($vendorDir . '/mpdf/mpdf/src'),
     'Laminas\\Escaper\\' => array($vendorDir . '/laminas/laminas-escaper/src'),
     'Faker\\' => array($vendorDir . '/fakerphp/faker/src/Faker'),
+    'Endroid\\QrCode\\' => array($vendorDir . '/endroid/qr-code/src'),
     'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
+    'DASPRiD\\Enum\\' => array($vendorDir . '/dasprid/enum/src'),
     'Config\\' => array($baseDir . '/app/Config'),
     'CodeIgniter\\' => array($vendorDir . '/codeigniter4/framework/system'),
+    'BaconQrCode\\' => array($vendorDir . '/bacon/bacon-qr-code/src'),
     'App\\' => array($baseDir . '/app'),
 );

@@ -5,7 +5,10 @@ namespace App\Controllers;
 use App\Models\KaryawanModel;
 use App\Models\SuratKeluarModel;
 use App\Controllers\BaseController;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
 use CodeIgniter\HTTP\ResponseInterface;
+
 
 class Export extends BaseController
 {
@@ -36,21 +39,35 @@ class Export extends BaseController
         $tempat   = $suratkeluar->tempat;
         $konten   = $suratkeluar->konten;
 
-        // Penentuan QR Code
-        $qrcodePath       = 'qrcodes/' . $suratkeluar->qrcode;
-        $qrcode_dirops_path = 'qrcodes/' . $suratkeluar->qrcode_dirops;
-        $qrcode_kadiv_path  = 'qrcodes/' . $suratkeluar->qrcode_kadiv;
-        $defaultSignature = 'assets/images/qrcode.jpg';
+        // URL yang akan di-encode ke dalam QR Code
+        $url = base_url('pindai/surat/' . $suratkeluar->qrcode);
 
-        if (!empty($suratkeluar->qrcode) && file_exists($qrcodePath)) {
-            $qrcode = $qrcodePath;
-        } elseif (!empty($suratkeluar->qrcode_dirops) && file_exists($qrcode_dirops_path)) {
-            $qrcode = $qrcode_dirops_path;
-        } elseif (!empty($suratkeluar->qrcode_kadiv) && file_exists($qrcode_kadiv_path)) {
-            $qrcode = $qrcode_kadiv_path;
-        } else {
-            $qrcode = $defaultSignature;
-        }
+        // Buat QR Code instance dan chaining konfigurasi dengan benar
+        $qrCode = (new QrCode($url));
+
+        // Tulis QR Code ke image
+        $writer = new PngWriter();
+        $result = $writer->write($qrCode);
+
+        // Convert ke data URI agar bisa ditampilkan langsung tanpa disimpan
+        $qrImageBase64 = $result->getDataUri();
+
+
+        // // Penentuan QR Code
+        // $qrcodePath       = 'qrcodes/' . $suratkeluar->qrcode;
+        // $qrcode_dirops_path = 'qrcodes/' . $suratkeluar->qrcode_dirops;
+        // $qrcode_kadiv_path  = 'qrcodes/' . $suratkeluar->qrcode_kadiv;
+        // $defaultSignature = 'assets/images/qrcode.jpg';
+
+        // if (!empty($suratkeluar->qrcode) && file_exists($qrcodePath)) {
+        //     $qrcode = $qrcodePath;
+        // } elseif (!empty($suratkeluar->qrcode_dirops) && file_exists($qrcode_dirops_path)) {
+        //     $qrcode = $qrcode_dirops_path;
+        // } elseif (!empty($suratkeluar->qrcode_kadiv) && file_exists($qrcode_kadiv_path)) {
+        //     $qrcode = $qrcode_kadiv_path;
+        // } else {
+        //     $qrcode = $defaultSignature;
+        // }
 
         // Inisialisasi mPDF
         $mpdf = new \Mpdf\Mpdf([
@@ -110,7 +127,7 @@ class Export extends BaseController
             'nama_klien'       => $nama,
             'tempat'           => $tempat,
             'konten'           => $konten,
-            'qrcode'           => $qrcode,
+            'qrcode'           => $qrImageBase64,
             'penerbit_nama'    => $penerbit_nama,
             'penerbit_jabatan' => $penerbit_jabatan,
         ]);
