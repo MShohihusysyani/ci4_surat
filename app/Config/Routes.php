@@ -133,6 +133,10 @@ $routes->group('dirops', ['filter' => 'role:dirops'], function ($routes) {
     $routes->get('surat-masuk', 'Dirops\SuratMasuk::index');
     $routes->post('surat-masuk/disposisi-atas', 'Dirops\SuratMasuk::disposisi_keatasan');
     $routes->post('surat-masuk/disposisi-bawah', 'Dirops\SuratMasuk::disposisi_kebawahan');
+
+    // Surat Keluar
+    $routes->get('surat-keluar', 'Dirops\SuratKeluar::index');
+    $routes->post('surat-keluar/disposisi', 'Dirops\SuratKeluar::disposisi');
 });
 
 // Routes Surat Masuk Dirut

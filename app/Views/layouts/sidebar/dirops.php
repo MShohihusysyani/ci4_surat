@@ -45,7 +45,7 @@
               </svg><span>Surat</span></a>
             <ul class="sidebar-submenu">
               <li><a href="<?= base_url("dirops/surat-masuk") ?>">Surat Masuk</a></li>
-              <li><a href="<?= base_url("email/email-compose") ?>">Surat Keluar</a></li>
+              <li><a href="<?= base_url("dirops/surat-keluar") ?>">Surat Keluar</a></li>
             </ul>
           </li>
 

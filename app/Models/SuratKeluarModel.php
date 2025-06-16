@@ -73,6 +73,21 @@ class SuratKeluarModel extends Model
         return $query->getResult();
     }
 
+    public function getDisposisi()
+    {
+        $id_user = session()->get('id_user');
+
+        $disposisi = $this->db->table('surat_keluar');
+        $disposisi->select('surat_keluar.*');
+        $disposisi->where('progres', 'Proses Approve');
+        $disposisi->join('klien', 'klien.id_klien = surat_keluar.klien_id', 'left');
+        $disposisi->join('disposisi_surat_keluar', 'surat_keluar.id_surat_keluar = disposisi_surat_keluar.surat_keluar_id', 'left');
+        $disposisi->where('disposisi_surat_keluar.user_id', $id_user);
+        $query = $disposisi->get();
+
+        return $query->getResult();
+    }
+
     public function getSurat($id)
     {
 
