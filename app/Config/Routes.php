@@ -126,6 +126,7 @@ $routes->group('kadiv', ['filter' => 'role:kadiv'], function ($routes) {
     // Surat Keluar
     $routes->get('surat-keluar', 'Kadiv\SuratKeluar::index');
     $routes->post('surat-keluar/disposisi', 'Kadiv\SuratKeluar::disposisi');
+    $routes->post('surat-keluar/approve', 'Kadiv\SuratKeluar::approve');
 });
 
 // Routes Surat Masuk Dirops

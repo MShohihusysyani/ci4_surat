@@ -101,8 +101,8 @@
                                             <?php elseif ($suratkeluar->progres == 'draft') : ?>
                                                 <span class="badge rounded-pill badge-primary">Draft</span>
 
-                                            <?php elseif ($suratkeluar->progres == 'Proses Disposisi') : ?>
-                                                <span class="badge rounded-pill badge-info">Proses Disposisi</span>
+                                            <?php elseif ($suratkeluar->progres == 'Proses Approve') : ?>
+                                                <span class="badge rounded-pill badge-info">Proses Approve</span>
 
                                             <?php elseif ($suratkeluar->progres == 'Approve') : ?>
                                                 <span class="badge rounded-pill badge-success">Approve</span>
