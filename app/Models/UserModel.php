@@ -13,6 +13,7 @@ class UserModel extends Model
     protected $useSoftDeletes   = false;
     protected $allowedFields    = [
         'klien_id',
+        'karyawan_id',
         'username',
         'password',
         'role',

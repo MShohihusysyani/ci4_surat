@@ -46,12 +46,13 @@ class Auth extends BaseController
 
         // Set session
         session()->set([
-            'id_user'    => $user->id_user,
-            'username'   => $user->username,
-            'nama_user'  => $user->nama_user,
-            'role'       => $user->role,
-            'divisi'     => $user->divisi,
-            'klien_id'   => $user->klien_id,
+            'id_user'     => $user->id_user,
+            'username'    => $user->username,
+            'nama_user'   => $user->nama_user,
+            'role'        => $user->role,
+            'divisi'      => $user->divisi,
+            'klien_id'    => $user->klien_id,
+            'karyawan_id' => $user->karyawan_id,
             'isLoggedIn' => true,
         ]);
 

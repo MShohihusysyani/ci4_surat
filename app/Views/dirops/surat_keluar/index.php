@@ -134,7 +134,8 @@
                                                             data-id_surat_keluar="<?= $suratkeluar->id_surat_keluar; ?>"
                                                             data-tgl_surat="<?= $suratkeluar->tgl_surat; ?>"
                                                             data-no_surat="<?= $suratkeluar->no_surat; ?>"
-                                                            data-perihal="<?= $suratkeluar->perihal; ?>">
+                                                            data-perihal="<?= $suratkeluar->perihal; ?>"
+                                                            data-penerbit_id="<?= $suratkeluar->penerbit_id; ?>">
                                                             <i class="icon-pencil-alt"></i> Disposisi
                                                         </a>
                                                     </li>
@@ -286,12 +287,29 @@
         var no_surat = button.data('no_surat');
         var tgl_surat = button.data('tgl_surat');
         var perihal = button.data('perihal');
+        var penerbit_id = button.data('penerbit_id');
+        const sessionId = <?= session('karyawan_id') ?>;
 
         var modal = $(this);
         modal.find('.modal-body #id_surat_keluar').val(id_surat_keluar);
         modal.find('.modal-body #no_surat').val(no_surat);
         modal.find('.modal-body #tgl_surat').val(tgl_surat);
         modal.find('.modal-body #perihal').val(perihal);
+
+
+        // Reset opsi
+        $('#jenis_disposisi').empty();
+        $('#jenis_disposisi').append('<option value="">-- Pilih --</option>');
+
+        if (sessionId != penerbit_id) {
+            $('#jenis_disposisi').append('<option value="disposisi_atas">Disposisi</option>');
+        }
+
+        $('#jenis_disposisi').append('<option value="catatan">Catatan</option>');
+
+        if (sessionId == penerbit_id) {
+            $('#jenis_disposisi').append('<option value="approve">Approve</option>');
+        }
     });
 </script>
 

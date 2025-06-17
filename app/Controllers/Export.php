@@ -39,18 +39,20 @@ class Export extends BaseController
         $tempat   = $suratkeluar->tempat;
         $konten   = $suratkeluar->konten;
 
-        // URL yang akan di-encode ke dalam QR Code
-        $url = base_url('pindai/surat/' . $suratkeluar->qrcode);
+        $qrImageBase64 = null;
 
-        // Buat QR Code instance dan chaining konfigurasi dengan benar
-        $qrCode = (new QrCode($url));
+        if (!empty($suratkeluar->qrcode)) {
+            $url = base_url('pindai/surat/' . $suratkeluar->qrcode);
+            $qrCode = new QrCode($url);
+            $writer = new PngWriter();
+            $result = $writer->write($qrCode);
+            $qrImageBase64 = $result->getDataUri();
+        } else {
+            // Gambar default jika qrcode kosong (konversi ke base64)
+            $defaultImagePath = FCPATH . 'assets/images/qrcode.jpg'; // pastikan path-nya benar
+            $qrImageBase64 = 'data:image/jpeg;base64,' . base64_encode(file_get_contents($defaultImagePath));
+        }
 
-        // Tulis QR Code ke image
-        $writer = new PngWriter();
-        $result = $writer->write($qrCode);
-
-        // Convert ke data URI agar bisa ditampilkan langsung tanpa disimpan
-        $qrImageBase64 = $result->getDataUri();
 
 
         // // Penentuan QR Code
@@ -159,14 +161,25 @@ class Export extends BaseController
         $tempat   = $suratkeluar->tempat;
         $content  = $suratkeluar->konten;
 
-        $qrcodePath = 'qrcodes/' . $suratkeluar->qrcode;
-        $defaultSignature = 'assets/images/ttd.png'; // Path tanda tangan default
-
-        if (empty($suratkeluar->qrcode) || !file_exists($qrcodePath)) {
-            $qrcode = $defaultSignature; // Gunakan tanda tangan default jika QR code tidak ada
+        if (!empty($suratkeluar->qrcode)) {
+            $url = base_url('pindai/surat/' . $suratkeluar->qrcode);
+            $qrCode = new QrCode($url);
+            $writer = new PngWriter();
+            $result = $writer->write($qrCode);
+            $qrImageBase64 = $result->getDataUri();
         } else {
-            $qrcode = $qrcodePath;
+            // Gambar default jika qrcode kosong (konversi ke base64)
+            $defaultImagePath = FCPATH . 'assets/images/qrcode.jpg'; // pastikan path-nya benar
+            $qrImageBase64 = 'data:image/jpeg;base64,' . base64_encode(file_get_contents($defaultImagePath));
         }
+        // $qrcodePath = 'qrcodes/' . $suratkeluar->qrcode;
+        // $defaultSignature = 'assets/images/ttd.png'; // Path tanda tangan default
+
+        // if (empty($suratkeluar->qrcode) || !file_exists($qrcodePath)) {
+        //     $qrcode = $defaultSignature; // Gunakan tanda tangan default jika QR code tidak ada
+        // } else {
+        //     $qrcode = $qrcodePath;
+        // }
         // Inisialisasi mPDF
         $mpdf = new \Mpdf\Mpdf([
             'format' => [210, 330], //format f4
@@ -225,7 +238,7 @@ class Export extends BaseController
             'perihal'  => $perihal,
             'tempat'   => $tempat,
             'content'  => $content,
-            'qrcode'   => $qrcode,
+            'qrcode'   => $qrImageBase64,
         ]);
 
         $mpdf->WriteHTML($html);

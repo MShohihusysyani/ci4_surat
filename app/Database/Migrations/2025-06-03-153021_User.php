@@ -20,6 +20,11 @@ class User extends Migration
                 'constraint'     => 5,
                 'null'           => true,
             ],
+            'karyawan_id'        => [
+                'type'           => 'INT',
+                'constraint'     => 5,
+                'null'           => true,
+            ],
             'username'           => [
                 'type'           => 'VARCHAR',
                 'constraint'     => '50'
