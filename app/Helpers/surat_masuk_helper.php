@@ -136,7 +136,7 @@ if (!function_exists('formatAksiSuratMasuk')) {
         ) {
             $dropdown .= '
                 <li>
-                    <a class="dropdown-item" href="/surat-masuk/balas-surat/' . $row->id_surat_masuk . '">
+                    <a class="dropdown-item" href="/surat-masuk/balas/' . $row->id_surat_masuk . '">
                         <i class="icon-pencil"></i> Balas
                     </a>
                 </li>';

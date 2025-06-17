@@ -163,66 +163,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal-tambah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <form action="<?= base_url('kelola/tambah-role') ?>" method="post"> <!-- Form MULAI DI SINI -->
-            <?= csrf_field() ?>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah Role</h5>
-                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col">
-                            <div class="mb-3">
-                                <label class="form-label" for="nama_role">Nama Role</label>
-                                <input class="form-control" id="nama_role" name="nama_role" type="text" placeholder="Masukkan nama role" required>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <!-- Tombol submit HARUS DI DALAM form -->
-                    <button class="btn btn-primary" type="button" data-bs-dismiss="modal">Close</button>
-                    <button class="btn btn-secondary" type="submit">Save changes</button> <!-- TYPE = submit -->
-                </div>
-            </div>
-        </form> <!-- Form DITUTUP DI SINI -->
-    </div>
-</div>
-
-<!-- modal edit -->
-<div class="modal fade" id="modal-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <form action="<?= base_url('kelola/edit-role') ?>" method="post"> <!-- Form MULAI DI SINI -->
-            <?= csrf_field() ?>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Role</h5>
-                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="id_role" id="id_role">
-                    <div class="row">
-                        <div class="col">
-                            <div class="mb-3">
-                                <label class="form-label" for="nama_role">Nama Role</label>
-                                <input class="form-control" id="nama_role" name="nama_role" type="text" required>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <!-- Tombol submit HARUS DI DALAM form -->
-                    <button class="btn btn-primary" type="button" data-bs-dismiss="modal">Close</button>
-                    <button class="btn btn-secondary" type="submit">Save changes</button> <!-- TYPE = submit -->
-                </div>
-            </div>
-        </form> <!-- Form DITUTUP DI SINI -->
-    </div>
-</div>
-
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>

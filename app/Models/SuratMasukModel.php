@@ -203,4 +203,16 @@ class SuratMasukModel extends Model
 
         return $query->getResult();
     }
+
+    // BALAS
+    public function getBalas($id)
+    {
+        $balas = $this->db->table('surat_masuk');
+        $balas->select('surat_masuk.* , klien.nama_klien');
+        $balas->join('klien', 'klien.id_klien = surat_masuk.klien_id');
+        $balas->where('surat_masuk.id_surat_masuk', $id);
+        $query = $balas->get();
+
+        return $query->getRow();
+    }
 }

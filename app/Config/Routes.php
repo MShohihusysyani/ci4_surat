@@ -114,6 +114,12 @@ $routes->group('surat-masuk', ['filter' => 'role:sekretaris'], function ($routes
     $routes->get('', 'Sekretaris\SuratMasuk::index');
     $routes->post('ajax-surat-masuk', 'Sekretaris\SuratMasuk::ajax_surat_masuk');
     $routes->post('disposisi-kadiv', 'Sekretaris\SuratMasuk::disposisi_kadiv');
+
+    // Balas Surat
+    $routes->get('balas/(:num)', 'Sekretaris\SuratMasuk::balas/$1');
+    $routes->post('balas-surat', 'Sekretaris\SuratMasuk::simpan_balasan');
+    $routes->get('pilih-template', 'Sekretaris\SuratMasuk::pilih_template');
+    $routes->post('simpan-balasan-final', 'Sekretaris\SuratMasuk::simpan_balasan_final');
 });
 
 // Routes Kadiv
