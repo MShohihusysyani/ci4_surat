@@ -129,7 +129,7 @@ $routes->group('kadiv', ['filter' => 'role:kadiv'], function ($routes) {
     $routes->post('surat-keluar/approve', 'Kadiv\SuratKeluar::approve');
 });
 
-// Routes Surat Masuk Dirops
+// Routes Surat  Dirops
 $routes->group('dirops', ['filter' => 'role:dirops'], function ($routes) {
     $routes->get('surat-masuk', 'Dirops\SuratMasuk::index');
     $routes->post('surat-masuk/disposisi-atas', 'Dirops\SuratMasuk::disposisi_keatasan');
@@ -138,6 +138,7 @@ $routes->group('dirops', ['filter' => 'role:dirops'], function ($routes) {
     // Surat Keluar
     $routes->get('surat-keluar', 'Dirops\SuratKeluar::index');
     $routes->post('surat-keluar/disposisi', 'Dirops\SuratKeluar::disposisi');
+    $routes->post('surat-keluar/approve', 'Dirops\SuratKeluar::approve');
 });
 
 // Routes Surat Masuk Dirut

@@ -244,6 +244,10 @@
                         <button class="btn btn-secondary" type="button" onclick="submitFormAction('catatan')">Submit</button>
                     </div>
 
+                    <div id="approve" style="display: none;">
+                        <button class="btn btn-secondary" type="button" onclick="submitFormAction('approve')">Approve</button>
+                    </div>
+
                 </div>
                 <div class="modal-footer">
                     <!-- Tombol submit HARUS DI DALAM form -->
@@ -321,12 +325,15 @@
         // Sembunyikan semua form terlebih dahulu
         document.getElementById('disposisi-atas').style.display = 'none';
         document.getElementById('catatan').style.display = 'none';
+        document.getElementById('approve').style.display = 'none';
 
         // Tampilkan form yang sesuai berdasarkan pilihan
         if (selectedValue === 'disposisi_atas') {
             document.getElementById('disposisi-atas').style.display = 'block';
         } else if (selectedValue === 'catatan') {
             document.getElementById('catatan').style.display = 'block';
+        } else if (selectedValue === 'approve') {
+            document.getElementById('approve').style.display = 'block';
         }
     });
 </script>
@@ -341,6 +348,8 @@
             form.action = '/dirops/surat-keluar/disposisi';
         } else if (actionType === 'catatan') {
             form.action = '/dirops/surat-kelaur/catatan';
+        } else if (actionType === 'approve') {
+            form.action = '/dirops/surat-keluar/approve';
         }
         form.submit();
     }
