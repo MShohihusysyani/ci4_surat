@@ -116,11 +116,13 @@
                                                     <i class="icon-settings"></i> Aksi
                                                 </button>
                                                 <ul class="dropdown-menu">
-                                                    <li>
-                                                        <a class="dropdown-item" href="surat-keluar/edit/<?= $suratkeluar->id_surat_keluar ?>">
-                                                            <i class="icon-pencil-alt"></i> Edit
-                                                        </a>
-                                                    </li>
+                                                    <?php if ($suratkeluar->progres == 'proses draft' || $suratkeluar->progres == 'draft' || $suratkeluar->progres == 'revisi-1' || $suratkeluar->progres == 'revisi-2' || $suratkeluar->progres == 'revisi-3') : ?>
+                                                        <li>
+                                                            <a class="dropdown-item" href="surat-keluar/edit/<?= $suratkeluar->id_surat_keluar ?>">
+                                                                <i class="icon-pencil-alt"></i> Edit
+                                                            </a>
+                                                        </li>
+                                                    <?php endif; ?>
                                                     <?php if ($suratkeluar->jenis_surat != 'manual') : ?>
                                                         <li>
                                                             <a class="dropdown-item preview"
