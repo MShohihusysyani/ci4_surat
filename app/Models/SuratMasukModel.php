@@ -197,7 +197,7 @@ class SuratMasukModel extends Model
     {
 
         $edit = $this->db->table('surat_masuk');
-        $edit->select('id_surat_masuk, tgl_surat, no_surat, perihal, file');
+        $edit->select('surat_masuk.*');
         $edit->where('id_surat_masuk', $id);
         $query = $edit->get();
 
@@ -214,5 +214,20 @@ class SuratMasukModel extends Model
         $query = $balas->get();
 
         return $query->getRow();
+    }
+
+    // Tambah
+    public function getSuratByUser()
+    {
+        $user_id  = session()->get('id_user');
+        $builder = $this->table('surat_masuk');
+        $builder->select('surat_masuk.*, klien.nama_klien');
+        $builder->join('klien', 'klien.id_klien = surat_masuk.klien_id');
+        $builder->where('progres_surat', 'Proses');
+        $builder->where('user_id_input', $user_id);
+        $query = $builder->get();
+
+        // Kembalikan hasil query
+        return $query->getResult();
     }
 }

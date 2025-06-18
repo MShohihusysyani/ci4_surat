@@ -176,4 +176,14 @@ class Produk extends BaseController
         }
         return redirect()->to('kelola/produk');
     }
+    public function get_produk_by_perusahaan()
+    {
+        if ($this->request->isAJAX()) {
+            $perusahaan = $this->request->getPost('perusahaan');
+
+            $data = $this->produkModel->getProdukByPerusahaan($perusahaan);
+
+            return $this->response->setJSON($data); // Kirim JSON response
+        }
+    }
 }

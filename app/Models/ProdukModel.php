@@ -28,4 +28,12 @@ class ProdukModel extends Model
 
         return $query->getResult();
     }
+
+    public function getProdukByPerusahaan($perusahaan)
+    {
+        return $this->db->table('produk')
+            ->where('perusahaan', $perusahaan)
+            ->get()
+            ->getResult();
+    }
 }

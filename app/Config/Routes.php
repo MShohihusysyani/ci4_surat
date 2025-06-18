@@ -163,6 +163,16 @@ $routes->group('staf', ['filter' => 'role:staf'], function ($routes) {
     $routes->post('surat-masuk/finish', 'Staf\SuratMasuk::finish_surat');
 });
 
+$routes->group('suratmasuk', ['filter' => 'role:sekretaris, kadiv, dirops'], function ($routes) {
+    $routes->get('', 'SuratMasuk::index');
+    $routes->get('tambah', 'SuratMasuk::tambah');
+    $routes->post('simpan', 'SuratMasuk::simpan');
+    $routes->get('edit/(:segment)', 'SuratMasuk::edit/$1');
+    $routes->post('update/(:num)', 'SuratMasuk::update/$1');
+    $routes->get('hapus/(:num)', 'SuratMasuk::hapus/$1');
+});
+$routes->post('produk/getProdukByPerusahaan', 'Produk::get_produk_by_perusahaan');
+
 
 // Routes Surat Keluar Sekretaris
 $routes->group('surat-keluar', ['filter' => 'role:sekretaris'], function ($routes) {

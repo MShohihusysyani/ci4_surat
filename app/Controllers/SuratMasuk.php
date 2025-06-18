@@ -1,35 +1,44 @@
 <?php
 
-namespace App\Controllers\Klien;
+namespace App\Controllers;
 
+use App\Models\KlienModel;
+use App\Models\ProdukModel;
+use App\Models\PerusahaanModel;
 use App\Models\SuratMasukModel;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class SuratMasuk extends BaseController
 {
-    protected $suratMasukModel;
+    protected $suratMasukModel, $klienModel, $perusahaanModel, $produkModel;
+
     public function __construct()
     {
         $this->suratMasukModel = new SuratMasukModel();
+        $this->klienModel      = new KlienModel();
+        $this->perusahaanModel = new PerusahaanModel();
+        $this->produkModel     = new ProdukModel();
     }
     public function index()
     {
         $data = [
             'title' => 'Surat Masuk',
-            'suratmasuks' => $this->suratMasukModel->getSurat(),
+            'suratmasuks' => $this->suratMasukModel->getSuratByUser(),
         ];
 
-        return view('klien/surat/index', $data);
+        return view('surat_masuk/index', $data);
     }
 
     public function tambah()
     {
         $data = [
-            'title' => 'Tambah Surat',
+            'title'       => 'Tambah Surat Masuk',
+            'kliens'      => $this->klienModel->getAllKlien(),
+            'perusahaans' => $this->perusahaanModel->findAll(),
+            'produks'     => $this->produkModel->findAll(),
         ];
-
-        return view('klien/surat/tambah', $data);
+        return view('surat_masuk/tambah', $data);
     }
 
     public function simpan()
@@ -54,7 +63,7 @@ class SuratMasuk extends BaseController
             session()->setFlashdata('validation_errors', $errors);
             session()->setFlashdata('swal_error', 'Data gagal ditambahkan!');
 
-            return redirect()->to('/klien/surat/tambah')->withInput();
+            return redirect()->to('/suratmasuk/tambah')->withInput();
         }
 
         //Upload file
@@ -67,16 +76,21 @@ class SuratMasuk extends BaseController
         }
 
         try {
-            date_default_timezone_set('Asia/Jakarta');
-            $now = date('Y-m-d');
-            $klien_id = session()->get('klien_id');
+            $id_user = session()->get('id_user');
             $data = [
-                'tgl_surat'  => $this->request->getPost('tgl_surat'),
-                'no_surat'   => $this->request->getPost('no_surat'),
-                'perihal'    => $this->request->getPost('perihal'),
-                'tgl_terima' => $now,
-                'klien_id'   => $klien_id,
-                'file'       => $nama_file,
+                'tgl_surat'       => $this->request->getPost('tgl_surat'),
+                'no_surat'        => $this->request->getPost('no_surat'),
+                'perihal'         => $this->request->getPost('perihal'),
+                'tgl_terima'      => $this->request->getPost('tgl_terima'),
+                'klien_id'        => $this->request->getPost('klien_id'),
+                'surat_dari'      => $this->request->getPost('surat_dari'),
+                'tujuan_surat'    => $this->request->getPost('tujuan_surat'),
+                'perusahaan'      => $this->request->getPost('perusahaan'),
+                'produk'          => implode(', ', $this->request->getPost('produk')),
+                'prioritas_surat' => $this->request->getPost('prioritas_surat'),
+                'butuh_balas'     => $this->request->getPost('butuh_balas'),
+                'file'            => $nama_file,
+                'user_id_input'   => $id_user
             ];
 
             $this->suratMasukModel->insert($data);
@@ -84,20 +98,23 @@ class SuratMasuk extends BaseController
 
             session()->setFlashdata('pesan', 'Data berhasil ditambahkan.');
         } catch (\Throwable $th) {
+            // dd($th)->getMessage();
             session()->setFlashdata('swal_error', 'Terjadi kesalahan saat menyimpan data.');
         }
 
-        return redirect()->to('/klien/surat');
+        return redirect()->to('/suratmasuk');
     }
 
     public function edit($id)
     {
         $data = [
-            'title' => 'Edit Surat',
-            'suratmasuks' => $this->suratMasukModel->getSuratById($id),
+            'title'       => 'Edit Surat Masuk',
+            'suratmasuks'  => $this->suratMasukModel->getSuratById($id),
+            'kliens'      => $this->klienModel->getAllKlien(),
+            'perusahaans' => $this->perusahaanModel->findAll(),
+            'produks'     => $this->produkModel->findAll(),
         ];
-
-        return view('klien/surat/edit', $data);
+        return view('surat_masuk/edit', $data);
     }
 
     public function update($id)
@@ -127,10 +144,17 @@ class SuratMasuk extends BaseController
 
         // Data input dasar
         $data = [
-            'tgl_surat'  => $this->request->getPost('tgl_surat'),
-            'no_surat'   => $this->request->getPost('no_surat'),
-            'perihal'    => $this->request->getPost('perihal'),
-
+            'tgl_surat'       => $this->request->getPost('tgl_surat'),
+            'no_surat'        => $this->request->getPost('no_surat'),
+            'perihal'         => $this->request->getPost('perihal'),
+            'tgl_terima'      => $this->request->getPost('tgl_terima'),
+            'klien_id'        => $this->request->getPost('klien_id'),
+            'surat_dari'      => $this->request->getPost('surat_dari'),
+            'prioritas_surat' => $this->request->getPost('prioritas_surat'),
+            'butuh_balas'     => $this->request->getPost('butuh_balas'),
+            'tujuan_surat'    => $this->request->getPost('tujuan_surat'),
+            'perusahaan'      => $this->request->getPost('perusahaan'),
+            // 'produk'          => implode(', ', $this->request->getPost('produk')),
         ];
 
 
@@ -155,7 +179,7 @@ class SuratMasuk extends BaseController
         $this->suratMasukModel->update($id, $data);
 
         session()->setFlashdata('pesan', 'Data berhasil dirubah');
-        return redirect()->to('/klien/surat');
+        return redirect()->to('/suratmasuk');
     }
 
     public function hapus($id)
@@ -167,6 +191,6 @@ class SuratMasuk extends BaseController
         }
         $this->suratMasukModel->delete($id);
         session()->setFlashdata('pesan', 'Data berhasil dihapus.');
-        return redirect()->to('/klien/surat');
+        return redirect()->to('/suratmasuk');
     }
 }
