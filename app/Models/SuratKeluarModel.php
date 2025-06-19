@@ -88,6 +88,21 @@ class SuratKeluarModel extends Model
         return $query->getResult();
     }
 
+    public function getSuratByUser()
+    {
+        $id_user = session()->get('id_user');
+
+        $surat = $this->db->table('surat_keluar');
+        $surat->select('surat_keluar.*');
+        $surat->join('klien', 'klien.id_klien = surat_keluar.klien_id', 'left');
+        $surat->where('surat_keluar.user_id_input', $id_user);
+        $query = $surat->get();
+
+        return $query->getResult();
+    }
+
+
+
     public function getSurat($id)
     {
 
@@ -107,7 +122,6 @@ class SuratKeluarModel extends Model
             ->where('surat_keluar.qrcode', $kodeVerifikasi)
             ->first();
     }
-
 
     public function disposisi($id_surat)
     {

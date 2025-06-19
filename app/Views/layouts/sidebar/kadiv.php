@@ -58,6 +58,7 @@
               </svg><span>Tambah Surat</span></a>
             <ul class="sidebar-submenu">
               <li><a href="<?= base_url("suratmasuk") ?>">Surat Masuk</a></li>
+              <li><a href="<?= base_url("suratkeluar") ?>">Surat Keluar</a></li>
             </ul>
           </li>
 

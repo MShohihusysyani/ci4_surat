@@ -163,6 +163,7 @@ $routes->group('staf', ['filter' => 'role:staf'], function ($routes) {
     $routes->post('surat-masuk/finish', 'Staf\SuratMasuk::finish_surat');
 });
 
+// Tambah Surat Masuk
 $routes->group('suratmasuk', ['filter' => 'role:sekretaris, kadiv, dirops'], function ($routes) {
     $routes->get('', 'SuratMasuk::index');
     $routes->get('tambah', 'SuratMasuk::tambah');
@@ -172,6 +173,21 @@ $routes->group('suratmasuk', ['filter' => 'role:sekretaris, kadiv, dirops'], fun
     $routes->get('hapus/(:num)', 'SuratMasuk::hapus/$1');
 });
 $routes->post('produk/getProdukByPerusahaan', 'Produk::get_produk_by_perusahaan');
+
+// Tambah surat keluar
+$routes->group('suratkeluar', ['filter' => 'role:kadiv, dirops'], function ($routes) {
+    $routes->get('', 'SuratKeluar::index');
+    $routes->get('tambah', 'SuratKeluar::tambah');
+    $routes->post('simpan-draft', 'SuratKeluar::simpan_draft');
+    $routes->get('pilih-template', 'SuratKeluar::pilih_template');
+    $routes->get('preview-template/(:segment)', 'SuratKeluar::preview_template/$1');
+    $routes->post('backdate', 'SuratKeluar::preview_backdate');
+    $routes->post('pengumuman', 'SuratKeluar::preview_pengumuman');
+    $routes->post('simpan-draft-final', 'SuratKeluar::simpan_draft_final');
+    $routes->get('edit/(:segment)', 'SuratKeluar::edit/$1');
+    $routes->post('update/(:num)', 'SuratKeluar::update/$1');
+    $routes->get('hapus/(:num)', 'SuratKeluar::hapus/$1');
+});
 
 
 // Routes Surat Keluar Sekretaris

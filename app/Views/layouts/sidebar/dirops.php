@@ -48,6 +48,18 @@
               <li><a href="<?= base_url("dirops/surat-keluar") ?>">Surat Keluar</a></li>
             </ul>
           </li>
+          <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
+              <svg class="stroke-icon">
+                <use href="<?= base_url() ?>/assets/svg/icon-sprite.svg#stroke-email"></use>
+              </svg>
+              <svg class="fill-icon">
+                <use href="<?= base_url() ?>/assets/svg/icon-sprite.svg#fill-email"></use>
+              </svg><span>Tambah Surat</span></a>
+            <ul class="sidebar-submenu">
+              <!-- <li><a href="<?= base_url("suratmasuk") ?>">Surat Masuk</a></li> -->
+              <li><a href="<?= base_url("suratkeluar") ?>">Surat Keluar</a></li>
+            </ul>
+          </li>
 
 
         </ul>
