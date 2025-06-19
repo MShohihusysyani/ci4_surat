@@ -101,7 +101,7 @@
 <body>
     <div class="subheader">
         <p> <b>SURAT PERINTAH PERJALANAN KERJA </b></p>
-        <p>Nomor: <?= $no_surat ?></p>
+        <p>Nomor: <?= $surattugas->no_surat ?></p>
     </div>
 
     <div class="content">
@@ -112,49 +112,41 @@
                 <td style="width: 60%;">:
                     <?php
                     $no = 1;
-                    foreach ($anggota as $anggota_item) {
-                        if ($no == 1) {
-                            echo $no . ') ' . trim($anggota_item) . '<br>';
-                        } else {
-                            echo '&nbsp;&nbsp;' . $no . ') ' . trim($anggota_item) . '<br>';
-                        }
-                        $no++;
-                    }
-                    ?>
-                </td>
-            </tr>
+                    // Ubah TEXT jadi array
+                    $anggota = explode(',', $surattugas->anggota);
 
-            <!-- <tr>
-                <td>1. Nama</td>
-                <td>:
-                    <?php
-                    $no = 1;
-                    // Menampilkan anggota dengan format 1) Nama Anggota
-                    foreach ($anggota as $anggota_item) {
-                        echo $no . ') ' . trim($anggota_item) . '<br>';
-                        $no++;
+                    if (!empty($anggota)) {
+                        foreach ($anggota as $anggota_item) {
+                            if ($no == 1) {
+                                echo $no . ') ' . trim($anggota_item) . '<br>';
+                            } else {
+                                echo '&nbsp;&nbsp;' . $no . ') ' . trim($anggota_item) . '<br>';
+                            }
+                            $no++;
+                        }
                     }
                     ?>
                 </td>
-            </tr> -->
+
+            </tr>
             <tr>
                 <td>2. Unit Kerja</td>
-                <td>: <?= $unit_kerja ?></td>
+                <td>: <?= $surattugas->unit_kerja ?></td>
             </tr>
             <tr>
                 <td>3. Tujuan Perjalanan Dinas</td>
             </tr>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp; a. Nama tempat yang dituju</td>
-                <td> : <?= $tempat ?></td>
+                <td> : <?= $surattugas->tempat ?></td>
             </tr>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp; b. Alamat yang dituju</td>
-                <td> : <?= $alamat ?></td>
+                <td> : <?= $surattugas->alamat ?></td>
             </tr>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp; c. Maksud</td>
-                <td> : <?= $tugas ?></td>
+                <td> : <?= $surattugas->tugas ?></td>
             </tr>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp; d. Perjalanan dinas menggunakan</td>
@@ -170,36 +162,34 @@
             </tr>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp; a. Tanggal & Jam Berangkat</td>
-                <td> : <?= tanggal_indo($tgl_berangkat) ?> Jam <?= $jam_berangkat ?></td>
+                <td> : <?= tanggal_indo($surattugas->tgl_berangkat) ?> Jam <?= $surattugas->jam_berangkat ?> WIB</td>
             </tr>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp; b. Lama Tugas</td>
-                <td> : <?= $lama_bertugas ?> hari kerja</td>
+                <td> : <?= $surattugas->lama_bertugas ?> hari kerja</td>
             </tr>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp; c. Tanggal Bertugas</td>
-                <td> : <?= tanggal_indo($tgl_bertugas) ?></td>
+                <td> : <?= tanggal_indo($surattugas->tgl_bertugas) ?></td>
             </tr>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp; d. Jam Tugas</td>
-                <td> : <?= $jam_tugas ?></td>
+                <td> : <?= $surattugas->jam_tugas ?></td>
             </tr>
             <tr>
                 <td>&nbsp;&nbsp;&nbsp; a. Tanggal & Jam Kembali</td>
-                <td> : <?= tanggal_indo($tgl_kembali) ?> Jam <?= $jam_kembali ?></td>
+                <td> : <?= tanggal_indo($surattugas->tgl_kembali) ?> Jam <?= $surattugas->jam_kembali ?> WIB</td>
             </tr>
 
             <tr>
                 <td>5. Laporan Pertanggung Jawaban</td>
-                <td>: <?= $lpj ?></td>
+                <td>: <?= $surattugas->lpj ?></td>
             </tr>
             <tr>
                 <td>6. Keterangan</td>
-                <!-- <td>: </td> -->
-                <!-- <td>: <?= $keterangan ?></td> -->
             </tr>
         </table>
-        <p><?= $keterangan ?></p>
+        <p><?= $keterangan = nl2br($surattugas->keterangan) ?></p>
     </div>
     <!-- Tambahan tabel untuk yang diberi tugas -->
     <table border="1" style="width: 55%; border-collapse: collapse; margin-top: 20px;">
@@ -229,7 +219,7 @@
         </tr>
         <tr>
             <td style="width: 5%; text-align: center; padding: 8px; border-right: 1px solid #000;">1</td> <!-- Add vertical border -->
-            <td style="padding: 8px;"><?= $laporan ?></td>
+            <td style="padding: 8px;"><?= $surattugas->laporan ?></td>
             <td></td>
         </tr>
     </table>
@@ -243,20 +233,18 @@
         </div>
 
         <!-- Tanda tangan kanan -->
-        <div class="right-signature" style="margin-top: -395px; margin-left: auto; text-align: right; width: 50%;">
-            <p>Purwokerto, <?= tanggal_indo($tgl_bertugas) ?></p>
+        <div class="right-signature" style="margin-top: -395px; margin-left: auto; width: 190px; text-align: right;">
+            <p>Purwokerto, <?= tanggal_indo($surattugas->tgl_bertugas) ?></p>
             <p>PT. Mitranet Software Online</p>
-            <?php if (!empty($qrcode)) : ?>
-                <!-- Tampilkan QR code jika dokumen sudah di-approve -->
-                <p><img src="<?= $qrcode ?>" style="height: 100px;" alt="QR Code" loading="lazy">
-                </p>
-            <?php else : ?>
-                <!-- Tampilkan tanda tangan gambar jika belum di-approve -->
-            <?php endif; ?>
-            <!-- <img src="assets/images/ttd.png" height="80px" alt="Tanda Tangan"> -->
-            <p>(Sobirin, SE)</p>
-            <p>Direktur Utama</p>
+            <p><img src="assets/images/qrcodeno.jpg" style="height: 100px;" alt="QR Code" loading="lazy"></p>
+
+            <!-- Buat wrapper inline-block agar bisa rata tengah terhadap container -->
+            <div style="display: inline-block; text-align: center;">
+                <p>(Sobirin, SE)</p>
+                <p>Direktur Utama</p>
+            </div>
         </div>
+
     </div>
 </body>
 

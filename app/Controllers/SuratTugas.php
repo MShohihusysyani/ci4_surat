@@ -1,0 +1,251 @@
+<?php
+
+namespace App\Controllers;
+
+use App\Models\KaryawanModel;
+use App\Models\SuratTugasModel;
+use App\Controllers\BaseController;
+use CodeIgniter\HTTP\ResponseInterface;
+
+class SuratTugas extends BaseController
+{
+    protected $suratTugasModel, $karyawanModel;
+    public function __construct()
+    {
+        $this->suratTugasModel = new SuratTugasModel();
+        $this->karyawanModel   = new KaryawanModel();
+    }
+    public function index()
+    {
+        $data = [
+            'title' => 'Surat Tugas',
+            'surat_tugas' => $this->suratTugasModel->findAll()
+        ];
+        return view('kadiv/surat_tugas/index', $data);
+    }
+
+    public function generate_nomor_surat()
+    {
+        // Panggil model untuk generate nomor surat
+        $nomor_surat = $this->suratTugasModel->generateNomorSurat();
+
+        // Kembalikan sebagai response JSON
+        return $this->response->setJSON(['no_surat' => $nomor_surat]);
+    }
+
+    public function tambah()
+    {
+
+        $data = [
+            'title' => 'Tambah Surat Tugas',
+            'karyawans' => $this->karyawanModel->findAll()
+        ];
+        return view('kadiv/surat_tugas/tambah', $data);
+    }
+
+    public function simpan_draft()
+    {
+        // $user_id_input = session()->get('id_user');
+        date_default_timezone_set('Asia/Jakarta');
+        $created_at = date('Y-m-d H:i:s');
+        // Debug data anggota
+        $anggota = $this->request->getPost('anggota');
+        // var_dump($anggota); // Untuk melihat data yang diterima
+
+        if (empty($anggota)) {
+            session()->setFlashdata('alert', 'Anggota wajib diisi');
+            return redirect()->back()->withInput();
+        }
+        $data = [
+            'no_surat'      => $this->request->getPost('no_surat'),
+            'unit_kerja'    => $this->request->getPost('unit_kerja'),
+            'tempat'        => $this->request->getPost('tempat'),
+            'alamat'        => $this->request->getPost('alamat'),
+            'tugas'         => $this->request->getPost('tugas'),
+            'tgl_berangkat' => $this->request->getPost('tgl_berangkat'),
+            'tgl_kembali'   => $this->request->getPost('tgl_kembali'),
+            'lama_bertugas' => $this->request->getPost('lama_bertugas'),
+            'jam_tugas'     => $this->request->getPost('jam_tugas'),
+            'tgl_bertugas'  => $this->request->getPost('tgl_bertugas'),
+            'lpj'           => $this->request->getPost('lpj'),
+            'laporan'       => $this->request->getPost('laporan'),
+            'keterangan'    => $this->request->getPost('keterangan'),
+            'anggota'       => implode(',', $anggota),  // Menyimpan anggota sebagai string yang dipisahkan koma
+            'created_at'    => $created_at,
+            'progres'       => 'proses draft',
+            'jam_berangkat' => $this->request->getPost('jam_berangkat'),
+            'jam_kembali'   => $this->request->getPost('jam_kembali')
+        ];
+        // dd($data);
+
+        // Simpan ke database
+        $this->suratTugasModel->insert($data);
+        $draft_id = $this->suratTugasModel->insertID(); // Ambil ID surat yang baru
+
+        // Simpan ID draft di session agar bisa digunakan di tahap selanjutnya
+        session()->set('draft_id', $draft_id);
+
+        return redirect()->to('kadiv/surat-tugas/pilih-template');
+    }
+
+    public function pilih_template()
+    {
+        $id_surat_tugas = session()->get('draft_id');
+        $data = [
+            'title' => 'Pilih Template',
+            'id_surat_tugas' => $id_surat_tugas,
+        ];
+        return view('kadiv/surat_tugas/pilih_template', $data);
+    }
+
+    public function preview_template($template)
+    {
+        $id_surat_tugas = session()->get('draft_id');
+        // Daftar template yang tersedia
+        $allowedTemplates = ['tugas'];
+
+        // Validasi apakah template ada dalam daftar
+        if (!in_array($template, $allowedTemplates)) {
+            return redirect()->to('pilih-template-baru')->with('error', 'Template tidak valid!');
+        }
+
+        $data = [
+            'title' => 'Preview Template',
+            'surattugas' => $this->suratTugasModel->find($id_surat_tugas),
+            'template' => $template,
+        ];
+
+        // Load view sesuai template yang dipilih
+        return view("kadiv/surat_tugas/preview_$template", $data);
+    }
+
+    public function preview()
+    {
+        $surat = session()->get('draft_id');
+
+        // Data dari database
+        $anggota = $this->suratTugasModel->anggota;
+
+        // Memecah anggota menjadi array berdasarkan koma
+        $anggota = [];  // Inisialisasi sebagai array kosong
+        if ($anggota) {
+            $anggota = explode(',', $anggota); // Memisahkan anggota berdasarkan koma
+        }
+
+        // Inisialisasi mPDF dengan pengaturan margin untuk header dan footer
+        $mpdf = new \Mpdf\Mpdf([
+            'format' => [210, 330], //format F4
+            'margin_top' => 35,    // Margin atas untuk memberi ruang pada header 
+        ]);
+
+        // Mengatur header
+        $mpdf->SetHTMLHeader("
+    <table width='100%' style='font-family: Arial, sans-serif;'>
+        <tr>
+            <th rowspan='3'>
+                <img src='assets/images/mso.png' style='height: 60px;' alt='Logo Perusahaan' />
+            </th>
+            <td>
+                <h2>PT. Mitranet Software Online</h2>
+                <p>IT Consultant & Software Development</p>
+            </td>
+        </tr>
+    </table>
+    <hr>
+    ");
+
+
+        // Mengatur footer
+        $mpdf->SetHTMLFooter(" 
+        <hr> 
+        <table width='100%' style='font-size: 10px;'> 
+            <tr> 
+                <td style='text-align: left;'> 
+                    Jalan Gerilya Tengah, Komplek Perum Griya Karang Indah Blok B4-5 Purwokerto, Jawa Tengah 53142 
+                    <br>Telepon: (0281) 623 789 | Fax: (0281) 657 789 
+                </td> 
+                <td style='text-align: right;'></td> 
+            </tr> 
+        </table> 
+    ");
+
+
+        // Konten utama dokumen
+        $html = view('cetak/preview_surat_tugas', [
+            'surattugas' => $this->suratTugasModel->find($surat),
+            'anggota' => $anggota
+        ]);
+
+        // Menulis konten ke dalam PDF
+        $mpdf->WriteHTML($html);
+
+        // Mengatur respons untuk menampilkan PDF di browser
+        return $this->response->setHeader('Content-Type', 'application/pdf')
+            ->setBody($mpdf->Output('', 'S'));
+    }
+
+    public function simpan_draft_final()
+    {
+        if ($this->request->isAJAX()) {
+            $id   = $this->request->getPost('id_surat_tugas');
+
+            $data = [
+                'no_surat'      => $this->request->getPost('no_surat'),
+                'unit_kerja'    => $this->request->getPost('unit_kerja'),
+                'tempat'        => $this->request->getPost('tempat'),
+                'alamat'        => $this->request->getPost('alamat'),
+                'tugas'         => $this->request->getPost('tugas'),
+                'tgl_berangkat' => $this->request->getPost('tgl_berangkat'),
+                'jam_berangkat' => $this->request->getPost('jam_berangkat'),
+                'jam_kembali'   => $this->request->getPost('jam_kembali'),
+                'tgl_kembali'   => $this->request->getPost('tgl_kembali'),
+                'lama_bertugas' => $this->request->getPost('lama_bertugas'),
+                'jam_tugas'     => $this->request->getPost('jam_tugas'),
+                'tgl_bertugas'  => $this->request->getPost('tgl_bertugas'),
+                'lpj'           => $this->request->getPost('lpj'),
+                'laporan'       => $this->request->getPost('laporan'),
+                'keterangan'    => $this->request->getPost('keterangan'),
+                'progres'       => 'draft',
+                'status'        => 'belum dibaca',
+            ];
+
+
+            // Proses Update
+            $update = $this->suratTugasModel->update($id, $data);
+
+            // // Simpan riwayat surat keluar
+            // $suratTugasId = $this->request->getPost('id');
+            // $id_user = session()->get('id_user');
+            // $nama_user = session()->get('nama_user');
+            // $riwayatData = [
+            //     'surat_tugas_id' => $suratTugasId,
+            //     'status' => 'Created',
+            //     'keterangan' => 'Sekretaris membuat surat tugas',
+            //     'created_at' => $created_at,
+            //     'user_id' => $id_user,
+            // ];
+
+            // $this->riwayatSuratTugasModel->save($riwayatData);
+
+            // //LOG USER
+            // $user_id = $id_user; // Ambil ID pengguna dari session
+            // $details = $nama_user . ' membuat surat tugas dengan penugasan : ' . $this->request->getPost('tugas');
+            // $action = 'create';
+
+            // // Simpan log aktivitas
+            // log_user($user_id, $action, $details);
+
+            if ($update) {
+                return $this->response->setJSON([
+                    'status' => 'success',
+                    'message' => 'Data berhasil disimpan!'
+                ]);
+            } else {
+                return $this->response->setJSON([
+                    'status' => 'error',
+                    'message' => 'Gagal menyimpan data!'
+                ]);
+            }
+        }
+    }
+}

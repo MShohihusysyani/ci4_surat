@@ -2,21 +2,23 @@
 
 namespace App\Controllers;
 
+use Endroid\QrCode\QrCode;
 use App\Models\KaryawanModel;
+use App\Models\SuratTugasModel;
 use App\Models\SuratKeluarModel;
 use App\Controllers\BaseController;
-use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 use CodeIgniter\HTTP\ResponseInterface;
 
 
 class Export extends BaseController
 {
-    protected $suratKeluarModel, $karyawanModel;
+    protected $suratKeluarModel, $suratTugasModel, $karyawanModel;
     public function __construct()
     {
         $this->suratKeluarModel = new SuratKeluarModel();
-        $this->karyawanModel       = new KaryawanModel();
+        $this->suratTugasModel  = new SuratTugasModel();
+        $this->karyawanModel    = new KaryawanModel();
     }
 
     public function export_backdate($id)
@@ -255,5 +257,129 @@ class Export extends BaseController
         // return $this->response->setHeader('Content-Type', 'application/pdf')
         //     ->setHeader('Content-Disposition', 'attachment; filename="Surat_Keluar_' . $nomor . '.pdf"')
         //     ->setBody($mpdf->Output('', 'S'));
+    }
+
+    public function export_surat_tugas($id)
+    {
+        // Mendapatkan data dari database berdasarkan ID
+        $surattugas = $this->suratTugasModel->find($id);
+        if (!$surattugas) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Data surat keluar tidak ditemukan");
+        }
+
+        // Data yang diambil dari database
+        $no_surat          = $surattugas->no_surat;
+        $unit_kerja        = $surattugas->unit_kerja;
+        $tempat_dituju     = $surattugas->tempat;
+        $alamat            = $surattugas->alamat;
+        $tugas             = $surattugas->tugas;
+        $tanggal_berangkat = $surattugas->tgl_berangkat;
+        $tanggal_kembali   = $surattugas->tgl_kembali;
+        $lama_bertugas     = $surattugas->lama_bertugas;
+        $jam_tugas         = $surattugas->jam_tugas;
+        $tanggal_bertugas  = $surattugas->tgl_bertugas;
+        $lpj               = $surattugas->lpj;
+        $keterangan        = $surattugas->keterangan;
+        $jam_berangkat     = $surattugas->jam_berangkat;
+        $jam_kembali       = $surattugas->jam_kembali;
+        $laporan           = $surattugas->laporan;
+        // Ganti baris baru (\n) dengan tag HTML <br>
+        $keterangan = nl2br($keterangan);
+
+        // Data dari database
+        $anggota = $surattugas->anggota;
+
+        // Memecah anggota menjadi array berdasarkan koma
+        $anggota_array = [];  // Inisialisasi sebagai array kosong
+        if ($anggota) {
+            $anggota_array = explode(',', $anggota); // Memisahkan anggota berdasarkan koma
+        }
+
+        $qrcode_path = 'qrcodes/surat_tugas/' . $surattugas->qrcode;
+        $default_signature = 'assets/images/qrcodeno.jpg'; // Path tanda tangan default
+
+        if (empty($surattugas->qrcode) || !file_exists($qrcode_path)) {
+            $qrcode = $default_signature; // Gunakan tanda tangan default jika QR code tidak ada
+        } else {
+            $qrcode = $qrcode_path;
+        }
+
+        // // Memecah anggota menjadi array berdasarkan koma
+        // $anggotaList = '';
+        // if ($anggota) {
+        //     $anggotaArray = explode(',', $anggota); // Memisahkan anggota berdasarkan koma
+        //     foreach ($anggotaArray as $index => $anggota_item) {
+        //         $anggotaList .= "<br>" . ($index + 1) . ") " . trim($anggota_item); // Menambahkan nomor urut
+        //     }
+        // }
+
+
+
+        // Inisialisasi mPDF
+        $mpdf = new \Mpdf\Mpdf([
+            'format' => 'Legal',
+            // 'format' => [210, 330], //format F4
+            'margin_top' => 31,
+        ]);
+
+        // Mengatur header
+        $mpdf->SetHTMLHeader("
+        <table width='100%' style='font-family: Arial, sans-serif;'>
+            <tr>
+                <th rowspan='3'>
+                    <img src='assets/images/mso.png' style='height: 60px;' alt='Logo Perusahaan' />
+                </th>
+                <td>
+                    <h2>PT. Mitranet Software Online</h2>
+                    <p>IT Consultant & Software Development</p>
+                </td>
+            </tr>
+        </table>
+        <hr>
+    ");
+
+        // Mengatur footer
+        $mpdf->SetHTMLFooter("
+        <hr>
+        <table width='100%' style='font-size: 10px;'>
+            <tr>
+                <td style='text-align: left;'>
+                    Jalan Gerilya Tengah, Komplek Perum Griya Karang Indah Blok B4-5 Purwokerto, Jawa Tengah 53142
+                    <br>Telepon: (0281) 623 789 | Fax: (0281) 657 789
+                </td>
+                <td style='text-align: right;'></td>
+            </tr>
+        </table>
+    ");
+
+        // Konten utama dokumen
+        $html = view('cetak/print_surat_tugas', [
+            'no_surat'      => $no_surat,
+            'unit_kerja'    => $unit_kerja,
+            'tempat'        => $tempat_dituju,
+            'alamat'        => $alamat,
+            'tugas'         => $tugas,
+            'tgl_berangkat' => $tanggal_berangkat,
+            'tgl_kembali'   => $tanggal_kembali,
+            'lama_bertugas' => $lama_bertugas,
+            'jam_tugas'     => $jam_tugas,
+            'tgl_bertugas'  => $tanggal_bertugas,
+            'lpj'           => $lpj,
+            'keterangan'    => $keterangan,
+            'anggota'       => $anggota_array,
+            'qrcode'        => $qrcode,
+            'jam_berangkat' => $jam_berangkat,
+            'jam_kembali'   => $jam_kembali,
+            'laporan'       => $laporan
+        ]);
+
+        // Menulis konten ke dalam PDF
+        $mpdf->WriteHTML($html);
+
+        // Menyimpan PDF ke dalam string base64
+        $pdfContent = base64_encode($mpdf->Output('', 'S'));
+
+        // Mengembalikan respons JSON untuk AJAX
+        return $this->response->setJSON(['pdf' => $pdfContent, 'filename' => "Surat_Tugas_{$no_surat}.pdf"]);
     }
 }

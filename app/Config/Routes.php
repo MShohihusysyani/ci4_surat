@@ -133,6 +133,18 @@ $routes->group('kadiv', ['filter' => 'role:kadiv'], function ($routes) {
     $routes->get('surat-keluar', 'Kadiv\SuratKeluar::index');
     $routes->post('surat-keluar/disposisi', 'Kadiv\SuratKeluar::disposisi');
     $routes->post('surat-keluar/approve', 'Kadiv\SuratKeluar::approve');
+
+    $routes->get('surat-tugas', 'SuratTugas::index');
+    $routes->get('surat-tugas/generate-nomor-surat', 'SuratTugas::generate_nomor_surat');
+    $routes->get('surat-tugas/tambah', 'SuratTugas::tambah', ['filter' => 'divisi:umum']);
+    $routes->post('surat-tugas/simpan-draft', 'SuratTugas::simpan_draft');
+    $routes->get('surat-tugas/pilih-template', 'SuratTugas::pilih_template');
+    $routes->get('surat-tugas/preview-template/(:segment)', 'SuratTugas::preview_template/$1');
+    $routes->post('surat-tugas/preview', 'SuratTugas::preview');
+    $routes->post('surat-tugas/simpan-draft-final', 'SuratTugas::simpan_draft_final');
+    $routes->get('edit/(:segment)', 'SuratTugas::edit/$1');
+    $routes->post('update/(:num)', 'SuratTugas::update/$1');
+    $routes->get('hapus/(:num)', 'SuratTugas::hapus/$1');
 });
 
 // Routes Surat  Dirops
@@ -189,6 +201,20 @@ $routes->group('suratkeluar', ['filter' => 'role:kadiv, dirops'], function ($rou
     $routes->get('hapus/(:num)', 'SuratKeluar::hapus/$1');
 });
 
+// Tambah Surat Tugas
+$routes->group('surattugas', ['filter' => 'role:kadiv'], function ($routes) {
+    $routes->get('', 'SuratTugas::index');
+    $routes->get('tambah', 'SuratTugas::tambah');
+    $routes->post('simpan-draft', 'SuratTugas::simpan_draft');
+    $routes->get('pilih-template', 'SuratTugas::pilih_template');
+    $routes->get('preview-template/(:segment)', 'SuratTugas::preview_template/$1');
+    $routes->post('tugas', 'SuratTugas::preview_surat_tugas');
+    $routes->post('simpan-draft-final', 'SuratTugas::simpan_draft_final');
+    $routes->get('edit/(:segment)', 'SuratTugas::edit/$1');
+    $routes->post('update/(:num)', 'SuratTugas::update/$1');
+    $routes->get('hapus/(:num)', 'SuratTugas::hapus/$1');
+});
+
 
 // Routes Surat Keluar Sekretaris
 $routes->group('surat-keluar', ['filter' => 'role:sekretaris'], function ($routes) {
@@ -213,7 +239,7 @@ $routes->group('preview-template', function ($routes) {
 
 // Routes untuk export
 $routes->get('export/print-suratkeluar/(:num)', 'Export::export_backdate/$1');
-$routes->get('export/print-surattugas/(:num)', 'Export::exportSuratTugas/$1');
+$routes->get('export/print-surat-tugas/(:num)', 'Export::export_surat_tugas/$1');
 $routes->get('export/print-pengumuman/(:num)', 'Export::export_pengumuman/$1');
 
 //Verifikasi surat keluar

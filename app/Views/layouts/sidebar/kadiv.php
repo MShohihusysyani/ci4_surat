@@ -46,6 +46,7 @@
             <ul class="sidebar-submenu">
               <li><a href="<?= base_url("kadiv/surat-masuk") ?>">Surat Masuk</a></li>
               <li><a href="<?= base_url("kadiv/surat-keluar") ?>">Surat Keluar</a></li>
+              <li><a href="<?= base_url("kadiv/surat-tugas") ?>">Surat Tugas</a></li>
             </ul>
           </li>
 
