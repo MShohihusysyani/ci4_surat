@@ -248,7 +248,10 @@
             <p>PT. Mitranet Software Online</p>
 
             <?php if (!empty($qrcode)) : ?>
-                <p><img src="<?= $qrcode ?>" style="height: 100px;" alt="QR Code" loading="lazy"></p>
+                <!-- Bungkus QR code dalam div untuk membuatnya rata tengah -->
+                <div style="text-align: center;">
+                    <img src="<?= $qrcode ?>" style="height: 100px;" alt="QR Code" loading="lazy">
+                </div>
             <?php endif; ?>
 
             <!-- Buat wrapper inline-block agar bisa rata tengah terhadap container -->

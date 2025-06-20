@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class SuratKeluarApproval extends Migration
+class SuratTugasApproval extends Migration
 {
     public function up()
     {
@@ -15,26 +15,27 @@ class SuratKeluarApproval extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true
             ],
-            'surat_keluar_id' => [
-                'type'     => 'INT',
-                'unsigned' => true
+            'surat_tugas_id' => [
+                'type'       => 'INT',
+                'unsigned'   => true
             ],
             'approved_at' => [
-                'type' => 'DATETIME',
-                'null' => false
+                'type'    => 'DATETIME',
+                'null'    => false
             ],
-            'user_id' => [
+            'user_id'      => [
                 'type'     => 'INT',
                 'unsigned' => true
             ]
+
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('surat_keluar_id', 'surat_keluar', 'id_surat_keluar', 'CASCADE', 'CASCADE');
-        $this->forge->createTable('surat_keluar_approval');
+        $this->forge->addForeignKey('surat_tugas_id', 'surat_tugas', 'id_surat_tugas', 'CASCADE', 'CASCADE');
+        $this->forge->createTable('surat_tugas_approval');
     }
 
     public function down()
     {
-        $this->forge->dropTable('surat_keluar_approval');
+        $this->forge->dropTable('surat_tugas_approval');
     }
 }

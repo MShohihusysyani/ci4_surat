@@ -172,6 +172,10 @@ $routes->group('dirut', ['filter' => 'role:dirut'], function ($routes) {
     // Surat Keluar
     $routes->get('surat-keluar', 'Dirut\SuratKeluar::index');
     $routes->post('surat-keluar/approve', 'Dirut\SuratKeluar::approve');
+
+    // Surat Tugas
+    $routes->get('surat-tugas', 'Dirut\SuratTugas::index');
+    $routes->post('surat-tugas/approve', 'Dirut\SuratTugas::approve');
 });
 
 // Routes Surat Masuk Staf
@@ -248,8 +252,9 @@ $routes->get('export/print-surat-tugas/(:num)', 'Export::export_surat_tugas/$1')
 $routes->get('export/print-pengumuman/(:num)', 'Export::export_pengumuman/$1');
 
 //Verifikasi surat keluar
-$routes->group('pindai', function ($routes) {
+$routes->group('verifikasi', function ($routes) {
     $routes->get('surat/(:segment)', 'Pindai::detail/$1');
+    $routes->get('surat-tugas/(:segment)', 'Pindai::detail_surat_tugas/$1');
 });
 
 // custom 404

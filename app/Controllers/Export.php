@@ -44,7 +44,7 @@ class Export extends BaseController
         $qrImageBase64 = null;
 
         if (!empty($suratkeluar->qrcode)) {
-            $url = base_url('pindai/surat/' . $suratkeluar->qrcode);
+            $url = base_url('verifikasi/surat/' . $suratkeluar->qrcode);
             $qrCode = new QrCode($url);
             $writer = new PngWriter();
             $result = $writer->write($qrCode);
@@ -164,7 +164,7 @@ class Export extends BaseController
         $content  = $suratkeluar->konten;
 
         if (!empty($suratkeluar->qrcode)) {
-            $url = base_url('pindai/surat/' . $suratkeluar->qrcode);
+            $url = base_url('verifikasi/surat/' . $suratkeluar->qrcode);
             $qrCode = new QrCode($url);
             $writer = new PngWriter();
             $result = $writer->write($qrCode);
@@ -295,14 +295,27 @@ class Export extends BaseController
             $anggota_array = explode(',', $anggota); // Memisahkan anggota berdasarkan koma
         }
 
-        $qrcode_path = 'qrcodes/surat_tugas/' . $surattugas->qrcode;
-        $default_signature = 'assets/images/qrcodeno.jpg'; // Path tanda tangan default
+        $qrImageBase64 = null;
 
-        if (empty($surattugas->qrcode) || !file_exists($qrcode_path)) {
-            $qrcode = $default_signature; // Gunakan tanda tangan default jika QR code tidak ada
+        if (!empty($surattugas->qrcode)) {
+            $url = base_url('verifikasi/surat-tugas/' . $surattugas->qrcode);
+            $qrCode = new QrCode($url);
+            $writer = new PngWriter();
+            $result = $writer->write($qrCode);
+            $qrImageBase64 = $result->getDataUri();
         } else {
-            $qrcode = $qrcode_path;
+            // Gambar default jika qrcode kosong (konversi ke base64)
+            $defaultImagePath = FCPATH . 'assets/images/qrcode.jpg'; // pastikan path-nya benar
+            $qrImageBase64 = 'data:image/jpeg;base64,' . base64_encode(file_get_contents($defaultImagePath));
         }
+        // $qrcode_path = 'qrcodes/surat_tugas/' . $surattugas->qrcode;
+        // $default_signature = 'assets/images/qrcodeno.jpg'; // Path tanda tangan default
+
+        // if (empty($surattugas->qrcode) || !file_exists($qrcode_path)) {
+        //     $qrcode = $default_signature; // Gunakan tanda tangan default jika QR code tidak ada
+        // } else {
+        //     $qrcode = $qrcode_path;
+        // }
 
         // // Memecah anggota menjadi array berdasarkan koma
         // $anggotaList = '';
@@ -367,7 +380,7 @@ class Export extends BaseController
             'lpj'           => $lpj,
             'keterangan'    => $keterangan,
             'anggota'       => $anggota_array,
-            'qrcode'        => $qrcode,
+            'qrcode'        => $qrImageBase64,
             'jam_berangkat' => $jam_berangkat,
             'jam_kembali'   => $jam_kembali,
             'laporan'       => $laporan
