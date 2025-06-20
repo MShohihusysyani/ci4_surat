@@ -118,13 +118,27 @@
                                                     <i class="icon-settings"></i> Aksi
                                                 </button>
                                                 <ul class="dropdown-menu">
-                                                    <?php if ($surattugas->progres == 'proses draft' || $surattugas->progres == 'draft' || $surattugas->progres == 'revisi-1' || $surattugas->progres == 'revisi-2' || $surattugas->progres == 'revisi-3') : ?>
+                                                    <?php
+                                                    $user_role   = session()->get('role');
+                                                    $user_divisi = strtolower(session()->get('divisi')); // biar konsisten huruf kecil
+                                                    $progres     = $surattugas->progres;
+
+                                                    // Daftar progres yang diizinkan untuk diedit
+                                                    $progres_boleh = ['draft', 'proses draft', 'revisi-1', 'revisi-2', 'revisi-3'];
+
+                                                    // Cek semua syarat sekaligus
+                                                    if (
+                                                        $user_role === 'kadiv' &&
+                                                        $user_divisi === 'umum' &&
+                                                        in_array($progres, $progres_boleh)
+                                                    ):
+                                                    ?>
                                                         <li>
-                                                            <a class="dropdown-item" href="surattugas/edit/<?= $surattugas->id_surat_tugas ?>">
+                                                            <a class="dropdown-item" href="surat-tugas/edit/<?= $surattugas->id_surat_tugas ?>">
                                                                 <i class="icon-pencil-alt"></i> Edit
                                                             </a>
                                                         </li>
-                                                        <li class="dropdown-item"><a href="surattugas/hapus/<?= $surattugas->id_surat_tugas ?>" class="tombol-hapus"><i class="icon-trash"></i> Hapus</a></li>
+                                                        <li class="dropdown-item"><a href="surat-tugas/hapus/<?= $surattugas->id_surat_tugas ?>" class="tombol-hapus"><i class="icon-trash"></i> Hapus</a></li>
                                                     <?php endif; ?>
                                                     <li>
                                                         <a class="dropdown-item preview"

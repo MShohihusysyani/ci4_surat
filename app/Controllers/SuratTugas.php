@@ -248,4 +248,62 @@ class SuratTugas extends BaseController
             }
         }
     }
+
+    public function edit($id)
+    {
+        $surattugas = $this->suratTugasModel->getSurat($id);
+        // Anggota dipisahkan koma → jadi array
+
+        $anggota = $this->suratTugasModel->anggota;
+        $anggota = [];  // Inisialisasi sebagai array kosong
+        if ($anggota) {
+            $anggota = explode(',', $anggota); // Memisahkan anggota berdasarkan koma
+        }
+        $anggota_array = $anggota;
+
+
+
+        $data = [
+            'title'      => 'Edit Surat Tugas',
+            'surattugas' => $surattugas,
+            'karyawans'  => $this->karyawanModel->findAll(),
+            'anggota_terpilih'    => $anggota_array
+        ];
+
+        return view('kadiv/surat_tugas/edit', $data);
+    }
+
+    public function update($id)
+    {
+
+        // $update = $this->suratTugasModel->find($id);
+        $data = [
+            'no_surat'      => $this->request->getPost('no_surat'),
+            'anggota'       => implode(',', $this->request->getPost('anggota')),
+            'unit_kerja'    => $this->request->getPost('unit_kerja'),
+            'tempat'        => $this->request->getPost('tempat'),
+            'alamat'        => $this->request->getPost('alamat'),
+            'tugas'         => $this->request->getPost('tugas'),
+            'tgl_berangkat' => $this->request->getPost('tgl_berangkat'),
+            'jam_berangkat' => $this->request->getPost('jam_berangkat'),
+            'jam_kembali'   => $this->request->getPost('jam_kembali'),
+            'tgl_kembali'   => $this->request->getPost('tgl_kembali'),
+            'lama_bertugas' => $this->request->getPost('lama_bertugas'),
+            'jam_tugas'     => $this->request->getPost('jam_tugas'),
+            'tgl_bertugas'  => $this->request->getPost('tgl_bertugas'),
+            'lpj'           => $this->request->getPost('lpj'),
+            'laporan'       => $this->request->getPost('laporan'),
+            'keterangan'    => $this->request->getPost('keterangan'),
+
+        ];
+
+        $this->suratTugasModel->update($id, $data);
+        return redirect()->to(base_url('kadiv/surat-tugas'))->with('pesan', 'Data berhasil diperbarui!');
+    }
+
+    public function hapus($id)
+    {
+        $this->suratTugasModel->delete($id);
+        return redirect()->to(base_url('kadiv/surat-tugas'))->with('pesan', 'Data berhasil dihapus!');
+    }
 }

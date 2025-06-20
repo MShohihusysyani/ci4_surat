@@ -25,6 +25,30 @@ class DivisiFilter implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
+        // $session = session();
+        // $user_role = $session->get('role');      // pastikan sesuai dengan key session login kamu
+        // $user_divisi = $session->get('divisi');
+
+        // // Kalau tidak ada argumen, anggap semua bisa lewat
+        // if (empty($arguments)) {
+        //     return;
+        // }
+
+        // // Cek apakah divisi dan role sesuai
+        // foreach ($arguments as $arg) {
+        //     if ($arg === 'umum') {
+        //         if ($user_divisi === 'umum' && $user_role === 'kadiv') {
+        //             return; // lolos filter
+        //         }
+        //     }
+
+        //     // Tambahkan kondisi lain jika perlu, misalnya: `if ($arg === 'keuangan')`
+        // }
+
+        // // Kalau tidak lolos kondisi di atas, tampilkan error
+        // echo view('errors/no_access');
+        // exit;
+        // atau: throw new \CodeIgniter\Exceptions\PageNotFoundException();
         $session = session();
         $user_divisi = $session->get('divisi'); // Atau tergantung struktur session login-mu
 

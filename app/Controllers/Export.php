@@ -317,8 +317,8 @@ class Export extends BaseController
 
         // Inisialisasi mPDF
         $mpdf = new \Mpdf\Mpdf([
-            'format' => 'Legal',
-            // 'format' => [210, 330], //format F4
+            // 'format' => 'Legal',
+            'format' => [210, 330], //format F4
             'margin_top' => 31,
         ]);
 

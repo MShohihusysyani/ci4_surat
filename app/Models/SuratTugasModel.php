@@ -54,7 +54,7 @@ class SuratTugasModel extends Model
 
         if ($lastSurat) {
             // Ambil nomor urut dari surat terakhir dan tambahkan 1
-            $lastNomor = (int) substr($lastSurat['no_surat'], 0, 3);
+            $lastNomor = (int) substr($lastSurat->no_surat, 0, 3);
             $newNomor = $lastNomor + 1;
         } else {
             // Reset nomor jika tidak ada surat di tahun ini
@@ -82,5 +82,16 @@ class SuratTugasModel extends Model
         $formattedNomorSurat = str_pad($newNomor, 3, '0', STR_PAD_LEFT) . "/MSO-SPPK/{$bulan}/{$currentYear}";
 
         return $formattedNomorSurat;
+    }
+
+    public function getSurat($id)
+    {
+
+        $edit = $this->db->table('surat_tugas');
+        $edit->select('surat_tugas.*');
+        $edit->where('id_surat_tugas', $id);
+        $query = $edit->get();
+
+        return $query->getResult();
     }
 }

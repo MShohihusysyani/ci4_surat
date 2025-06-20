@@ -243,20 +243,21 @@
         </div>
 
         <!-- Tanda tangan kanan -->
-        <div class="right-signature" style="margin-top: -395px; margin-left: auto; text-align: right; width: 50%;">
+        <div class="right-signature" style="margin-top: -395px; margin-left: auto; width: 190px; text-align: right;">
             <p>Purwokerto, <?= tanggal_indo($tgl_bertugas) ?></p>
             <p>PT. Mitranet Software Online</p>
+
             <?php if (!empty($qrcode)) : ?>
-                <!-- Tampilkan QR code jika dokumen sudah di-approve -->
-                <p><img src="<?= $qrcode ?>" style="height: 100px;" alt="QR Code" loading="lazy">
-                </p>
-            <?php else : ?>
-                <!-- Tampilkan tanda tangan gambar jika belum di-approve -->
+                <p><img src="<?= $qrcode ?>" style="height: 100px;" alt="QR Code" loading="lazy"></p>
             <?php endif; ?>
-            <!-- <img src="assets/images/ttd.png" height="80px" alt="Tanda Tangan"> -->
-            <p>(Sobirin, SE)</p>
-            <p>Direktur Utama</p>
+
+            <!-- Buat wrapper inline-block agar bisa rata tengah terhadap container -->
+            <div style="display: inline-block; text-align: center;">
+                <p>(Sobirin, SE)</p>
+                <p>Direktur Utama</p>
+            </div>
         </div>
+
     </div>
 </body>
 

@@ -142,9 +142,9 @@ $routes->group('kadiv', ['filter' => 'role:kadiv'], function ($routes) {
     $routes->get('surat-tugas/preview-template/(:segment)', 'SuratTugas::preview_template/$1');
     $routes->post('surat-tugas/preview', 'SuratTugas::preview');
     $routes->post('surat-tugas/simpan-draft-final', 'SuratTugas::simpan_draft_final');
-    $routes->get('edit/(:segment)', 'SuratTugas::edit/$1');
-    $routes->post('update/(:num)', 'SuratTugas::update/$1');
-    $routes->get('hapus/(:num)', 'SuratTugas::hapus/$1');
+    $routes->get('surat-tugas/edit/(:segment)', 'SuratTugas::edit/$1');
+    $routes->post('surat-tugas/update/(:num)', 'SuratTugas::update/$1');
+    $routes->get('surat-tugas/hapus/(:num)', 'SuratTugas::hapus/$1');
 });
 
 // Routes Surat  Dirops
