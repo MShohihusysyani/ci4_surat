@@ -46,6 +46,7 @@
             <ul class="sidebar-submenu">
               <li><a href="<?= base_url("dirops/surat-masuk") ?>">Surat Masuk</a></li>
               <li><a href="<?= base_url("dirops/surat-keluar") ?>">Surat Keluar</a></li>
+              <li><a href="<?= base_url("dirops/surat-tugas") ?>">Surat Tugas</a></li>
             </ul>
           </li>
           <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">

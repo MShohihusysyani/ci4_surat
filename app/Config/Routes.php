@@ -158,6 +158,10 @@ $routes->group('dirops', ['filter' => 'role:dirops'], function ($routes) {
     $routes->get('surat-keluar', 'Dirops\SuratKeluar::index');
     $routes->post('surat-keluar/disposisi', 'Dirops\SuratKeluar::disposisi');
     $routes->post('surat-keluar/approve', 'Dirops\SuratKeluar::approve');
+
+    // Surat Tugas
+    $routes->get('surat-tugas', 'Dirops\SuratTugas::index');
+    $routes->post('surat-tugas/disposisi', 'Dirops\SuratTugas::disposisi');
 });
 
 // Routes Surat Masuk Dirut

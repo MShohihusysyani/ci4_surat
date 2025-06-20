@@ -95,6 +95,18 @@ class SuratTugasModel extends Model
         return $query->getResult();
     }
 
+    public function getSuratByUser()
+    {
+        $id_user = session()->get('id_user');
+        $data = $this->db->table('surat_tugas');
+        $data->select('surat_tugas.*');
+        $data->join('disposisi_surat_tugas', 'surat_tugas.id_surat_tugas = disposisi_surat_tugas.surat_tugas_id', 'left');
+        $data->where('disposisi_surat_tugas.user_id', $id_user);
+        $query = $data->get();
+
+        return $query->getResult();
+    }
+
     // Disposisi
     public function disposisi($id_surat)
     {
