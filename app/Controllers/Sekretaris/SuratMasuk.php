@@ -178,6 +178,12 @@ class SuratMasuk extends BaseController
 
         $this->suratKeluarModel->insert($data);
         $draft_id = $this->suratKeluarModel->insertID();
+
+        // **Update status_balas di tabel surat_masuk menjadi "Sudah Dibalas"**
+        $id_surat_masuk = $this->request->getPost('surat_masuk_id');
+        if (!empty($id_surat_masuk)) {
+            $this->suratMasukModel->update($id_surat_masuk, ['status_balas' => 'sudah dibalas']);
+        }
         session()->set('draft_id', $draft_id);
 
         return redirect()->to('surat-masuk/pilih-template');
