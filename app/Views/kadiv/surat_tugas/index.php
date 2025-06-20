@@ -148,6 +148,22 @@
                                                         </a>
                                                     </li>
                                                     <li>
+                                                        <a class="dropdown-item"
+                                                            href="#"
+                                                            data-bs-toggle="modal"
+                                                            data-original-title="test"
+                                                            data-bs-target="#modal-disposisi"
+                                                            data-id_surat_tugas="<?= $surattugas->id_surat_tugas; ?>"
+                                                            data-no_surat="<?= $surattugas->no_surat; ?>"
+                                                            data-tugas="<?= $surattugas->tugas; ?>"
+                                                            data-tempat="<?= $surattugas->tempat; ?>"
+                                                            data-alamat="<?= $surattugas->alamat; ?>"
+                                                            data-unit_kerja="<?= $surattugas->unit_kerja; ?>"
+                                                            data-anggota="<?= $surattugas->anggota; ?>">
+                                                            <i class="icon-pencil-alt"></i> Disposisi
+                                                        </a>
+                                                    </li>
+                                                    <li>
                                                         <a class="dropdown-item" href="/riwayat/riwayat_surat_keluar/<?= $surattugas->id_surat_tugas; ?>">
                                                             <i class="icon-arrow-circle-left"></i> Riwayat
                                                         </a>
@@ -172,6 +188,98 @@
     <dotlottie-player src="https://lottie.host/76b2e413-aa9e-4831-a747-ebf842fcf8c0/JtDR6u8OzR.lottie" background="transparent" speed="1" style="width: 300px; height: 300px" loop autoplay></dotlottie-player>
 </div>
 
+<!-- Modal Disposisi -->
+<div class="modal fade bd-example-modal-lg" id="modal-disposisi" tabindex=" -1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <form action="<?= base_url('kadiv/surat-tugas/disposisi') ?>" method="post"> <!-- Form MULAI DI SINI -->
+            <?= csrf_field() ?>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myLargeModalLabel">Disposisi</h4>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id_surat_tugas" id="id_surat_tugas">
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label" for="no_surat">Nomor Surat</label>
+                                <input class="form-control" id="no_surat" name="no_surat" type="text" placeholder="Nomor Surat" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label" for="tugas">Maksud Penugasan</label>
+                                <input class="form-control" id="tugas" name="tugas" type="text" placeholder="Perihal" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label" for="tempat">Tempat</label>
+                                <input class="form-control" id="tempat" name="tempat" type="text" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label" for="alamat">Alamat</label>
+                                <input class="form-control" id="alamat" name="alamat" type="text" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label" for="unit_kerja">Unit Kerja</label>
+                                <input class="form-control" id="unit_kerja" name="unit_kerja" type="text" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label" for="anggota">Anggota</label>
+                                <input class="form-control" id="anggota" name="tempat" type="text" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label" for="perihal">Catatan</label>
+                                <textarea class="form-control" name="catatan_kadiv" id="catatan_kadiv"></textarea>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label class="form-label" for="tgl_surat">Pilih Dirops</label>
+                                <select class="form-control" id="namadirops" name="namadirops">
+                                    <option value="">Pilih Dirops</option>
+                                    <?php foreach ($users as $row) : ?>
+                                        <option value="<?= $row->id_user ?>"><?= $row->nama_user ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- Tombol submit HARUS DI DALAM form -->
+                    <!-- <button class="btn btn-primary" type="button" data-bs-dismiss="modal">Close</button> -->
+                    <button class="btn btn-secondary" type="submit">Disposisi</button> <!-- TYPE = submit -->
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 <div class="modal fade bd-example-modal-lg" id="previewModal" tabindex=" -1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -196,7 +304,28 @@
 <script src="<?= base_url() ?>/assets/js/datatable/datatables/datatable.custom.js"></script>
 <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
 
+<!-- Modal Disposisi -->
+<script>
+    $('#modal-disposisi').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget);
+        var id_surat_tugas = button.data('id_surat_tugas');
+        var no_surat = button.data('no_surat');
+        var tugas = button.data('tugas');
+        var tempat = button.data('tempat');
+        var alamat = button.data('alamat');
+        var unit_kerja = button.data('unit_kerja');
+        var anggota = button.data('anggota');
 
+        var modal = $(this);
+        modal.find('.modal-body #id_surat_tugas').val(id_surat_tugas);
+        modal.find('.modal-body #no_surat').val(no_surat);
+        modal.find('.modal-body #tugas').val(tugas);
+        modal.find('.modal-body #tempat').val(tempat);
+        modal.find('.modal-body #alamat').val(alamat);
+        modal.find('.modal-body #unit_kerja').val(unit_kerja);
+        modal.find('.modal-body #anggota').val(anggota);
+    });
+</script>
 <script>
     $(document).on('click', '.preview', function(e) {
         e.preventDefault();

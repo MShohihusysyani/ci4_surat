@@ -94,4 +94,11 @@ class SuratTugasModel extends Model
 
         return $query->getResult();
     }
+
+    // Disposisi
+    public function disposisi($id_surat)
+    {
+        $query = "UPDATE surat_tugas SET progres='Proses Approve'   where id_surat_tugas=$id_surat";
+        return $this->db->query($query);
+    }
 }

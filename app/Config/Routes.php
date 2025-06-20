@@ -145,6 +145,7 @@ $routes->group('kadiv', ['filter' => 'role:kadiv'], function ($routes) {
     $routes->get('surat-tugas/edit/(:segment)', 'SuratTugas::edit/$1');
     $routes->post('surat-tugas/update/(:num)', 'SuratTugas::update/$1');
     $routes->get('surat-tugas/hapus/(:num)', 'SuratTugas::hapus/$1');
+    $routes->post('surat-tugas/disposisi', 'SuratTugas::disposisi');
 });
 
 // Routes Surat  Dirops
