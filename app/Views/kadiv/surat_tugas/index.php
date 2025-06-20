@@ -147,22 +147,24 @@
                                                             <i class="icon-eye"></i> Preview
                                                         </a>
                                                     </li>
-                                                    <li>
-                                                        <a class="dropdown-item"
-                                                            href="#"
-                                                            data-bs-toggle="modal"
-                                                            data-original-title="test"
-                                                            data-bs-target="#modal-disposisi"
-                                                            data-id_surat_tugas="<?= $surattugas->id_surat_tugas; ?>"
-                                                            data-no_surat="<?= $surattugas->no_surat; ?>"
-                                                            data-tugas="<?= $surattugas->tugas; ?>"
-                                                            data-tempat="<?= $surattugas->tempat; ?>"
-                                                            data-alamat="<?= $surattugas->alamat; ?>"
-                                                            data-unit_kerja="<?= $surattugas->unit_kerja; ?>"
-                                                            data-anggota="<?= $surattugas->anggota; ?>">
-                                                            <i class="icon-pencil-alt"></i> Disposisi
-                                                        </a>
-                                                    </li>
+                                                    <?php if ($surattugas->progres != 'Approve') : ?>
+                                                        <li>
+                                                            <a class="dropdown-item"
+                                                                href="#"
+                                                                data-bs-toggle="modal"
+                                                                data-original-title="test"
+                                                                data-bs-target="#modal-disposisi"
+                                                                data-id_surat_tugas="<?= $surattugas->id_surat_tugas; ?>"
+                                                                data-no_surat="<?= $surattugas->no_surat; ?>"
+                                                                data-tugas="<?= $surattugas->tugas; ?>"
+                                                                data-tempat="<?= $surattugas->tempat; ?>"
+                                                                data-alamat="<?= $surattugas->alamat; ?>"
+                                                                data-unit_kerja="<?= $surattugas->unit_kerja; ?>"
+                                                                data-anggota="<?= $surattugas->anggota; ?>">
+                                                                <i class="icon-pencil-alt"></i> Disposisi
+                                                            </a>
+                                                        </li>
+                                                    <?php endif; ?>
                                                     <li>
                                                         <a class="dropdown-item" href="/riwayat/riwayat_surat_keluar/<?= $surattugas->id_surat_tugas; ?>">
                                                             <i class="icon-arrow-circle-left"></i> Riwayat
