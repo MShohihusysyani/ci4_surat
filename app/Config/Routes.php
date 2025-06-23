@@ -257,5 +257,17 @@ $routes->group('verifikasi', function ($routes) {
     $routes->get('surat-tugas/(:segment)', 'Pindai::detail_surat_tugas/$1');
 });
 
+// Laporan
+$routes->group('laporan', function ($routes) {
+    $routes->get('surat-masuk', 'Laporan::surat_masuk');
+    $routes->post('ajax-surat-masuk', 'Laporan::ajax_surat_masuk');
+});
+
+// Export
+$routes->group('export', function ($routes) {
+    $routes->post('surat-masuk-pdf', 'Export::export_surat_masuk_pdf');
+    $routes->post('surat-masuk-excel', 'Export::export_surat_masuk_excel');
+});
+
 // custom 404
 $routes->set404Override('App\Controllers\ErrorPage::show404');

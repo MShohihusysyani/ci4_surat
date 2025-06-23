@@ -60,7 +60,17 @@
               <li><a href="<?= base_url("suratmasuk") ?>">Surat Masuk</a></li>
             </ul>
           </li>
-
+          <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title" href="#">
+              <svg class="stroke-icon">
+                <use href="<?= base_url() ?>/assets/svg/icon-sprite.svg#stroke-email"></use>
+              </svg>
+              <svg class="fill-icon">
+                <use href="<?= base_url() ?>/assets/svg/icon-sprite.svg#fill-email"></use>
+              </svg><span>Laporan</span></a>
+            <ul class="sidebar-submenu">
+              <li><a href="<?= base_url("laporan/surat-masuk") ?>">Surat Masuk</a></li>
+            </ul>
+          </li>
         </ul>
       </div>
       <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
