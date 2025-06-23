@@ -101,8 +101,6 @@ class SuratKeluarModel extends Model
         return $query->getResult();
     }
 
-
-
     public function getSurat($id)
     {
 
@@ -127,5 +125,20 @@ class SuratKeluarModel extends Model
     {
         $query = "UPDATE surat_keluar SET progres='Proses Approve'   where id_surat_keluar=$id_surat";
         return $this->db->query($query);
+    }
+
+
+    //DATA KLIEN
+    public function getSuratKeluar()
+    {
+        $id_klien = session()->get('klien_id');
+        $data = $this->db->table('surat_keluar');
+        $data->select('surat_keluar.*');
+        $data->join('klien', 'klien.id_klien = surat_keluar.klien_id', 'left');
+        $data->where('surat_keluar.klien_id', $id_klien);
+        $data->where('surat_keluar.progres', 'Approve');
+        $query = $data->get();
+
+        return $query->getResult();
     }
 }

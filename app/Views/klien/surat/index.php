@@ -2,6 +2,30 @@
 
 <?= $this->section('css') ?>
 <link rel="stylesheet" type="text/css" href="<?= base_url() ?>/assets/css/vendors/datatables.css">
+<style>
+    #lottie-loader-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        /* Tambahkan backdrop blur */
+        backdrop-filter: blur(5px);
+        background-color: rgba(255, 255, 255, 0.3);
+        /* bisa diubah ke hitam rgba(0,0,0,0.3) */
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1060;
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* Class untuk menyembunyikan elemen */
+    .hidden {
+        display: none !important;
+    }
+</style>
 <?= $this->endSection() ?>
 
 <?= $this->section('main-content') ?>
@@ -149,20 +173,45 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Tgl Terima</th>
-                                    <th>File</th>
-                                    <th>Bpr/Klien</th>
-                                    <th>No Surat</th>
+                                    <th>Balasan Dari Nomor Surat</th>
+                                    <th>Nomor Surat</th>
                                     <th>Perihal</th>
-                                    <th>Status Surat</th>
-                                    <th>Progres Surat</th>
-                                    <th>Status balas</th>
-                                    <th>Handler Surat</th>
-                                    <th>Tags</th>
+                                    <th>Lampiran</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php $i = 1;
+
+                                foreach ($suratkeluars as $suratkeluar) :
+                                ?>
+                                    <tr>
+                                        <td><?= $i++; ?></td>
+                                        <td><?= $suratkeluar->nomor_surat_masuk; ?></td>
+                                        <td><?= $suratkeluar->no_surat; ?></td>
+                                        <td><?= $suratkeluar->perihal; ?></td>
+                                        <td><?= $suratkeluar->lampiran; ?></td>
+                                        <td>
+                                            <ul class="action">
+                                                <?php if ($suratkeluar->jenis_surat != 'manual') : ?>
+                                                    <li class="edit">
+                                                        <a class="preview"
+                                                            data-id_surat_keluar="<?= $suratkeluar->id_surat_keluar; ?>"
+                                                            data-template="<?= $suratkeluar->template ?? '' ?>"
+                                                            data-tipe="suratkeluar">
+                                                            <i class="icon-eye"></i>
+                                                        </a>
+                                                    </li>
+                                                <?php endif; ?>
+                                                <li class="delete">
+                                                    <a href="/riwayat/riwayat_surat_keluar/<?= $suratkeluar->id_surat_keluar; ?>">
+                                                        <i class="icon-arrow-circle-left"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
@@ -173,7 +222,28 @@
     </div>
 </div>
 <!-- Container-fluid Ends-->
+<!-- animasi -->
+<div id="lottie-loader-overlay" class="hidden">
+    <dotlottie-player src="https://lottie.host/76b2e413-aa9e-4831-a747-ebf842fcf8c0/JtDR6u8OzR.lottie" background="transparent" speed="1" style="width: 300px; height: 300px" loop autoplay></dotlottie-player>
+</div>
 
+<!-- Modal Preview surat masuk -->
+<div class="modal fade bd-example-modal-lg" id="previewModal2" tabindex=" -1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myLargeModalLabel">Preview</h4>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary" id="download-pdf" download>Download</a> <!-- TYPE = submit -->
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Modal Preview -->
 <div class="modal fade bd-example-modal-lg" id="previewModal" tabindex=" -1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -210,9 +280,63 @@
 <?= $this->section('script') ?>
 <script src="<?= base_url() ?>/assets/js/datatable/datatables/jquery.dataTables.min.js"></script>
 <script src="<?= base_url() ?>/assets/js/datatable/datatables/datatable.custom.js"></script>
-
 <script src="<?= base_url() ?>/assets/js/icons/icons-notify.js"></script>
 <script src="<?= base_url() ?>/assets/js/icons/icon-clipart.js"></script>
+<script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+
+<!-- Preview surat masuk -->
+<script>
+    $(document).on('click', '.preview', function(e) {
+        e.preventDefault();
+
+        var id_surat_keluar = $(this).data('id_surat_keluar');
+        var template = $(this).data('template') || '';
+
+        // 1. Tampilkan Lottie Loader
+        $('#lottie-loader-overlay').removeClass('hidden');
+
+        var url = (template === "pengumuman") ?
+            "/export/print-pengumuman/" + id_surat_keluar :
+            "/export/print-suratkeluar/" + id_surat_keluar;
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(response) {
+                if (response.pdf) {
+                    // 2. Siapkan konten modal, TAPI JANGAN TAMPILKAN DULU
+                    $('#previewModal2 .modal-body').html(
+                        `<embed src="data:application/pdf;base64,${response.pdf}" type="application/pdf" width="100%" height="500px">`
+                    );
+                    $('#download-pdf').attr('href', `data:application/pdf;base64,${response.pdf}`);
+                    $('#download-pdf').attr('download', response.filename);
+
+                    // 3. Tampilkan modalnya
+                    $('#previewModal2').modal('show');
+
+                    // PENTING: Jangan sembunyikan loader di sini lagi
+
+                } else {
+                    // Jika gagal, langsung sembunyikan loader dan tampilkan alert
+                    $('#lottie-loader-overlay').addClass('hidden');
+                    alert('Gagal memuat data.');
+                }
+            },
+            error: function() {
+                // Jika error, langsung sembunyikan loader dan tampilkan alert
+                $('#lottie-loader-overlay').addClass('hidden');
+                alert('Terjadi kesalahan saat memuat PDF.');
+            }
+        });
+    });
+
+    // 4. Tambahkan event listener untuk modal
+    // Ini akan berjalan SETELAH modal selesai ditampilkan
+    $('#previewModal2').on('shown.bs.modal', function() {
+        // Baru sembunyikan loader sekarang untuk transisi yang mulus
+        $('#lottie-loader-overlay').addClass('hidden');
+    });
+</script>
 
 <!-- Preview -->
 <script>

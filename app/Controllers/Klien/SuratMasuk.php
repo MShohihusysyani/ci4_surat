@@ -3,21 +3,24 @@
 namespace App\Controllers\Klien;
 
 use App\Models\SuratMasukModel;
+use App\Models\SuratKeluarModel;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class SuratMasuk extends BaseController
 {
-    protected $suratMasukModel;
+    protected $suratMasukModel, $suratKeluarModel;
     public function __construct()
     {
-        $this->suratMasukModel = new SuratMasukModel();
+        $this->suratMasukModel  = new SuratMasukModel();
+        $this->suratKeluarModel = new SuratKeluarModel();
     }
     public function index()
     {
         $data = [
-            'title' => 'Surat Masuk',
-            'suratmasuks' => $this->suratMasukModel->getSurat(),
+            'title'        => 'Surat',
+            'suratmasuks'  => $this->suratMasukModel->getSurat(),
+            'suratkeluars' => $this->suratKeluarModel->getSuratKeluar(),
         ];
 
         return view('klien/surat/index', $data);
