@@ -35,6 +35,7 @@ if (!function_exists('formatStatusSurat')) {
     }
 }
 
+// Surat Masuk
 if (!function_exists('formatProgresSurat')) {
     function formatProgresSurat($progres)
     {
@@ -47,6 +48,20 @@ if (!function_exists('formatProgresSurat')) {
             'Proses Disposal' => '<span class="badge badge-info">Proses Disposal</span>',
             'Disposal' => '<span class="badge badge-success">Disposal</span>',
             default => '<span class="badge badge-secondary">-</span>',
+        };
+    }
+}
+
+// Surat Keluar
+if (!function_exists('formatProgresSuratKeluar')) {
+    function formatProgresSuratKeluar($progres)
+    {
+        return match ($progres) {
+            'proses draft' => '<span class="badge badge-primary">Proses Draft</span>',
+            'draft' => '<span class="badge badge-info">Draft</span>',
+            'proses approve' => '<span class="badge badge-info">proses pprove</span>',
+            'Approve' => '<span class="badge badge-success">Approve</span>',
+            default => '<span class="badge badge-danger">-</span>',
         };
     }
 }
@@ -70,7 +85,7 @@ if (!function_exists('formatAksiSuratMasuk')) {
         $dropdown = '<div class="btn-group">';
         $dropdown .= '<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="icon-settings"></i> Aksi
-                      </button>';
+                    </button>';
         $dropdown .= '<ul class="dropdown-menu">';
 
         // Disposisi (jika progres surat Proses)
@@ -138,6 +153,43 @@ if (!function_exists('formatAksiSuratMasuk')) {
                 <li>
                     <a class="dropdown-item" href="/surat-masuk/balas/' . $row->id_surat_masuk . '">
                         <i class="icon-pencil"></i> Balas
+                    </a>
+                </li>';
+        }
+
+        $dropdown .= '</ul></div>';
+        return $dropdown;
+    }
+}
+
+if (!function_exists('formatAksiSuratKeluar')) {
+    function formatAksiSuratKeluar($row)
+    {
+        $dropdown = '<div class="btn-group">';
+        $dropdown .= '<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="icon-settings"></i> Aksi
+                    </button>';
+        $dropdown .= '<ul class="dropdown-menu">';
+
+        // Riwayat
+        $dropdown .= '
+            <li>
+                <a class="dropdown-item" href="/riwayat/riwayat_surat_keluar/' . $row->id_surat_keluar . '">
+                    <i class="icon-clock"></i> Riwayat
+                </a>
+            </li>';
+
+        // Preview
+        // Preview
+        if ($row->jenis_surat != 'manual') {
+            $template = isset($row->template) ? $row->template : ''; // 👈 Fix di sini
+            $dropdown .= '
+                <li>
+                    <a class="dropdown-item preview"
+                        data-id_surat_keluar="' . $row->id_surat_keluar . '"
+                        data-template="' . $template . '"
+                        data-tipe="suratkeluar">
+                        <i class="icon-eye"></i> Preview
                     </a>
                 </li>';
         }

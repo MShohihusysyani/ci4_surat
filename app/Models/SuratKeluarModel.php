@@ -127,7 +127,6 @@ class SuratKeluarModel extends Model
         return $this->db->query($query);
     }
 
-
     //DATA KLIEN
     public function getSuratKeluar()
     {
@@ -140,5 +139,132 @@ class SuratKeluarModel extends Model
         $query = $data->get();
 
         return $query->getResult();
+    }
+
+    // Loporan serverside 
+    // Method ambil data dengan filter dan paginasi (server-side DataTables)
+    public function getDatatablesFiltered($start, $length, $search, $tgl_awal, $tgl_akhir, $klien_id, $progres)
+    {
+        $builder = $this->db->table($this->table);
+        $builder->select('surat_keluar.*, klien.nama_klien');
+        $builder->join('klien', 'klien.id_klien = surat_keluar.klien_id', 'left');
+
+        // Filter pencarian global
+        if (!empty($search)) {
+            $builder->groupStart();
+            $builder->like('surat_keluar.no_surat', $search);
+            $builder->orLike('surat_keluar.perihal', $search);
+            $builder->orLike('klien.nama_klien', $search);
+            $builder->groupEnd();
+        }
+
+        // Filter tanggal terima
+        if (!empty($tgl_awal)) {
+            $builder->where('surat_keluar.created_at >=', $tgl_awal);
+        }
+        if (!empty($tgl_akhir)) {
+            $builder->where('surat_keluar.created_at <=', $tgl_akhir);
+        }
+
+        // Filter klien
+        if (!empty($klien_id)) {
+            $builder->where('surat_keluar.klien_id', $klien_id);
+        }
+
+        // Filter produk
+        if (!empty($progres)) {
+            $builder->where('surat_keluar.progres', $progres);
+        }
+
+        // Pagination
+        $builder->limit($length, $start);
+
+        // Urut berdasarkan tanggal terima terbaru
+        $builder->orderBy('surat_keluar.created_at', 'DESC');
+
+        return $builder->get()->getResult();
+    }
+
+    // Hitung total data tanpa filter (untuk DataTables)
+    public function countAll()
+    {
+        return $this->countAllResults(false);
+    }
+
+    // Hitung total data dengan filter (untuk DataTables)
+    public function countFilteredFiltered($search, $tgl_awal, $tgl_akhir, $klien_id, $progres)
+    {
+        $builder = $this->db->table($this->table);
+        $builder->join('klien', 'klien.id_klien = surat_keluar.klien_id', 'left');
+
+        if (!empty($search)) {
+            $builder->groupStart();
+            $builder->like('surat_keluar.no_surat', $search);
+            $builder->orLike('surat_keluar.perihal', $search);
+            $builder->orLike('klien.nama_klien', $search);
+            $builder->groupEnd();
+        }
+
+        if (!empty($tgl_awal)) {
+            $builder->where('surat_keluar.created_at >=', $tgl_awal);
+        }
+        if (!empty($tgl_akhir)) {
+            $builder->where('surat_keluar.created_at <=', $tgl_akhir);
+        }
+
+        if (!empty($klien_id)) {
+            $builder->where('surat_keluar.klien_id', $klien_id);
+        }
+
+        if (!empty($progres)) {
+            $builder->where('surat_keluar.progres', $progres);
+        }
+
+
+        return $builder->countAllResults();
+    }
+
+    // Export data
+    public function getFiltered($tanggal_awal = null, $tanggal_akhir = null, $nama_klien = null, $progres = null)
+    {
+        // Memulai query builder
+        $builder = $this->db->table('surat_keluar');
+        $builder->select('surat_keluar.*, klien.nama_klien');
+        $builder->join('klien', 'klien.id_klien = surat_keluar.klien_id', 'left');
+
+        // Filter berdasarkan rentang tanggal
+        if (!empty($tanggal_awal) && !empty($tanggal_akhir)) {
+            $builder->where('surat_keluar.created_at >=', $tanggal_awal);
+            $builder->where('surat_keluar.created_at <=', $tanggal_akhir);
+        }
+
+        if ($nama_klien) {
+            $builder->like('klien.nama_klien', $nama_klien);
+        }
+
+        if ($progres) {
+            $builder->where('surat_keluar.progres', $progres);
+        }
+
+        // Mengambil data
+        $query = $builder->get();
+        return $query->getResult(); // <--- pastikan getResult() digunakan
+    }
+
+    public function getAll($nama_klien = null, $progres = null)
+    {
+        $builder = $this->db->table('surat_keluar');
+        $builder->select('surat_keluar.*, klien.nama_klien');
+        $builder->join('klien', 'klien.id_klien = surat_keluar.klien_id', 'left');
+
+        if (!empty($nama_klien)) {
+            $builder->like('klien.nama_klien', $nama_klien);
+        }
+
+        if (!empty($progres)) {
+            $builder->where('surat_keluar.progres', $progres);
+        }
+
+        return $builder->get()->getResult();
     }
 }

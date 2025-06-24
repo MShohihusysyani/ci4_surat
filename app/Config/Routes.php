@@ -259,14 +259,24 @@ $routes->group('verifikasi', function ($routes) {
 
 // Laporan
 $routes->group('laporan', function ($routes) {
+    // Surat Masuk
     $routes->get('surat-masuk', 'Laporan::surat_masuk');
     $routes->post('ajax-surat-masuk', 'Laporan::ajax_surat_masuk');
+
+    // Surat Keluar
+    $routes->get('surat-keluar', 'Laporan::surat_keluar');
+    $routes->post('ajax-surat-keluar', 'Laporan::ajax_surat_keluar');
 });
 
 // Export
 $routes->group('export', function ($routes) {
+    // Surat Masuk
     $routes->post('surat-masuk-pdf', 'Export::export_surat_masuk_pdf');
     $routes->post('surat-masuk-excel', 'Export::export_surat_masuk_excel');
+
+    // Surat Keluar
+    $routes->post('surat-keluar-pdf', 'Export::export_surat_keluar_pdf');
+    $routes->post('surat-keluar-excel', 'Export::export_surat_keluar_excel');
 });
 
 // custom 404
