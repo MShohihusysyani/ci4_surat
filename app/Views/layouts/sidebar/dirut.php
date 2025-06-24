@@ -58,6 +58,7 @@
               </svg><span>Laporan</span></a>
             <ul class="sidebar-submenu">
               <li><a href="<?= base_url("laporan/surat-masuk") ?>">Surat Masuk</a></li>
+              <li><a href="<?= base_url("laporan/surat-keluar") ?>">Surat Keluar</a></li>
             </ul>
           </li>
         </ul>
