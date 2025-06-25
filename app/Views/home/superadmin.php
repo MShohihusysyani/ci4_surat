@@ -129,7 +129,7 @@
                                 <div class="widget-round secondary">
                                     <div class="bg-round">
                                         <svg class="svg-fill">
-                                            <use href="<?= base_url('assets/svg/icon-sprite.svg#cart') ?>"></use>
+                                            <use href="<?= base_url('assets/svg/icon-sprite.svg#stroke-user') ?>"></use>
                                         </svg>
                                         <svg class="half-circle svg-fill">
                                             <use href="<?= base_url('assets/svg/icon-sprite.svg#halfcircle') ?>"></use>
@@ -138,10 +138,15 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <h4>10,000</h4><span class="f-light">Purchase</span>
+                                    <h4>
+                                        <?php foreach ($total_karyawan as $k) : ?>
+                                            <?= $k->total_karyawan; ?>
+                                        <?php endforeach; ?>
+                                    </h4>
+                                    <span class="f-light">Karyawan</span>
                                 </div>
                             </div>
-                            <div class="font-secondary f-w-500"><i class="icon-arrow-up icon-rotate me-1"></i><span>+50%</span></div>
+                            <div class="font-secondary f-w-500"></div>
                         </div>
                     </div>
                     <div class="col-xl-12">
@@ -151,7 +156,7 @@
                                     <div class="widget-round primary">
                                         <div class="bg-round">
                                             <svg class="svg-fill">
-                                                <use href="<?= base_url() ?>/assets/svg/icon-sprite.svg#tag"> </use>
+                                                <use href="<?= base_url() ?>/assets/svg/icon-sprite.svg#stroke-user"> </use>
                                             </svg>
                                             <svg class="half-circle svg-fill">
                                                 <use href="<?= base_url() ?>/assets/svg/icon-sprite.svg#halfcircle"></use>
@@ -159,10 +164,15 @@
                                         </div>
                                     </div>
                                     <div>
-                                        <h4>4,200</h4><span class="f-light">Sales</span>
+                                        <h4>
+                                            <?php foreach ($total_klien as $k) : ?>
+                                                <?= $k->total_klien; ?>
+                                            <?php endforeach; ?>
+                                        </h4>
+                                        <span class="f-light">Klien</span>
                                     </div>
                                 </div>
-                                <div class="font-primary f-w-500"><i class="icon-arrow-up icon-rotate me-1"></i><span>+70%</span></div>
+                                <div class="font-primary f-w-500"></div>
                             </div>
                         </div>
                     </div>
@@ -186,13 +196,18 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <h4>7000</h4><span class="f-light">Sales return</span>
+                                    <h4>
+                                        <?php foreach ($total_produk as $k) : ?>
+                                            <?= $k->total_produk; ?>
+                                        <?php endforeach; ?>
+                                    </h4>
+                                    <span class="f-light">Produk</span>
                                 </div>
                             </div>
-                            <div class="font-warning f-w-500"><i class="icon-arrow-down icon-rotate me-1"></i><span>-20%</span></div>
+                            <div class="font-warning f-w-500"></div>
                         </div>
                     </div>
-                    <div class="col-xl-12">
+                    <!-- <div class="col-xl-12">
                         <div class="card widget-1">
                             <div class="card-body">
                                 <div class="widget-content">
@@ -213,11 +228,12 @@
                                 <div class="font-success f-w-500"><i class="icon-arrow-up icon-rotate me-1"></i><span>+70%</span></div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
-        <div class="col-xxl-auto col-xl-12 col-sm-6 box-col-6">
+
+        <!-- <div class="col-xxl-auto col-xl-12 col-sm-6 box-col-6">
             <div class="row">
                 <div class="col-xxl-12 col-xl-6 box-col-12">
                     <div class="card widget-1 widget-with-chart">
@@ -244,6 +260,54 @@
                     </div>
                 </div>
             </div>
+        </div> -->
+
+        <div class="col-xxl-4 col-md-6 box-col-6 col-ed-6">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-header card-no-border">
+                            <div class="header-top">
+                                <h5>Total Users</h5>
+                                <!-- <div class="dropdown icon-dropdown">
+                                    <button class="btn dropdown-toggle" id="userdropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="icon-more-alt"></i></button>
+                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userdropdown"><a class="dropdown-item" href="#">Weekly</a><a class="dropdown-item" href="#">Monthly</a><a class="dropdown-item" href="#">Yearly</a></div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="card-body pt-0">
+                            <ul class="user-list">
+                                <li>
+                                    <div class="user-icon primary">
+                                        <div class="user-box"><i class="font-primary" data-feather="user-plus"></i></div>
+                                    </div>
+                                    <div>
+                                        <h5 class="mb-1">
+                                            <?php foreach ($total_user_aktif as $k) : ?>
+                                                <?= $k->total_user_aktif; ?>
+                                            <?php endforeach; ?>
+                                        </h5>
+                                        <span class="font-primary d-flex align-items-center">Aktif</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="user-icon success">
+                                        <div class="user-box"><i class="font-success" data-feather="user-minus"></i></div>
+                                    </div>
+                                    <div>
+                                        <h5 class="mb-1">
+                                            <?php foreach ($total_user_nonaktif as $k) : ?>
+                                                <?= $k->total_user_nonaktif; ?>
+                                            <?php endforeach; ?>
+                                        </h5>
+                                        <span class="font-danger d-flex align-items-center">Non Aktif</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -256,12 +320,7 @@
 <script src="<?= base_url() ?>/assets/js/clock.js"></script>
 <!-- <script src="<?= base_url() ?>/assets/js/notify/bootstrap-notify.min.js"></script> -->
 <script src="<?= base_url() ?>/assets/js/dashboard/default.js"></script>
-<script src="<?= base_url() ?>/assets/js/notify/index.js"></script>
-<script src="<?= base_url() ?>/assets/js/typeahead/handlebars.js"></script>
-<script src="<?= base_url() ?>/assets/js/typeahead/typeahead.bundle.js"></script>
-<script src="<?= base_url() ?>/assets/js/typeahead/typeahead.custom.js"></script>
-<script src="<?= base_url() ?>/assets/js/typeahead-search/handlebars.js"></script>
-<script src="<?= base_url() ?>/assets/js/typeahead-search/typeahead-custom.js"></script>
+<!-- <script src="<?= base_url() ?>/assets/js/notify/index.js"></script> -->
 <script src="<?= base_url() ?>/assets/js/height-equal.js"></script>
 
 <?= $this->endSection() ?>

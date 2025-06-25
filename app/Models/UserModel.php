@@ -94,4 +94,17 @@ class UserModel extends Model
             ->get()
             ->getResult();
     }
+
+    // Menghitung total user
+    public function total_user_aktif()
+    {
+        $query = $this->db->query("SELECT COUNT(id_user) AS total_user_aktif FROM user WHERE status_user='Aktif'");
+        return $query->getResult();
+    }
+
+    public function total_user_nonaktif()
+    {
+        $query = $this->db->query("SELECT COUNT(id_user) AS total_user_nonaktif FROM user WHERE status_user='Non Aktif'");
+        return $query->getResult();
+    }
 }

@@ -36,4 +36,11 @@ class ProdukModel extends Model
             ->get()
             ->getResult();
     }
+
+    // Hitung total produk
+    public function total_produk()
+    {
+        $query = $this->db->query("SELECT COUNT(id_produk) AS total_produk FROM produk");
+        return $query->getResult();
+    }
 }

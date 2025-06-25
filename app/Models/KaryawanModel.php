@@ -73,4 +73,12 @@ class KaryawanModel extends Model
             ->where('karyawan.id_karyawan', $id_karyawan)
             ->first();
     }
+
+    // Hitung total karyawan
+    public function total_karyawan()
+    {
+
+        $query = $this->db->query("SELECT COUNT(id_karyawan) AS total_karyawan FROM karyawan");
+        return $query->getResult();
+    }
 }

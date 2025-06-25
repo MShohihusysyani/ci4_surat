@@ -267,4 +267,18 @@ class SuratKeluarModel extends Model
 
         return $builder->get()->getResult();
     }
+
+    // Menghitung total surat
+    public function total_surat_keluar_klien()
+    {
+        $klien_id = session()->get('klien_id');
+        $query = $this->db->query("SELECT COUNT(id_surat_keluar) AS total_surat_keluar_klien FROM surat_keluar WHERE klien_id='$klien_id'");
+        return $query->getResult();
+    }
+
+    public function total_surat_keluar()
+    {
+        $query = $this->db->query("SELECT COUNT(id_surat_keluar) AS total_surat_keluar FROM surat_keluar");
+        return $query->getResult();
+    }
 }

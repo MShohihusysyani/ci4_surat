@@ -357,4 +357,17 @@ class SuratMasukModel extends Model
 
         return $builder->get()->getResult();
     }
+
+    // Hitung total surat masuk
+    public function total_surat_masuk_klien()
+    {
+        $klien_id = session()->get('klien_id');
+        $query = $this->db->query("SELECT COUNT(id_surat_masuk) as total_surat_masuk_klien From surat_masuk where klien_id='$klien_id'");
+        return $query->getResult();
+    }
+    public function total_surat_masuk()
+    {
+        $query = $this->db->query("SELECT COUNT(id_surat_masuk) as total_surat_masuk FROM surat_masuk");
+        return $query->getResult();
+    }
 }

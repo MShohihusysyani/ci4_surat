@@ -68,4 +68,11 @@ class KlienModel extends Model
             ->get()
             ->getResult();
     }
+
+    // Hitung total klien
+    public function total_klien()
+    {
+        $query = $this->db->query("SELECT COUNT(id_klien) AS total_klien FROM klien");
+        return $query->getResult();
+    }
 }
